@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!--  *****   Link To Custom CSS Style Sheet   *****  -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+	<!--  *****   Link To Font Awsome Icons   *****  -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+
+	<!--  *****   Link To Owl Carousel   *****  -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	 <link rel="icon" type="image/png" href="download.png">
+	<title>3 Skill</title>
+</head>
+<body>
+<!--   *** Website Container Starts ***   -->
+<div class="website-container">
+	
+<!--   *** Home Section Starts ***   -->
+<section class="home" id="home">
+	<!--   === Main Navbar Starts ===   -->
+	<nav class="main-navbar">
+		<a href="index.html" class="logo">
+			<img src="3skilllogo.png">
+		</a>
+		<ul class="nav-list">
+			<li><a href="index.html">Home</a></li>
+			<li><a href="about.html" target="_blank">About</a></li>
+			<li><a href="Certificate-Based Course.html" target="_blank">Courses</a></li>
+			<li><a href="profile.html" target="_blank">Login</a></li>
+			<li><a href="3Skill_Internship_Guarantee_Course_Details.pdf" target="_blank">More</a></li>
+		</ul>
+		
+		<div class="menu-btn">
+			<span></span>
+		</div>
+	</nav>
+	<!--   === Main Navbar Ends ===   -->
+	<!--   === Banner Starts ===   -->
+	<div class="banner">
+		
+		<div class="banner-desc">
+			<h2>100% Internship <span>Guarantee</span> Course </h2>
+            <h2>
+                Get Placed <span>with Stipend</span>
+            </h2>
+			<div style="background-color:#f5e9e8; padding:15px; border-left:5px solid #4caf50; border-radius:8px; font-size:1.1rem;">
+  ✅ <strong>100% Money-Back Guarantee:</strong> If you don’t get placed, we refund your full course fee. Guaranteed.
+</div>
+<a href="3Skill_Internship_Guarantee_Course_Details.pdf" class="btn-yellow">Know more About Refund</a>
+<br>
+     </div>
+
+	<div class="banner-img">
+			<div class="banner-img-container">
+				<img src="internship3.gif">
+
+				<div class="pattern">
+					<img src="pattern.png">
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+   <style>
+    
+   </style> 
+	<!--   === Banner Ends ===   -->
+</section>
+<style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f2f7ff;
+      color: #333;
+    }
+ .btn-yellow {
+      display: inline-block;
+      background-color:  #43aa6a;
+      color: #ffffff;
+      padding: 12px 24px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 6px;
+      margin-top: 30px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin: 30px 0;
+      color: #111;
+    }
+
+    .courses-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 20px;
+      padding: 0 40px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 190px;
+      object-fit: contain;
+      padding: 20px;
+      background: #f0f5ff;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #ffeaa7;
+      color: #333;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      margin-bottom: 10px;
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      margin: 10px 0;
+      color: #222;
+    }
+
+    .details {
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    .apply-row {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+.title-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.course-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #111;
+}
+
+.course-price {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #000;
+}
+    .apply-btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .apply-btn:hover {
+      background: #0056c4;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+
+  <h1>3Skill Internship Guarantee Courses</h1>
+
+  <div class="courses-container">
+    
+    <a href="https://smartpay.easebuzz.in/179742/9b52b0a9a6b34f43b98e584cf9abab3f" class="card" target="_blank">
+      <img src="Data analysis-rafiki.png" alt="Data Science" />
+      <div class="card-content">
+        <div class="badge">Guaranteed Internship</div>
+        <div class="title-price">
+        <h2 class="course-title">Data Science</h2>
+        <span class="course-price">₹4999</span>
+      </div>
+        <div class="details">⏱️ 40 Days course</div>
+        <div class="details">💰 Internship with Stipend</div>
+        <div class="details">📦 45,000+ opportunities</div>
+        <div class="apply-row">
+          <span>300+ Students</span>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://smartpay.easebuzz.in/179742/9b52b0a9a6b34f43b98e584cf9abab3f" class="card" target="_blank">
+      <img src="Website Creator-rafiki.png" alt="Full Stack" />
+      <div class="card-content">
+        <div class="badge">Guaranteed Internship</div>
+                <div class="title-price">
+        <h2 class="course-title">Fullstack Development</h2>
+        <span class="course-price">₹4999</span>
+      </div>
+        <div class="details">⏱️ 40 Days course</div>
+        <div class="details">💰 Internship with Stipend</div>
+        <div class="details">📦 1.2L+ opportunities</div>
+        <div class="apply-row">
+          <span>500+ Students</span>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://smartpay.easebuzz.in/179742/9b52b0a9a6b34f43b98e584cf9abab3f" class="card" target="_blank">
+      <img src="Chat bot-bro.png" alt="Marketing" />
+      <div class="card-content">
+        <div class="badge">Guaranteed Internship</div>
+         <div class="title-price">
+      <h2 class="course-title">AI-ML</h2>
+      <span class="course-price">₹4999</span>
+    </div>
+        <div class="details">⏱️ 40 Days course</div>
+        <div class="details">💰 Internship with Stipend</div>
+        <div class="details">📦 6.25L+ opportunities</div>
+        <div class="apply-row">
+          <span>150+ Students</span>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </a>
+ <a href="https://smartpay.easebuzz.in/179742/9b52b0a9a6b34f43b98e584cf9abab3f" class="card" target="_blank">
+      <img src="Contact us-bro.png" alt="Marketing" />
+      <div class="card-content">
+        <div class="badge">Guaranteed Internship</div>
+         <div class="title-price">
+      <h2 class="course-title">Digital Marketing</h2>
+      <span class="course-price">₹4999</span>
+    </div>
+       
+        <div class="details">⏱️ 1 months course</div>
+        <div class="details">💰 Internship with Stipend</div>
+        <div class="details">📦 1.25L+ opportunities</div>
+        <div class="apply-row">
+          <span>100+ Students</span>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </a>
+     <a href="https://smartpay.easebuzz.in/179742/9b52b0a9a6b34f43b98e584cf9abab3f" class="card" target="_blank">
+      <img src="Website designer-bro.png" alt="Marketing" />
+      <div class="card-content">
+        <div class="badge">Guaranteed Internship</div>
+         <div class="title-price">
+      <h2 class="course-title">Frontend Developer Mastery</h2>
+      <span class="course-price">₹4999</span>
+    </div>
+       
+        <div class="details">⏱️ 1 months course</div>
+        <div class="details">💰 Internship with Stipend</div>
+        <div class="details">📦 1.00L+ opportunities</div>
+        <div class="apply-row">
+          <span>200+ Students</span>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </a>
+    <a href="https://smartpay.easebuzz.in/179742/9b52b0a9a6b34f43b98e584cf9abab3f" class="card" target="_blank">
+      <img src="Ecommerce web page-rafiki.png" alt="Marketing" />
+      <div class="card-content">
+        <div class="badge">Guaranteed Internship</div>
+                 <div class="title-price">
+      <h2 class="course-title">Product Management</h2>
+      <span class="course-price">₹4999</span>
+    </div>
+       
+        <div class="details">⏱️ 1 months course</div>
+        <div class="details">💰 Internship with Stipend</div>
+        <div class="details">📦 80,000+ opportunities</div>
+        <div class="apply-row">
+          <span>100+ Students</span>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </a>
+  </div>
+ <style>
+    .stats-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      background: #ffffff;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      text-align: center;
+      gap: 20px;
+      max-width: 1000px;
+      margin: 40px auto;
+    }
+
+    .stat-box {
+      flex: 1 1 200px;
+    }
+
+    .stat-box h2 {
+      color: #3f51b5;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .stat-box p {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .divider {
+      width: 1px;
+      background: #ddd;
+      height: 40px;
+      align-self: center;
+    }
+
+   @media (max-width: 768px) {
+  .stats-container {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .stat-box {
+    flex: 1 1 45%;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-box {
+    flex: 1 1 100%;
+  }
+}
+  </style>
+
+
+  <div class="stats-container">
+    <div class="stat-box">
+      <h2>1,200+</h2>
+      <p>Internships Provided</p>
+    </div>
+    <div class="divider"></div>
+    <div class="stat-box">
+      <h2>₹20,000/month</h2>
+      <p>Highest Stipend Offered</p>
+    </div>
+    <div class="divider"></div>
+    <div class="stat-box">
+      <h2>200+</h2>
+      <p>Internships with PPO</p>
+    </div>
+    <div class="divider"></div>
+    <div class="stat-box">
+      <h2>₹4.5 LPA</h2>
+      <p>Highest Salary Post Internship</p>
+    </div>
+  </div>
+  
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fbff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .internship-section {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: #f4f7ff;
+      border-radius: 16px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .internship-content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .internship-content h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .internship-content h2 span {
+      color: #2563eb;
+    }
+
+    .internship-content p {
+      color: #444;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .features {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .feature-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      flex: 1 1 200px;
+      text-align: center;
+    }
+
+    .feature-card img {
+      height: 40px;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 15px;
+      color: #222;
+    }
+
+    .internship-image {
+      flex: 1;
+      text-align: center;
+    }
+
+    .internship-image img {
+      max-width: 300px;
+      border-radius: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .internship-section {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .internship-image {
+        margin-top: 20px;
+      }
+    }
+  </style>
+
+
+  <div class="internship-section">
+    <div class="internship-content">
+      <h2>Go from <span>no experience</span> to paid intern in <span>30 Days</span></h2>
+      <p>
+        With a specially crafted internship-focused curriculum led by industry mentors, 
+        you’ll gain the practical skills and real-world exposure needed to get hired—guaranteed.
+      </p>
+      <div class="features">
+        <div class="feature-card">
+          <img src="https://img.icons8.com/ios/50/monitor--v1.png" alt="Live">
+          <p>Live & on-demand training</p>
+        </div>
+        <div class="feature-card">
+          <img src="https://img.icons8.com/ios/50/task.png" alt="Projects">
+          <p>Hands-on internship projects</p>
+        </div>
+        <div class="feature-card">
+          <img src="https://img.icons8.com/ios/50/certificate.png" alt="Certificate">
+          <p>Verified Internship Certificate</p>
+        </div>
+        <div class="feature-card">
+          <img src="https://img.icons8.com/ios/50/money--v1.png" alt="Stipend">
+          <p>Stipend Guarantee</p>
+        </div>
+      </div>
+    </div>
+    <div class="internship-image">
+      <img src="Internship.gif" alt="Internship Student" />
+    </div>
+  </div>
+  <section class="partner-section">
+  <h2>Our Passionate Intern Community Worldwide</h2>
+  <div class="logo-slider">
+    <div class="logo-track">
+       <!-- Logos repeated twice for infinite scroll -->
+      <div class="logo-slide"><img src="Omm Prakash Das.png" alt="Odisha Rider"></div>
+      <div class="logo-slide"><img src="abhay.jpg" alt="Nextute"></div>
+      <div class="logo-slide"><img src="purba.png" alt="GoHerit"></div>
+      <div class="logo-slide"><img src="sofia.jpg" alt="GoHerit"></div>
+	   <div class="logo-slide"><img src="priyanka.jpg" alt="7 Sodium"></div>
+       <div class="logo-slide"><img src="palak.jpg" alt="GoHerit"></div>
+        <div class="logo-slide"><img src="ananta.jpg" alt="GoHerit"></div>
+         <div class="logo-slide"><img src="swasti.jpg" alt="GoHerit"></div>
+      <div class="logo-slide"><img src="anjali.jpg" alt="GoHerit"></div>
+      <div class="logo-slide"><img src="pradeep.jpg" alt="7 Sodium"></div>
+       <div class="logo-slide"><img src="Tarun Kumar.png" alt="7 Sodium"></div>
+       <div class="logo-slide"><img src="Prabina.jpg" alt="7 Sodium"></div>
+        <div class="logo-slide"><img src="ravikant.jpg" alt="7 Sodium"></div>
+         <div class="logo-slide"><img src="kartikeswar.jpg" alt="7 Sodium"></div>
+          <div class="logo-slide"><img src="sunil.png" alt="7 Sodium"></div>
+      <!-- Repeat logos for smooth infinite loop -->
+	   
+      <div class="logo-slide"><img src="Omm Prakash Das.png" alt="Odisha Rider"></div>
+      <div class="logo-slide"><img src="abhay.jpg" alt="Nextute"></div>
+      <div class="logo-slide"><img src="purba.png" alt="GoHerit"></div>
+      <div class="logo-slide"><img src="sofia.jpg" alt="GoHerit"></div>
+      <div class="logo-slide"><img src="anjali.jpg" alt="GoHerit"></div>
+      <div class="logo-slide"><img src="pradeep.jpg" alt="7 Sodium"></div>
+	   <div class="logo-slide"><img src="priyanka.jpg" alt="7 Sodium"></div>
+       <div class="logo-slide"><img src="Tarun Kumar.png" alt="7 Sodium"></div>
+        <div class="logo-slide"><img src="palak.jpg" alt="GoHerit"></div>
+        <div class="logo-slide"><img src="ananta.jpg" alt="GoHerit"></div>
+         <div class="logo-slide"><img src="swasti.jpg" alt="GoHerit"></div>
+       <div class="logo-slide"><img src="Prabina.jpg" alt="7 Sodium"></div>
+        <div class="logo-slide"><img src="ravikant.jpg" alt="7 Sodium"></div>
+         <div class="logo-slide"><img src="kartikeswar.jpg" alt="7 Sodium"></div>
+          <div class="logo-slide"><img src="sunil.png" alt="7 Sodium"></div>
+	  <!-- Repeat logos for smooth infinite loop -->
+     <div class="logo-slide"><img src="Omm Prakash Das.png" alt="Odisha Rider"></div>
+      <div class="logo-slide"><img src="abhay.jpg" alt="Nextute"></div>
+      <div class="logo-slide"><img src="purba.png" alt="GoHerit"></div>
+      <div class="logo-slide"><img src="sofia.jpg" alt="GoHerit"></div>
+      <div class="logo-slide"><img src="anjali.jpg" alt="GoHerit"></div>
+      <div class="logo-slide"><img src="pradeep.jpg" alt="7 Sodium"></div>
+       <div class="logo-slide"><img src="Tarun Kumar.png" alt="7 Sodium"></div>
+       <div class="logo-slide"><img src="Prabina.jpg" alt="7 Sodium"></div>
+        <div class="logo-slide"><img src="ravikant.jpg" alt="7 Sodium"></div>
+         <div class="logo-slide"><img src="palak.jpg" alt="GoHerit"></div>
+        <div class="logo-slide"><img src="ananta.jpg" alt="GoHerit"></div>
+         <div class="logo-slide"><img src="swasti.jpg" alt="GoHerit"></div>
+         <div class="logo-slide"><img src="kartikeswar.jpg" alt="7 Sodium"></div>
+		  <div class="logo-slide"><img src="priyanka.jpg" alt="7 Sodium"></div>
+          <div class="logo-slide"><img src="sunil.png" alt="7 Sodium"></div>
+    </div>
+  </div>
+</section>
+<br>
+<br>
+<br>
+
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #e1f1e6;
+  }
+
+  .partner-section {
+    padding: 50px 20px;
+    text-align: center;
+  }
+
+  .partner-section h2 {
+    font-size: 28px;
+    color: #1a1a1a;
+    margin-bottom: 30px;
+  }
+
+  .logo-slider {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .logo-track {
+    display: flex;
+    width: max-content;
+    animation: scroll 19s linear infinite;
+  }
+
+  .logo-slide {
+    width: 150px;
+    height: 150px;
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #edfaf1;
+    border-radius: 50%; /* circle */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .logo-slide:hover {
+    transform: scale(1.0);
+  }
+
+  .logo-slide img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+    border-radius: 50%; /* make image itself round */
+  }
+ 
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .logo-slide {
+      width: 120px;
+      height: 120px;
+      margin: 0 10px;
+    }
+  }
+</style>
+<style>
+.heading {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.reels-wrapper {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.reel-card {
+  position: relative;
+  width: 300px;           /* Typical phone width */
+  height: 400px;          /* 16:9 portrait ratio */
+  background: black;
+  border-radius: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.reel-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  transform: translate(-50%, -50%);
+  background: url('https://img.icons8.com/ios-filled/100/fa314a/play--v1.png') no-repeat center center;
+  background-size: 60px;
+  cursor: pointer;
+  z-index: 2;
+}
+.reel-video {
+  cursor: pointer;
+}
+
+.reel-card.playing .play-btn {
+  display: none;
+}
+
+</style>
+<section style="padding: 40px; background-color: #dfeae3;">
+  <h2 style="text-align: center; font-size: 28px; font-weight: bold;">Professional Certification You Can Trust</h2>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; margin-top: 30px;">
+    
+    <!-- Left Side: Certificate -->
+    <div style="flex: 1 1 300px; max-width: 400px; text-align: center;">
+      <h3 style="font-size: 20px;">3Skill MSME-Recognized Certificate</h3>
+      <p style="color: #555;">
+        On successful course completion, you'll receive an elegant A4-sized Certificate issued by 3Skill, an MSME-recognized startup. The certificate includes your domain, duration, and is QR-verifiable.
+      </p>
+      <img src="INTERNSHIPCERTI.png" alt="3Skill Certificate" style="width: 100%; max-width: 220px; height: auto; border: 1px solid #ccc; border-radius: 8px; margin-top: 10px;">
+    </div>
+
+    <!-- Right Side: Highlights -->
+    <div style="flex: 1 1 300px; max-width: 400px; background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="font-size: 20px;">Why Our Certificate Stands Out</h3>
+      <ul style="margin-top: 16px; padding-left: 18px; line-height: 1.8; color: #333;">
+        <li>✅ <strong>MSME Verified:</strong> Backed by a Govt. of India registration.</li>
+        <li>✅ <strong>Real-World Projects:</strong> Completed in collaboration with 5+ startups.</li>
+        <li>✅ <strong>Professional A4 Format:</strong> Perfect for printing or framing.</li>
+        <li>✅ <strong>Unique QR Code:</strong> Certificate authenticity verification.</li>
+        <li>✅ <strong>Freelance-Ready:</strong> Proven practical experience.</li>
+        <li>✅ <strong>Skill Breakdown:</strong> Tech stack, duration, and performance score.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+<br>
+<br>
+
+   <h2 class="heading">📽️ What Our Students Say</h2>
+
+  <div class="reels-wrapper">
+    <div class="reel-card">
+      <video id="video1" src="ommprakash.mp4" class="reel-video"></video>
+      <div class="play-btn" onclick="togglePlay('video1', this)"></div>
+    </div>
+
+    <div class="reel-card">
+      <video id="video2" src="tarun.mp4" class="reel-video"></video>
+      <div class="play-btn" onclick="togglePlay('video2', this)"></div>
+    </div>
+
+    <div class="reel-card">
+      <video id="video3" src="pradeep.mp4" class="reel-video"></video>
+      <div class="play-btn" onclick="togglePlay('video3', this)"></div>
+    </div>
+     <div class="reel-card">
+      <video id="video4" src="abhayiitp.mp4" class="reel-video"></video>
+      <div class="play-btn" onclick="togglePlay('video4', this)"></div>
+    </div>
+     <div class="reel-card">
+      <video id="video5" src="prabinkumar.mp4" class="reel-video"></video>
+      <div class="play-btn" onclick="togglePlay('video5', this)"></div>
+    </div>
+     <div class="reel-card">
+      <video id="video6" src="komal.mp4" class="reel-video"></video>
+      <div class="play-btn" onclick="togglePlay('video6', this)"></div>
+    </div>
+     <div class="reel-card">
+      <video id="video7" src="ravikant.mp4" class="reel-video"></video>
+      <div class="play-btn" onclick="togglePlay('video7', this)"></div>
+    </div>
+  </div>
+
+ <script>
+function togglePlay(videoId, btn) {
+  const video = document.getElementById(videoId);
+  const parent = btn.parentElement;
+
+  if (video.paused) {
+    // Play the video
+    video.play();
+    parent.classList.add("playing");
+  } else {
+    // Pause the video
+    video.pause();
+    parent.classList.remove("playing");
+  }
+
+  // Show play button again when video ends
+  video.onended = () => {
+    parent.classList.remove("playing");
+  };
+
+  // Pause when clicking directly on the video too
+  video.onclick = () => {
+    if (!video.paused) {
+      video.pause();
+      parent.classList.remove("playing");
+    }
+  };
+}
+
+
+ </script>
+ <section class="testimonial-section">
+	<section class="categories" id="categories">
+	<!--   === Categories Section Header Starts ===   -->
+	<header class="section-header">
+		<h1>Hear What Our Interns Have to Say :</h1>
+		
+		
+	</header>
+	<!--   === Categories Section Header Ends ===   -->
+	<!--   === Categories Section Contents Starts ===   -->
+	   
+	<div class="categories-contents">
+</section>
+  <div class="testimonial-carousel" id="testimonialCarousel">
+	
+    <!-- Testimonial 1 -->
+    <div class="testimonial-card">
+      <div class="top">
+        <img src="Omm Prakash Das.png" alt="Sunil">
+        <div class="text">
+          <h3>Omm Prakash</h3>
+          <p class="role">Web Development Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">During my internship at 3 Skill, I received constant support and mentorship that helped me grow not only as a professional but also as a person. Every challenge I faced was met with guidance, and I always had someone to rely on when I needed help. The mentors were approachable, the team was collaborative, and the environment encouraged learning at every step. This experience truly shaped my career foundation.
+
+</p>
+    </div>
+	 <div class="testimonial-card">
+      <div class="top">
+        <img src="purba.png" alt="Sunil">
+        <div class="text">
+          <h3>Purba</h3>
+          <p class="role">Web Development Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">I started the internship with doubts about my own abilities, but week by week, the sessions and tasks helped me gain confidence in my skills. Regular feedback, resume building sessions, and mock interviews prepared me well for placements. By the end of the program, I felt job-ready and much more confident in facing interviews and working in a team.
+
+</p>
+    </div>
+	 <div class="testimonial-card">
+      <div class="top">
+        <img src="abhay.jpg" alt="Sunil">
+        <div class="text">
+          <h3>Abhay Chourasia</h3>
+          <p class="role">Web Development Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">What stood out for me the most was how personalized everything felt. The trainers didn’t just teach they understood where we needed help and guided us accordingly. I could freely ask questions, share my doubts, and get meaningful feedback. It made the entire learning journey smooth and enjoyable.</p>
+    </div>
+	 <div class="testimonial-card">
+      <div class="top">
+        <img src="Prabina.jpg" alt="Sunil">
+        <div class="text">
+          <h3>Prabina Kumar</h3>
+          <p class="role">Graphic Design Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">Apart from technical knowledge, this internship also focused on soft skills like teamwork, communication, time management, and presentation. These are the skills that make you stand out during job interviews and in the real world, and I’m grateful I got to work on them so early in my career.</p>
+    </div>
+	 <div class="testimonial-card">
+      <div class="top">
+        <img src="pradeep.jpg" alt="Sunil">
+        <div class="text">
+          <h3>Pradeep Kumar</h3>
+          <p class="role">Graphic Design Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">What I loved most was how each task helped me creatively express ideas while sticking to brand goals. The constant feedback really helped me grow.The internship gave me real client work experience. I learned not just tools but also how to design with purpose and impact.
+
+</p>
+    </div>
+	 <div class="testimonial-card">
+      <div class="top">
+        <img src="ravikant.jpg" alt="Sunil">
+        <div class="text">
+          <h3>Ravikant Pandit</h3>
+          <p class="role">Web Development Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">Working with other interns on shared projects helped me learn teamwork, coordination, and conflict resolution. We helped each other, reviewed each other’s work, and grew together which made the journey even more enjoyable.</p>
+    </div>
+	 <div class="testimonial-card">
+      <div class="top">
+        <img src="anjali.jpg" alt="Sunil">
+        <div class="text">
+          <h3>Anjali Kumari</h3>
+          <p class="role">Web Development Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">I genuinely believe this internship was one of the most productive learning phases of my life. I got exposed to new concepts, gained practical experience, made friends, and got career clarity all within a short span of time. I’ll always be grateful for this journey.</p>
+    </div>
+	 <div class="testimonial-card">
+      <div class="top">
+        <img src="komal kumari.jpg" alt="Sunil">
+        <div class="text">
+          <h3>Komal Kumari</h3>
+          <p class="role">Web Development Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">While we were focused on learning, the internship also gave space for creativity and fun. The environment was energetic and full of positive vibes, which made each day exciting. It never felt like a burden; it felt like growth with enjoyment.
+
+</p>
+    </div>
+	 <div class="testimonial-card">
+      <div class="top">
+        <img src="kartikeswar.jpg" alt="Sunil">
+        <div class="text">
+          <h3>Kartikeswar Panda</h3>
+          <p class="role">Web Development Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">I now feel ready to face interviews confidently because the internship prepared me technically and professionally. From improving my resume to practicing mock rounds, I got end-to-end preparation that I wouldn’t have found elsewhere.</p>
+    </div>
+	 <div class="testimonial-card">
+      <div class="top">
+        <img src="Tarun Kumar.png" alt="Sunil">
+        <div class="text">
+          <h3>Tarun Kumar</h3>
+          <p class="role">Data Analytics Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">My data analysis internship gave me exposure to real datasets and problem-solving scenarios. I learned to clean, analyze, and visualize data using Python libraries like Pandas, Matplotlib, and Seaborn. I also built dashboards using Excel and Google Sheets. The internship taught me how to ask the right questions, extract meaningful insights, and present them clearly through reports and visuals. It made me more analytical and detail-oriented.</p>
+    </div>
+	 <div class="testimonial-card">
+      <div class="top">
+        <img src="dibyaranjan.png" alt="Sunil">
+        <div class="text">
+          <h3>Dibyaranjan</h3>
+          <p class="role">Web Development Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">I entered this internship with basic knowledge but came out with solid hands-on experience. I worked on dynamic websites, integrated APIs, and learned how to debug and test my code. The mentorship I received was incredibly helpful. I was also guided on deployment processes and hosting platforms like Netlify and GitHub Pages. Overall, I now feel ready to take on freelance projects or junior developer roles confidently.
+
+</p>
+    </div>
+	 <div class="testimonial-card">
+      <div class="top">
+        <img src="smrutiranjan.jpg" alt="Sunil">
+        <div class="text">
+          <h3>smrutiranjan</h3>
+          <p class="role">Graphic Design Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">My graphic design internship at 3 SKILL was truly transformative. I got hands-on experience using tools like Photoshop, Illustrator, and Canva, and worked on real brand projects. The guidance from mentors helped me understand color theory, layout structure, and the importance of brand consistency. I also learned how to convert ideas into impactful visuals under tight deadlines, which improved both my creativity and time management. It boosted my confidence in handling client design work independently.</p>
+    </div>
+	 <div class="testimonial-card">
+      <div class="top">
+        <img src="sunil.png" alt="Sunil">
+        <div class="text">
+          <h3>Sunil</h3>
+          <p class="role">Marketing Intern</p>
+        </div>
+      </div>
+      <hr />
+      <p class="testimonial">My marketing internship at 3 SKILL taught me the fundamentals of digital marketing, market research, and campaign planning. I created marketing strategies, helped in running ads, and learned how to analyze campaign performance. I gained hands-on experience with tools like Google Analytics, Canva, and Meta Business Suite. The team was very supportive and open to my ideas, and I got feedback that helped me improve each week.</p>
+    </div>
+
+    <!-- Repeat this structure for more testimonials -->
+  </div>
+
+  <!-- Pagination dots -->
+  <div class="dots">
+    <span onclick="scrollToCard(0)"></span>
+    <span onclick="scrollToCard(1)"></span>
+    <span onclick="scrollToCard(2)"></span>
+  </div>
+
+  <!-- Arrow controls -->
+  <div class="nav-buttons">
+    <button onclick="scrollTestimonial(-1)">&#10094;</button>
+    <button onclick="scrollTestimonial(1)">&#10095;</button>
+  </div>
+</section>
+
+<style>
+  .testimonial-section {
+    padding: 40px 20px;
+    background: #edfaf1;
+    text-align: center;
+  }
+
+  .testimonial-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .testimonial-card {
+    flex: 0 0 320px;
+    background: whitesmoke;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  }
+
+  .testimonial-card .top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .testimonial-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+  }
+
+  .testimonial-card .text h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .testimonial-card .text .role {
+    font-size: 14px;
+    color: #555;
+  }
+
+  .testimonial-card hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 10px 0;
+  }
+
+  .testimonial-card .testimonial {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+  }
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: 0.3s ease;
+}
+  .nav-buttons {
+    margin-top: 15px;
+  }
+
+  .nav-buttons button {
+    background-color: #208245;
+    color: white;
+    border: none;
+    font-size: 20px;
+    margin: 0 10px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .nav-buttons button:hover {
+    background-color: #5c2cb1;
+  }
+
+  .dots {
+    margin: 10px auto;
+  }
+
+  .dots span {
+    height: 10px;
+    width: 10px;
+    margin: 0 4px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .dots span.active {
+    background-color: #3A1078;
+  }
+</style>
+
+<script>
+  let currentScroll = 0;
+  function scrollTestimonial(direction) {
+    const container = document.getElementById("testimonialCarousel");
+    const cardWidth = 340; // width + gap
+    currentScroll += direction * cardWidth;
+    container.scrollTo({
+      left: currentScroll,
+      behavior: "smooth",
+    });
+  }
+
+  function scrollToCard(index) {
+    const container = document.getElementById("testimonialCarousel");
+    const cardWidth = 340;
+    currentScroll = index * cardWidth;
+    container.scrollTo({
+      left: currentScroll,
+      behavior: "smooth"
+    });
+  }
+</script>
+
+ 
+ <section class="faq-section">
+  <h2>100% Internship Guarantee Course – FAQs</h2>
+
+  <div class="faq-item">
+    <button class="faq-question">Q. What is the 100% Internship Guarantee Course?</button>
+    <div class="faq-answer">
+      <p>It’s a placement-focused course by 3Skill that ensures all eligible students receive internships in their domain, including AI/ML, Web Dev, Data Science, and more.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Q. Who is eligible to join this course?</button>
+    <div class="faq-answer">
+      <p>Anyone with a willingness to learn and basic computer literacy. Students from any degree or background can join.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Q. What are the refund conditions if I don’t get an internship?</button>
+    <div class="faq-answer">
+      <p>To be eligible for a refund, the student must:
+        <ul>
+          <li>Attend at least 75% of classes</li>
+          <li>Complete all assignments and projects</li>
+          <li>Maintain sincerity in learning and communication</li>
+          <li>Not violate any terms of engagement or show misconduct</li>
+        </ul>
+      </p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Q. What kind of internship will I get?</button>
+    <div class="faq-answer">
+      <p>Internships are offered in multiple domains like Web Development, AI/ML, UI/UX Design, Digital Marketing, and more — based on your chosen course path and performance.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Q. How long is the course and when do internships start?</button>
+    <div class="faq-answer">
+      <p>The course duration is 1–2 months. Internships usually begin within 15–35 days after course completion, based on your skill readiness.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Q. What are the payment options available?</button>
+    <div class="faq-answer">
+      <p>You can pay via UPI, Credit/Debit Card, Google Pay, Paytm, or through our secure easebuzz checkout. EMI and partial payment options are available too.</p>
+    </div>
+  </div>
+  <div class="faq-item">
+  <button class="faq-question">Q. Can I join while doing college?</button>
+  <div class="faq-answer">
+    <p>Yes, our course is fully online and flexible for college students. Live classes and weekend batches are available.</p>
+  </div>
+</div>
+<div class="faq-item">
+  <button class="faq-question">Q. Will I receive a certificate after completing the course?</button>
+  <div class="faq-answer">
+    <p>Yes, all students who complete the course and submit required assignments will receive an industry-recognized certificate from 3Skill.</p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <button class="faq-question">Q. Will the certificate be verifiable and accepted by companies?</button>
+  <div class="faq-answer">
+    <p>Yes, the certificate will be digitally verifiable and recognized by hiring partners across India and abroad. It will include your course performance and internship details.</p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <button class="faq-question">Q. Do you help with resume building and LinkedIn optimization?</button>
+  <div class="faq-answer">
+    <p>Absolutely. We offer 1:1 sessions for building a professional resume, LinkedIn profile optimization, and personal branding for job hunting.</p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <button class="faq-question">Q. Will there be any live doubt-solving sessions?</button>
+  <div class="faq-answer">
+    <p>Yes, we conduct weekly live doubt-clearing sessions. You can also ask questions anytime through our student portal or WhatsApp groups.</p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <button class="faq-question">Q. What support do I get after completing the course?</button>
+  <div class="faq-answer">
+    <p>You will continue to get support from our placement cell for up to 3 months post-course completion, including interview referrals, resume reviews, and mentoring.</p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <button class="faq-question">Q. What if I miss a live class?</button>
+  <div class="faq-answer">
+    <p>Don’t worry — every live class is recorded and uploaded to the Drive. You can watch it anytime, anywhere.</p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <button class="faq-question">Q. Is this course suitable for beginners with no coding experience?</button>
+  <div class="faq-answer">
+    <p>Yes! Our curriculum is beginner-friendly. You will be taught from scratch, with extra sessions for non-tech students to bridge the gap.</p>
+  </div>
+</div>
+
+</section>
+
+ <section class="footer" id="footer">
+	
+	<!--   === Footer Contents Starts ===   -->
+	<div class="footer-contents">
+		
+		<div class="footer-col footer-col-1">
+			<div class="col-title">
+				<img src="3skilllogo.png">
+			</div>
+			<div class="col-contents">
+				<p>Join thousands of learners and master future-ready skills with 3Skill. From AI and Web Development to Data Science and emerging tech ,learn from top experts at your own pace, anytime, anywhere.</p>
+
+			</div>
+			<div class="social-icons">
+  <a href="https://instagram.com/3skillofficial" target="_blank" class="icon instagram">
+    <i class="fab fa-instagram"></i>
+  </a>
+  <a href="https://wa.me/6372105534" target="_blank" class="icon whatsapp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  <a href="https://www.linkedin.com/company/3-skill/" target="_blank" class="icon linkedin">
+    <i class="fab fa-linkedin"></i>
+  </a>
+  <a href="https://twitter.com/3skillindia" target="_blank" class="icon twitter">
+    <i class="fab fa-twitter"></i>
+  </a>
+</div>
+		</div>
+		
+
+		<div class="footer-col footer-col-2">
+			<div class="col-title">
+				<h3>Contact</h3>
+			</div>
+			<div class="col-contents">
+				<div class="contact-row">
+					<span>Address</span>
+					<span>Bbsr,Odisha</span>
+				</div>
+				<div class="contact-row">
+					<span>Phone</span>
+					<span>+91 6372105534</span>
+				</div>
+				<div class="contact-row">
+					<span>Website</span>
+					<span>3skill.shop
+					</span>
+				</div>
+				<div class="contact-row">
+					<span>Email</span>
+					<span>3skill.contact@gmail.com</span>
+					<span>3skill.course@gmail.com</span>
+					<span>3skill.payment@gmail.com</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="footer-col footer-col-3">
+			<div class="col-title">
+				<h3>Quick Links</h3>
+			</div>
+			<div class="col-contents">
+				<a href="InternshipGuarantee.html" target="_blank">Internship Guarantee Course</a>
+				<a href="Certificate-Based Course.html" target="_blank">Skill-Building Certification Course</a>
+				<a href="3Skill_Internship_Guarantee_Course_Details.pdf">Terms and Conditions for Refund</a>
+				<a href="about.html" target="_blank">About</a>
+				<a href="3Skill_Legal_Policies_June_2025.pdf" target="_blank">Terms & Conditions</a>
+			</div>
+		</div>
+
+		<div class="footer-col footer-col-4">
+			<div class="col-title">
+				<h3>Newsletter</h3>
+			</div>
+			<div class="col-contents">
+				<form class="newsletter">
+					<input type="email" placeholder="Your Email">
+					<button class="newsletter-btn btn" type="submit">Subscribe</button>
+				</form>
+			</div>
+		</div>
+
+	</div>
+	<!--   === Footer Contents Ends ===   -->
+	<div class="copy-rights">
+		<p>Created By <b>@3SKILL,2025</b> All Rights Reserved</p>
+	</div>
+
+</section>
+</body>
+</html>
+<style>
+   .social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .icon {
+    font-size: 24px;
+    color: #ffffff;
+    transition: color 0.3s ease;
+  }
+
+  .icon.instagram:hover {
+    color: #e4405f;
+  }
+
+  .icon.whatsapp:hover {
+    color: #25D366;
+  }
+
+  .icon.linkedin:hover {
+    color: #2eb2fa;
+  }
+
+  .icon.twitter:hover {
+    color: #1DA1F2;
+  }
+.faq-section {
+  max-width: 800px;
+  margin: 60px auto;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 20px;
+}
+
+.faq-section h2 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.faq-item {
+  border-bottom: 1px solid #ddd;
+}
+
+.faq-question {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 15px;
+  cursor: pointer;
+  position: relative;
+}
+
+.faq-question::after {
+  content: "+";
+  position: absolute;
+  right: 20px;
+  font-size: 20px;
+  transition: transform 0.3s;
+}
+
+.faq-question.active::after {
+  content: "-";
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  display: none;
+  padding: 0 15px 15px 15px;
+  color: #444;
+  font-size: 16px;
+}
+
+.faq-answer ul {
+  padding-left: 20px;
+  margin-top: 10px;
+}
+section.footer{
+	width: 100%;
+	padding: 70px 8% 30px;
+	background-color: var(--primary-clr);
+}
+.footer .footer-contents{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	margin-bottom: 50px;
+}
+.footer-contents .footer-col{
+	flex-basis: calc(calc(100% / 4) - 20px);
+}
+.footer-contents .footer-col .col-title{
+	min-height: 60px;
+	display: flex;
+	align-items: flex-end;
+	margin-bottom: 30px;
+}
+.footer-col .col-title h3{
+	font-size: 24px;
+	color: var(--light-heading-clr);
+}
+.footer-col .col-contents{
+	display: flex;
+	flex-direction: column;
+}
+.footer-col-1 .col-title img{
+	width: 120px;
+}
+.footer-col-1 .col-contents p{
+	color: var(--light-text-clr);
+	font-size: 15px;
+	line-height: 1.3;
+	margin-bottom: 15px;
+}
+.footer-col-2 .col-contents .contact-row{
+	margin-bottom: 15px;
+	display: flex;
+	flex-direction: column;
+}
+.footer-col-2 .col-contents .contact-row span{
+	color: var(--light-text-clr);
+	font-size: 16px;
+}
+.footer-col-2 .col-contents .contact-row span:nth-child(1){
+	color: var(--light-heading-clr);
+	font-size: 17px;
+	font-weight: 500;
+	margin-bottom: 2px;
+}
+.footer-col-3 .col-contents a{
+	text-decoration: none;
+	color: var(--light-text-clr);
+	margin-bottom: 20px;
+	align-self: flex-start;
+	transition: all 0.3s;
+}
+.footer-col-3 .col-contents a:hover{
+	letter-spacing: 2px;
+}
+.footer-col-4 .col-contents input{
+	width: 100%;
+	padding: 15px;
+	background-color: var(--light-heading-clr);
+	color: var(--dark-text-clr);
+	border: none;
+	border-radius: 5px;
+}
+.footer-col-4 .col-contents .newsletter-btn{
+	background-color: var(--light-heading-clr);
+	color: var(--primary-clr);
+	margin-top: 20px;
+}
+.footer-col-4 .col-contents .newsletter-btn:hover{
+	background-color: transparent;
+	color: var(--light-heading-clr);
+	border: 1px solid var(--light-heading-clr);
+}
+.footer .copy-rights{
+	padding: 30px 0px 0px;
+	border-top: 1px solid var(--light-text-clr);
+	text-align: center;
+}
+.footer .copy-rights p{
+	color: var(--primary-light-clr);
+}
+.footer .copy-rights p b{
+	color: yellow;
+}
+/*   === Footer Section Styling Ends ===   */
+
+
+
+
+
+/*   === Media Query Starts ===   */
+@media(max-width: 968px){
+	/* Home Section */
+	.main-navbar .menu-btn{
+		display: flex;
+		margin-left: 40px;
+		z-index: 101;
+	}
+	.main-navbar .menu-btn.active span,
+	.main-navbar .menu-btn.active span::before,
+	.main-navbar .menu-btn.active span::after{
+		width: 100%;
+	}
+	.main-navbar .menu-btn.active span::before{
+		transform: rotate(45deg) translateY(0px);
+	}
+	.main-navbar .menu-btn.active span::after{
+		transform: rotate(-45deg) translateY(0px);
+	}
+	.main-navbar .menu-btn.active span{
+		background-color: transparent;
+	}
+	.main-navbar .nav-list{
+		position: fixed;
+		width: 100%;
+		height: 100vh;
+		top: 0;
+		/*right: 0;*/
+		right: -100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background-color: var(--primary-clr);
+		transition: right 0.3s cubic-bezier(.15, .61, .94, .25);
+		z-index: 100;
+	}
+	.main-navbar .nav-list.active{
+		right: 0;
+	}
+	.main-navbar .nav-list li{
+		margin: 25px 0px 0px;
+	}
+	.main-navbar .nav-list li:nth-child(1){
+		margin-top: 180px;
+	}
+	.main-navbar .nav-list li a{
+		font-size: 20px;
+		letter-spacing: 1px;
+	}
+	.main-navbar .get-started-btn-container{
+		margin-left: auto;
+	}
+	.home .banner{
+		flex-direction: column-reverse;
+		justify-content: flex-start;
+		align-items: flex-start;
+	}
+	.home .banner .banner-desc,
+	.home .banner .banner-img{
+		flex-basis: 100%;
+	}
+	.home .banner .banner-img{
+		align-self: center;
+		margin-bottom: 50px;
+	}
+	/* Services Section */
+	.services-contents .service-box{
+		flex-basis: calc(calc(100% / 2) - 2%);
+	}
+	.services-contents .service-box:not(:last-child){
+		margin-bottom: 20px;
+	}
+	/* Courses Section */
+	.courses .course-contents .course-card{
+		flex-basis: calc(calc(100% / 2) - 1.2%);
+	}
+	.courses .section-header{
+		flex-direction: column;
+	}
+	.courses .section-header .courses-btn{
+		position: relative;
+		align-self: flex-start;
+		margin-top: 20px;
+	}
+	/* Courses Categories Section */
+	.categories-contents .category-item{
+		flex-basis: calc(calc(100% / 2) - 1%);
+		margin-bottom: 15px;
+	}
+	/* Footer Section */
+	.footer-contents .footer-col{
+	flex-basis: calc(calc(100% / 2) - 20px);
+	}
+}
+
+@media(max-width: 768px){
+	/* Home Section */
+	.banner-img-container .states .total-courses{
+		left: 5px;
+		bottom: 10%;
+	}
+	.banner .banner-desc h2{
+		font-size: 42px;
+	}
+	/* Testimonials Section */
+	.testimonials .section-header{
+		width: 100%;
+		margin-bottom: 70px;
+	}
+}
+
+@media(max-width: 668px){
+	/* Partners Section */
+	.partners h3{
+		margin-right: 150px;
+	}
+	/* Services Section */
+	.services-contents .service-box{
+		flex-basis: 100%;
+	}
+	/* Courses Section */
+	.courses .course-contents .course-card{
+		flex-basis: 100%;
+	}
+}
+
+@media(max-width: 568px){
+	/* Courses Categories Section */
+	.categories-contents .category-item{
+		flex-basis: 100%;
+	}
+	/* Footer Section */
+	.footer-contents .footer-col{
+		flex-basis: 100%;
+	}
+}
+
+@media(max-width: 468px){
+	.banner-img .banner-img-container{
+		width: 100%;
+	}
+	.banner .banner-desc .search-bar{
+		width: 100%;
+	}
+	.banner-img-container .states .courses-ratings{
+		top: 30px;
+		right: -10px;
+	}
+	.banner .banner-desc h2{
+		font-size: 32px;
+	}
+	.main-navbar .get-started-btn-container{
+		display: none;
+	}
+	/* Partners Section */
+	.partners h3{
+		margin-right: 0px;
+		margin-bottom: 80px;
+	}
+}
+</style>
+<script>
+  const faqButtons = document.querySelectorAll(".faq-question");
+
+faqButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    button.classList.toggle("active");
+    const answer = button.nextElementSibling;
+    if (answer.style.display === "block") {
+      answer.style.display = "none";
+    } else {
+      answer.style.display = "block";
+    }
+  });
+});
+ document.addEventListener("DOMContentLoaded", function () {
+    const menuBtn = document.querySelector(".menu-btn");
+    const navList = document.querySelector(".nav-list");
+
+    menuBtn.addEventListener("click", function () {
+      navList.classList.toggle("active");
+    });
+  });
+</script>

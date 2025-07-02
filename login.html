@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - 3Skill</title>
+  <link rel="stylesheet" href="profile.css" />
+  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	 <link rel="icon" type="image/png" href="download.png">
+</head>
+<body>
+  <div class="container">
+    <h2 style="text-align:center; color:#257537; margin-bottom: 1rem;">Welcome Back!</h2>
+    <p style="text-align:center; margin-bottom: 2rem;">Login to access your profile</p>
+
+    <label for="name">Name</label>
+    <input type="text" id="name" placeholder="Enter your name" />
+
+    <label for="college">College</label>
+    <input type="text" id="college" placeholder="Enter your college name" />
+
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="Enter your email" />
+
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="Enter your password" />
+
+    <label for="photo">Profile Photo</label>
+    <input type="file" id="photo" accept="image/*" />
+
+    <button onclick="login()">Login</button>
+  </div>
+
+  <script src="profile.js"></script>
+</body>
+</html>
+<style>
+  /* ===== Global styles ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #ecf9f0;
+  color: #222;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* ===== Container ===== */
+.container {
+  max-width: 600px;
+  width: 100%;
+  background: white;
+  padding: 2.5rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+  animation: fadeIn 1s ease-in-out;
+  text-align: center;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Form Inputs and Buttons ===== */
+label {
+  display: block;
+  margin-top: 1.2rem;
+  font-weight: 600;
+  color: #257537;
+  text-align: left;
+}
+
+input[type=email],
+input[type=password],
+input[type=text],
+input[type=file],
+button {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  margin-top: 0.3rem;
+  border-radius: 12px;
+  border: 1.5px solid #ccc;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+input:focus {
+  outline: none;
+  border-color: #257537;
+  box-shadow: 0 0 8px rgba(37, 117, 55, 0.5);
+}
+
+button {
+  background-color: #257537;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 2rem;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(37,117,55,0.4);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #145422;
+  transform: scale(1.05);
+}
+
+/* ===== Profile Page ===== */
+.profile-box h2 {
+  margin-bottom: 1.5rem;
+  color: #257537;
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: 1.1px;
+}
+
+.profile-pic {
+  display: block;
+  margin: 0 auto 1.8rem auto;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #257537;
+  box-shadow: 0 6px 15px rgba(37, 117, 55, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.07);
+}
+
+/* Profile info container - card style */
+.profile-info {
+  background: #f5fcf7;
+  border-radius: 15px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 8px 25px rgba(37,117,55,0.12);
+  margin-bottom: 2rem;
+  text-align: left;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile-info p {
+  font-size: 1.15rem;
+  margin: 1rem 0;
+  color: #3a3a3a;
+}
+
+.profile-info p strong {
+  color: #257537;
+  display: inline-block;
+  width: 120px;
+}
+
+/* Buttons container for side by side buttons */
+.buttons-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Back to Home & Logout buttons */
+.btn-home, .btn-logout {
+  flex: 1 1 120px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.12);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-home {
+  background-color: #257537;
+  color: white;
+}
+
+.btn-home:hover {
+  background-color: #145422;
+  transform: scale(1.05);
+}
+
+.btn-logout {
+  background-color: crimson;
+  color: white;
+}
+
+.btn-logout:hover {
+  background-color: #a80000;
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  
+  .desktop-profile {
+    display: none;
+  }
+}
+@media (max-width: 480px) {
+  .desktop-text {
+    display: none;
+  }
+.desktop-profile {
+    display: none;
+  }
+ 
+}
+</style>
+<script>
+  // ======== script.js ========
+function login() {
+  const name = document.getElementById("name").value.trim();
+  const college = document.getElementById("college").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const photoInput = document.getElementById("photo");
+  const photoFile = photoInput.files[0];
+
+  if (!name || !college || !email || !password) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  // Basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert("Please enter a valid email address");
+    return;
+  }
+
+  if (!photoFile) {
+    alert("Please upload a profile photo");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const photoData = e.target.result;
+    const studentId = "3SKILL-" + Math.floor(1000 + Math.random() * 9000);
+
+    localStorage.setItem("studentName", name);
+    localStorage.setItem("studentCollege", college);
+    localStorage.setItem("studentEmail", email);
+    localStorage.setItem("studentId", studentId);
+    localStorage.setItem("studentPhoto", photoData);
+
+    window.location.href = "profile.html";
+  };
+
+  reader.readAsDataURL(photoFile);
+}
+function goHome() {
+  window.location.href = 'index.html'; // or your home page url
+}
+
+function logout() {
+  localStorage.clear();
+  window.location.href = 'login.html';
+}
+
+</script>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3Skill Certificate Verification</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+   <link rel="icon" type="image/png" href="download.png">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .header {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    h2 {
+      color: #2c3e50;
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #3498db, #2c3e50);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      display: inline-block;
+    }
+
+    h2::after {
+      content: "✨";
+      position: absolute;
+      right: -30px;
+      top: -10px;
+      font-size: 1.5rem;
+      animation: twinkle 2s infinite;
+    }
+
+    .subtitle {
+      color: #7f8c8d;
+      font-size: 1rem;
+      margin-top: 0;
+    }
+
+    .input-container {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 500px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .input-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 2px solid #e0e0e0;
+      transition: all 0.3s;
+      background-color: #f9f9f9;
+    }
+
+    input:focus {
+      border-color: #3498db;
+      outline: none;
+      background-color: #fff;
+      box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
+    }
+
+    .input-label {
+      position: absolute;
+      left: 20px;
+      top: 16px;
+      color: #95a5a6;
+      transition: all 0.3s;
+      pointer-events: none;
+      background: #f9f9f9;
+      padding: 0 5px;
+    }
+
+    input:focus + .input-label,
+    input:not(:placeholder-shown) + .input-label {
+      top: -10px;
+      left: 15px;
+      font-size: 12px;
+      color: #3498db;
+      background: #fff;
+    }
+
+    button {
+      width: 100%;
+      background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+      color: white;
+      border: none;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button::after {
+      content: "🔍";
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .card p {
+  font-size: 16px;
+  color: #34495e;
+  margin: 8px 0;
+}
+
+.card p strong {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-right: 6px;
+}
+    .card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      margin-top: 30px;
+      max-width: 500px;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, #3498db, #2ecc71);
+    }
+
+    .card h3 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card h3::before {
+      content: "✅";
+      margin-right: 10px;
+      font-size: 1.3rem;
+    }
+
+    .card p {
+      margin: 12px 0;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #34495e;
+      display: flex;
+    }
+
+    .card p strong {
+      color: #2c3e50;
+     
+      display: inline-block;
+    }
+
+    .loading {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 16px;
+      color: #7f8c8d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .loading::before {
+      content: "⏳";
+      font-size: 2rem;
+      margin-bottom: 10px;
+      animation: spin 1.5s linear infinite;
+    }
+
+    .error {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 20px;
+      border-radius: 12px;
+      background-color: #ffebee;
+      color: #c62828;
+      max-width: 500px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .error::before {
+      content: "❗";
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .celebrate {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #f00;
+      opacity: 0;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.5; transform: scale(1); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 1.8rem;
+      }
+
+      .input-container, .card {
+        padding: 20px;
+      }
+
+      input, button {
+        padding: 14px;
+      }
+
+      .card p {
+        flex-direction: column;
+      }
+
+      .card p strong {
+        margin-bottom: 5px;
+        min-width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h2>3Skill Certificate Verification</h2>
+    <p class="subtitle">Verify your certificate authenticity in seconds</p>
+  </div>
+
+  <div class="input-container animate__animated animate__fadeIn">
+    <div class="input-group">
+      <input type="text" id="certID" placeholder=" " autocomplete="off">
+      <label class="input-label">Certificate ID</label>
+    </div>
+    <button onclick="verifyCertificate()">Verify Certificate</button>
+  </div>
+
+  <div id="result"></div>
+  <div id="celebrate" class="celebrate"></div>
+
+  <script>
+    async function verifyCertificate() {
+      const certID = document.getElementById("certID").value.trim();
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = `<div class="loading">Verifying your certificate...</div>`;
+
+      if (!certID) {
+        resultDiv.innerHTML = `<div class="error animate__animated animate__shakeX">Please enter a certificate ID</div>`;
+        return;
+      }
+
+      const url = "https://script.google.com/macros/s/AKfycbxMvZW0OSeaC-f7LuRPg75a75FfHcwaKM4FS19AMYewmkCc4VCFQmnJ9j9hFWqkG61Q/exec?certID=" + encodeURIComponent(certID);
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.found) {
+          resultDiv.innerHTML = `
+            <div class="card animate__animated animate__fadeInUp">
+              <h3>Certificate Verified</h3>
+              <p><strong>Name:</strong> ${data.name}</p>
+              <p><strong>Internship Domain:</strong> ${data.internshipField}</p>
+              <p><strong>Internship Type:</strong> ${data.internshipType}</p>
+              <p><strong>Internship Duration:</strong> ${data.internshipDuration}</p>
+              <p><strong>Issue Date:</strong> ${formatDate(data.issueDate)}</p>
+
+            </div>
+          `;
+          celebrate();
+        } else {
+          resultDiv.innerHTML = `<div class="error animate__animated animate__shakeX">Invalid Certificate ID</div>`;
+        }
+      } catch (err) {
+        console.error(err);
+        resultDiv.innerHTML = `<div class="error animate__animated animate__shakeX">Server error. Please try again later.</div>`;
+      }
+    }
+
+    function celebrate() {
+      const celebrateDiv = document.getElementById("celebrate");
+      celebrateDiv.style.opacity = "1";
+      
+      // Create confetti
+      const colors = ['#3498db', '#2ecc71', '#e74c3c', '#f1c40f', '#9b59b6'];
+      
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.width = Math.random() * 10 + 5 + "px";
+        confetti.style.height = Math.random() * 10 + 5 + "px";
+        confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s linear forwards`;
+        celebrateDiv.appendChild(confetti);
+      }
+      
+      setTimeout(() => {
+        celebrateDiv.style.opacity = "0";
+        setTimeout(() => {
+          celebrateDiv.innerHTML = "";
+        }, 500);
+      }, 3000);
+    }
+
+    // Add animation to input container on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const inputContainer = document.querySelector('.input-container');
+      inputContainer.classList.add('animate__animated', 'animate__fadeInUp');
+    });
+
+    function formatDate(isoString) {
+  const date = new Date(isoString);
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  return date.toLocaleDateString('en-US', options);
+}
+  </script>
+</body>
+</html>

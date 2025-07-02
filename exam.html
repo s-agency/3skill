@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3skill Internship Test</title>
+  <style>
+    :root {
+      --primary: #4361ee;
+      --success: #4cc9f0;
+      --danger: #f72585;
+      --warning: #ffbe0b;
+      --light: #f8f9fa;
+      --dark: #212529;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f0f2f5;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin-bottom: 20px;
+    }
+    
+    h1 {
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    h2 {
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border 0.3s;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+    
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background 0.3s;
+      text-align: center;
+      width: 100%;
+    }
+    
+    .btn:hover {
+      background: #3a56d4;
+    }
+    
+    .btn-secondary {
+      background: #6c757d;
+    }
+    
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+    
+    #webcam {
+      width: 200px;
+      height: 150px;
+      border: 2px solid var(--primary);
+      border-radius: 5px;
+      background: black;
+      margin: 0 auto 20px;
+      display: block;
+    }
+    
+    #timer {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--danger);
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .question {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .question:last-child {
+      border-bottom: none;
+    }
+    
+    .question p {
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    
+    .options label {
+      display: block;
+      padding: 10px;
+      margin-bottom: 8px;
+      background: #f8f9fa;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .options label:hover {
+      background: #e9ecef;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .score {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    
+    .pass {
+      color: var(--success);
+    }
+    
+    .fail {
+      color: var(--danger);
+    }
+    
+    .warning {
+      color: var(--warning);
+    }
+    
+    hr {
+      margin: 20px 0;
+      border: 0;
+      border-top: 1px solid #eee;
+    }
+    
+    .privacy-content {
+      max-height: 60vh;
+      overflow-y: auto;
+      margin: 20px 0;
+      padding: 10px;
+      border: 1px solid #eee;
+      border-radius: 5px;
+    }
+    
+    .checkbox-group {
+      margin: 20px 0;
+    }
+    
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    
+    .checkbox-group input {
+      margin-right: 10px;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Privacy Agreement Modal -->
+    <div id="privacyModal" class="modal">
+      <div class="modal-content">
+        <h2>Privacy Agreement</h2>
+        <hr>
+        <div class="privacy-content">
+          <h3>Data Collection Policy</h3>
+          <p>By taking this test, you agree to the following:</p>
+          <ol>
+            <li>We will collect your personal information (name, email, phone number) for test administration purposes.</li>
+            <li>Your webcam will be activated during the test for proctoring and identity verification.</li>
+            <li>Your test responses and scores will be recorded and stored securely.</li>
+            <li>We may use your test data for evaluation and research purposes.</li>
+            <li>Your data will not be shared with third parties without your explicit consent.</li>
+          </ol>
+          
+          <h3>Test Conduct Rules</h3>
+          <ol>
+            <li>You must complete the test independently without external help.</li>
+            <li>Switching tabs or applications during the test is prohibited.</li>
+            <li>Attempting to copy or screenshot questions will result in test termination.</li>
+            <li>You must keep your face visible to the webcam throughout the test.</li>
+            <li>Violations may result in disqualification from the internship program.</li>
+          </ol>
+        </div>
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" id="agreePrivacy" required>
+            I have read and agree to the privacy policy and test conduct rules
+          </label>
+        </div>
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" id="agreeRecording" required>
+            I consent to webcam recording during the test for proctoring purposes
+          </label>
+        </div>
+        <button id="acceptPrivacyBtn" class="btn">Accept and Continue</button>
+      </div>
+    </div>
+    
+    <!-- Registration Form -->
+    <div id="registrationForm" class="card">
+      <h1>3skill Internship Program</h1>
+      <h2>Registration Details</h2>
+      <form id="candidateForm">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="exam-code">Exam Code*</label>
+          <input 
+            type="text" 
+            id="exam-code" 
+            name="exam-code" 
+            placeholder="Enter your exam code" 
+            required
+          >
+        </div>
+        
+        <div class="form-group">
+          <label for="role">Applying for</label>
+          <select id="role" name="role" required>
+            <option value="">Select Role</option>
+            <option value="web">Web Development Intern</option>
+            <option value="data">Data Science Intern</option>
+            <option value="ai">AI/ML Intern</option>
+          </select>
+        </div>
+        
+        <button type="button" id="startTestBtn" class="btn">Start Test</button>
+      </form>
+    </div>
+    
+    <!-- Test Container -->
+    <div id="testContainer" class="hidden">
+      <div class="card">
+        <h1>3skill Internship Test</h1>
+        <div id="timer">Time Left: 25:00</div>
+        <div id="warningMessage" class="warning hidden"></div>
+        
+        <video id="webcam" autoplay playsinline></video>
+        
+        <form id="testForm">
+          <!-- Basic Questions -->
+          <div class="question">
+            <p><strong>1. What does HTML stand for?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q1" value="a" required> Hyper Text Markup Language</label>
+              <label><input type="radio" name="q1" value="b"> Home Tool Markup Language</label>
+              <label><input type="radio" name="q1" value="c"> Hyperlinks and Text Markup Language</label>
+            </div>
+          </div>
+          
+          <div class="question">
+            <p><strong>2. Which CSS property controls the text size?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q2" value="a" required> font-style</label>
+              <label><input type="radio" name="q2" value="b"> text-size</label>
+              <label><input type="radio" name="q2" value="c"> font-size</label>
+            </div>
+          </div>
+          
+          <div class="question">
+            <p><strong>3. Inside which HTML element do we put the JavaScript?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q3" value="a" required> &lt;script&gt;</label>
+              <label><input type="radio" name="q3" value="b"> &lt;js&gt;</label>
+              <label><input type="radio" name="q3" value="c"> &lt;javascript&gt;</label>
+            </div>
+          </div>
+          
+          <!-- Web Development Questions -->
+          <div class="question">
+            <p><strong>4. What will be the output of: console.log(1 + "2" + "2")?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q4" value="a" required> "122"</label>
+              <label><input type="radio" name="q4" value="b"> "32"</label>
+              <label><input type="radio" name="q4" value="c"> "14"</label>
+            </div>
+          </div>
+          
+          <div class="question">
+            <p><strong>5. What is the purpose of the 'alt' attribute in image tags?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q5" value="a" required> Alternative text for screen readers</label>
+              <label><input type="radio" name="q5" value="b"> Alternative image source</label>
+              <label><input type="radio" name="q5" value="c"> Image alignment specification</label>
+            </div>
+          </div>
+          
+          <div class="question">
+            <p><strong>6. Which method would you use to add an element to the end of an array?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q6" value="a" required> array.push()</label>
+              <label><input type="radio" name="q6" value="b"> array.pop()</label>
+              <label><input type="radio" name="q6" value="c"> array.unshift()</label>
+            </div>
+          </div>
+          
+          <!-- Data Science Questions -->
+          <div class="question">
+            <p><strong>7. What does SQL stand for?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q7" value="a" required> Structured Query Language</label>
+              <label><input type="radio" name="q7" value="b"> Sequential Query Language</label>
+              <label><input type="radio" name="q7" value="c"> Standardized Question Language</label>
+            </div>
+          </div>
+          
+          <div class="question">
+            <p><strong>8. Which Python library is primarily used for data manipulation and analysis?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q8" value="a" required> NumPy</label>
+              <label><input type="radio" name="q8" value="b"> Pandas</label>
+              <label><input type="radio" name="q8" value="c"> Matplotlib</label>
+            </div>
+          </div>
+          
+          <div class="question">
+            <p><strong>9. What is the purpose of normalization in databases?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q9" value="a" required> To reduce data redundancy</label>
+              <label><input type="radio" name="q9" value="b"> To increase storage space</label>
+              <label><input type="radio" name="q9" value="c"> To make queries run slower</label>
+            </div>
+          </div>
+          
+          <!-- Advanced Questions -->
+          <div class="question">
+            <p><strong>10. What is the time complexity of binary search?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q10" value="a" required> O(n)</label>
+              <label><input type="radio" name="q10" value="b"> O(log n)</label>
+              <label><input type="radio" name="q10" value="c"> O(n log n)</label>
+            </div>
+          </div>
+          
+          <div class="question">
+            <p><strong>11. In React, what is the purpose of the virtual DOM?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q11" value="a" required> To improve rendering performance</label>
+              <label><input type="radio" name="q11" value="b"> To replace the actual DOM</label>
+              <label><input type="radio" name="q11" value="c"> To handle server-side rendering</label>
+            </div>
+          </div>
+          
+          <div class="question">
+            <p><strong>12. What does the term "overfitting" mean in machine learning?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q12" value="a" required> When a model performs well on training data but poorly on unseen data</label>
+              <label><input type="radio" name="q12" value="b"> When a model is too simple</label>
+              <label><input type="radio" name="q12" value="c"> When a model takes too long to train</label>
+            </div>
+          </div>
+          
+          <div class="question">
+            <p><strong>13. Which HTTP status code indicates "Not Found"?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q13" value="a" required> 200</label>
+              <label><input type="radio" name="q13" value="b"> 404</label>
+              <label><input type="radio" name="q13" value="c"> 500</label>
+            </div>
+          </div>
+          
+          <div class="question">
+            <p><strong>14. What is the purpose of the 'this' keyword in JavaScript?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q14" value="a" required> Refers to the current object context</label>
+              <label><input type="radio" name="q14" value="b"> Refers to the parent function</label>
+              <label><input type="radio" name="q14" value="c"> Refers to the global window object</label>
+            </div>
+          </div>
+          
+          <div class="question">
+            <p><strong>15. What is the difference between '==' and '===' in JavaScript?</strong></p>
+            <div class="options">
+              <label><input type="radio" name="q15" value="a" required> '==' compares value only, '===' compares value and type</label>
+              <label><input type="radio" name="q15" value="b"> '===' is faster than '=='</label>
+              <label><input type="radio" name="q15" value="c"> There is no difference</label>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn">Submit Test</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Result Modal -->
+  <div id="resultModal" class="modal">
+    <div class="modal-content">
+      <h2>Test Results</h2>
+      <hr>
+      <div class="score">Your Score: <span id="scoreValue">0</span>/15</div>
+      <p id="resultText"></p>
+      <hr>
+      <button id="closeModalBtn" class="btn">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Correct answers
+    const correctAnswers = {
+      q1: "a", q2: "c", q3: "a", q4: "a", q5: "a",
+      q6: "a", q7: "a", q8: "b", q9: "a", q10: "b",
+      q11: "a", q12: "a", q13: "b", q14: "a", q15: "a"
+    };
+    
+    // Candidate data
+    let candidateData = {};
+    let timeLeft = 25 * 60; // 25 minutes in seconds
+    let timerInterval;
+    
+    // DOM elements
+    const registrationForm = document.getElementById('registrationForm');
+    const testContainer = document.getElementById('testContainer');
+    const startTestBtn = document.getElementById('startTestBtn');
+    const testForm = document.getElementById('testForm');
+    const resultModal = document.getElementById('resultModal');
+    const scoreValue = document.getElementById('scoreValue');
+    const resultText = document.getElementById('resultText');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const timerDisplay = document.getElementById('timer');
+    
+    // Start test
+    startTestBtn.addEventListener('click', function() {
+      // Validate form
+      if (!document.getElementById('name').value || 
+          !document.getElementById('email').value || 
+          !document.getElementById('phone').value || 
+          !document.getElementById('exam-code').value ||
+          !document.getElementById('role').value) {
+        alert('Please fill all fields');
+        return;
+      }
+      
+      // Store candidate data
+      candidateData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        examCode: document.getElementById('exam-code').value,
+        role: document.getElementById('role').value,
+        startTime: new Date().toISOString()
+      };
+      
+      // Start test
+      registrationForm.classList.add('hidden');
+      testContainer.classList.remove('hidden');
+      
+      // Start webcam
+      startWebcam();
+      
+      // Start timer
+      startTimer();
+    });
+    
+    // Webcam setup
+    function startWebcam() {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          document.getElementById('webcam').srcObject = stream;
+        })
+        .catch(err => {
+          console.error("Camera error: ", err);
+        });
+    }
+    
+    // Timer function
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        
+        timerDisplay.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        
+        // Change color when time is low
+        if (timeLeft < 300) { // 5 minutes
+          timerDisplay.style.color = '#ff6b35';
+        }
+        if (timeLeft < 60) { // 1 minute
+          timerDisplay.style.color = '#ef233c';
+        }
+        
+        timeLeft--;
+        
+        if (timeLeft < 0) {
+          clearInterval(timerInterval);
+          submitTest();
+        }
+      }, 1000);
+    }
+    
+    // Submit test
+    testForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      submitTest();
+    });
+    
+    // Function to send data to Google Sheets
+    async function sendToGoogleSheets(data) {
+      try {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbyW457UY5NuwGSiUXPecS7dNSt79mAiXkRvUCyCWkJjZWQecF3G517gEwoA7Ptm-8wFPg/exec', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+        
+        return response;
+      } catch (error) {
+        console.error('Error sending data:', error);
+        return null;
+      }
+    }
+    
+    async function submitTest() {
+      // Stop the timer
+      clearInterval(timerInterval);
+      
+      // Calculate score
+      let score = 0;
+      const answers = {};
+      
+      for (let i = 1; i <= 15; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        answers[`q${i}`] = selected ? selected.value : 'unanswered';
+        
+        if (selected && selected.value === correctAnswers[`q${i}`]) {
+          score++;
+        }
+      }
+      
+      // Store results
+      candidateData.endTime = new Date().toISOString();
+      candidateData.score = score;
+      candidateData.passed = score >= 9; // 60% to pass
+      candidateData.answers = JSON.stringify(answers);
+      
+      // Send data to Google Sheets
+      try {
+        const response = await sendToGoogleSheets(candidateData);
+        console.log('Data sent to Google Sheets', response);
+      } catch (error) {
+        console.error('Failed to send data to Google Sheets:', error);
+      }
+      
+      // Show results
+      showResults(score, candidateData.passed);
+    }
+    
+    function showResults(score, passed) {
+      scoreValue.textContent = score;
+      
+      if (passed) {
+        resultText.textContent = 'Congratulations! You passed the exam. You will be redirected to 3skill.shop in 5 seconds.';
+        resultText.className = 'pass';
+      } else {
+        resultText.textContent = 'Sorry, you did not pass. Try again next time. You will be redirected to 3skill.shop in 5 seconds.';
+        resultText.className = 'fail';
+      }
+      
+      // Show modal
+      resultModal.style.display = 'flex';
+      
+      // Hide test container
+      testContainer.classList.add('hidden');
+      
+      // Redirect after 5 seconds
+      setTimeout(() => {
+        window.location.href = "https://3skill.shop";
+      }, 5000);
+    }
+    
+    closeModalBtn.addEventListener('click', function() {
+      // Hide the modal and redirect immediately
+      resultModal.style.display = 'none';
+      window.location.href = "https://3skill.shop";
+    });
+    
+    // Anti-cheating measures
+    let violationCount = 0;
+    
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden && !testContainer.classList.contains('hidden')) {
+        handleViolation();
+      }
+    });
+    
+    window.addEventListener('blur', function() {
+      if (!testContainer.classList.contains('hidden')) {
+        handleViolation();
+      }
+    });
+    
+    function handleViolation() {
+      violationCount++;
+      if (violationCount === 1) {
+        alert('Warning: Switching tabs is not allowed during the test.');
+      } else if (violationCount >= 2) {
+        alert('Test submitted due to multiple violations.');
+        submitTest();
+      }
+    }
+  </script>
+</body>
+</html>

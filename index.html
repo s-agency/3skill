@@ -172,16 +172,10 @@
       <div class="logo-slide"><img src="nextute.png" alt="Nextute"></div>
       <div class="logo-slide"><img src="goherit.1.png" alt="GoHerit"></div>
 	   
-      <div class="logo-slide"><img src="7sodium.png" alt="7 Sodium"></div>
-	  <!-- Repeat logos for smooth infinite loop -->
-	    <div class="logo-slide"><img src="iflora.jpeg" alt="Nextute"></div>
-      <div class="logo-slide"><img src="techhub2.jpg" alt="Nextute"></div>
-      <div class="logo-slide"><img src="odisharider1.png" alt="Odisha Rider"></div>
-      <div class="logo-slide"><img src="nextute.png" alt="Nextute"></div>
-      <div class="logo-slide"><img src="goherit.1.png" alt="GoHerit"></div>
-      <div class="logo-slide"><img src="7sodium.png" alt="7 Sodium"></div>
-    </div>
+       <div class="fade-collab"></div>
+
   </div>
+  <div class="fade-collab"></div>
 </section>
 
 <style>
@@ -601,6 +595,8 @@
 	  <!-- Repeat logos for smooth infinite loop -->
      
     </div>
+	 <div class="fade fade-left"></div>
+  <div class="fade fade-right"></div>
   </div>
   <br>
   <br>
@@ -645,6 +641,8 @@
 	  <!-- Repeat logos for smooth infinite loop -->
      
     </div>
+	 <div class="fade fade-left"></div>
+  <div class="fade fade-right"></div>
   </div>
 </section>
 
@@ -1146,7 +1144,10 @@ function togglePlay(videoId, btn) {
 
  </script>
  
+
+ 
 <!--   *** Teacher Section Starts ***   -->
+   
 <section class="instructor">
 	<div class="instructor-container">
 		<h2>📝 Round 1: Entrance Exam — 3skill Tech Program</h2>
@@ -1449,6 +1450,148 @@ Click below to start your test.
     <img src="Internship.gif" alt="Internship Guarantee GIF" />
   </div>
 </div>
+<!-- 🌟 Digital Product Section Start -->
+<section class="digital-product">
+  <div class="product-info">
+    <h2>Data Scientist Career Pack</h2>
+    <p>Kickstart your career with ready-made resume templates, interview prep, 
+       project checklists, and lifetime updates — all in one pack.</p>
+
+    <div class="price-box">
+      <div class="price">₹29</div>
+      <div class="old-price">₹299</div>
+      <div class="badge">LIMITED TIME</div>
+    </div>
+
+    <div class="features">
+      <div class="feature-item">Resume & Cover Letter Templates</div>
+      <div class="feature-item">Project Starter Kits</div>
+      <div class="feature-item">Interview Question Bank</div>
+      <div class="feature-item">Lifetime Updates</div>
+    </div>
+
+    <a href="digital-products.html" class="buy-btn">Get Instant Access</a>
+  </div>
+
+  <div class="product-image">
+    <img src="https://images.unsplash.com/photo-1599658880436-c61792e70672?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGF0YSUyMHNjaWVuY2V8ZW58MHx8MHx8fDA%3D" alt="Digital Product Pack">
+  </div>
+</section>
+<!-- 🌟 Digital Product Section End -->
+
+<style>
+.digital-product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  padding: 60px 10%;
+  background: #f9fbff;
+  border-radius: 16px;
+}
+
+.product-info {
+  flex: 1;
+}
+
+.product-info h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.product-info p {
+  font-size: 16px;
+  color: #4b5563;
+  margin-bottom: 20px;
+  max-width: 560px;
+}
+
+.price-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.old-price {
+  font-size: 16px;
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.badge {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.feature-item {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.buy-btn {
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.buy-btn:hover {
+  background: #15803d;
+}
+
+.product-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.product-image img {
+  max-width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+@media(max-width: 960px) {
+  .digital-product {
+    flex-direction: column;
+    text-align: center;
+  }
+  .features {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 
 <!--   *** Testimonials Section Starts ***   -->
 <section class="testimonials" id="testimonials">
@@ -1678,6 +1821,7 @@ Click below to start your test.
 	padding: 0;
 	box-sizing: border-box;
 	font-family: 'Roboto', sans-serif;
+	
 }
 html{
 	scroll-behavior: smooth;
@@ -1743,6 +1887,7 @@ button.btn:hover{
 body{
 	width: 100%;
 	min-height: 100vh;
+	
 }
 .website-container{
 	width: 100%;
@@ -2196,6 +2341,7 @@ section.courses{
 	margin-bottom: 20px;
 	cursor: pointer;
 	transition: all 0.3s;
+	
 }
 .courses .course-contents .course-card:hover{
 	box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
@@ -2352,93 +2498,87 @@ section.instructor{
 	color: var(--dark-text-clr);
 }
 /*   === Teacher Section Styling Ends ===   */
- .partner-section {
-    padding: 50px 20px;
-    text-align: center;
-  }
-
-  .partner-section h2 {
-    font-size: 28px;
-    color: #1a1a1a;
-    margin-bottom: 30px;
-  }
-
-  .logo-slider {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-	
-  }
-
-  .logo-track {
-  display: flex;
-  width: max-content;
-  animation: scroll 15s linear infinite;
- 
+.partner-section {
+  padding: 50px 20px;
+  text-align: center;
 }
 
-  .logo-slide {
-    width: 150px;
-    height: 150px;
-    margin: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #edfaf1;
-    border-radius: 50%; /* circle */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    flex-shrink: 0;
-    transition: transform 0.3s ease-in-out;
-	
-  }
-
-  
-
-  .logo-slide img {
-    width: 90%;
-    height: 90%;
-    object-fit: cover;
-    border-radius: 50%; /* make image itself round */
-  }
- .logo-slider1 {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-	
-	
-  }
-
-  .logo-track1 {
-  display: flex;
-  width: max-content;
-  animation: scroll 15s linear infinite;
-   animation-direction: reverse; /* 👈 add this */
+.partner-section h2 {
+  font-size: 28px;
+  color: #1a1a1a;
+  margin-bottom: 30px;
 }
 
-  .logo-slide {
-    width: 150px;
-    height: 150px;
-    margin: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #edfaf1;
-    border-radius: 50%; /* circle */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    flex-shrink: 0;
-    transition: transform 0.3s ease-in-out;
-	
-  }
+.logo-slider,
+.logo-slider1 {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
 
+.logo-track,
+.logo-track1 {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 35s linear infinite; /* 👈 slow speed */
+}
+
+.logo-track1 {
+  animation-direction: reverse; /* 👈 opposite direction */
+}
+
+.logo-slide {
+  width: 130px;
+  height: 130px;
+  margin: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* sirf circle shape ke liye */
+  flex-shrink: 0;
+  transition: transform 0.3s ease-in-out;
+  /* ❌ ye hataya: background & box-shadow */
+  background: none;
+  box-shadow: none;
+}
+
+.logo-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%; /* image bhi round */
+}
+
+/* Gradient fade */
+.fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  pointer-events: none;
+  z-index: 2;
   
+}
 
-  .logo-slide img {
-    width: 90%;
-    height: 90%;
-    object-fit: cover;
-    border-radius: 50%; /* make image itself round */
-  }
- @keyframes scroll-left {
+.fade-left {
+  left: 0;
+  background: linear-gradient(to right, white, transparent);
+}
+.fade-collab {
+  left: 0;
+  background: linear-gradient(to right, white, transparent);
+}
+
+.fade-right {
+  right: 0;
+  background: linear-gradient(to left, white, transparent);
+}
+
+/* Pause on hover */
+
+
+/* Keyframes */
+@keyframes scroll-left {
   0% {
     transform: translateX(0);
   }
@@ -2447,14 +2587,21 @@ section.instructor{
   }
 }
 
-
-  @media (max-width: 768px) {
-    .logo-slide {
-      width: 120px;
-      height: 120px;
-      margin: 0 10px;
-    }
+/* Mobile fade smaller */
+@media (max-width: 768px) {
+  .fade {
+    width: 0px;  /* Mobile par fade patla */
   }
+}
+/* Responsive */
+@media (max-width: 768px) {
+  .logo-slide {
+    width: 100px;
+    height: 100px;
+    margin: 0 10px;
+  }
+}
+
 /*   === Testimonials Section Styling Starts ===   */
 section.testimonials{
 	width: 100%;
@@ -2752,6 +2899,7 @@ section.footer{
 		left: 5px;
 		bottom: 10%;
 	}
+	
 	.banner .banner-desc h2{
 		font-size: 42px;
 	}
@@ -2775,6 +2923,8 @@ section.footer{
 	.courses .course-contents .course-card{
 		flex-basis: 100%;
 	}
+	
+	
 }
 
 @media(max-width: 568px){

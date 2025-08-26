@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3Skill Webinar Section</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link rel="icon" type="image/png" href="download.png">
+  <style>
+    :root {
+      --primary-clr: #208245;
+      --primary-medium-clr: #d8e9df;
+      --primary-light-clr: #edfaf1;
+      --bg-clr-1: #ffffff;
+      --dark-heading-clr: #232d39;
+      --dark-text-clr: #6c757d;
+      --light-text-clr: #cecece;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-full-img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes vibrate {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes bhumap {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(32, 130, 69, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(32, 130, 69, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(32, 130, 69, 0); }
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 1s ease-out forwards;
+    }
+
+    .animate-slide-left {
+      animation: slideInLeft 0.8s ease-out forwards;
+    }
+
+    .animate-slide-right {
+      animation: slideInRight 0.8s ease-out forwards;
+    }
+
+    .hover-bounce:hover {
+      animation: bounce 0.5s ease;
+    }
+    
+    .hover-vibrate:hover {
+      animation: vibrate 0.3s linear infinite;
+    }
+    
+    .hover-pulse:hover {
+      animation: pulse 1s infinite;
+    }
+    
+    .bhumap-effect {
+      animation: bhumap 1.5s infinite;
+    }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .glow-button {
+      transition: all 0.3s ease;
+    }
+
+    .glow-button:hover {
+      box-shadow: 0 0 15px rgba(32, 130, 69, 0.6);
+    }
+    
+    .register-button {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .register-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(32, 130, 69, 0.3);
+    }
+    
+    .register-button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+    
+    .register-button:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+    
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(20, 20);
+        opacity: 0;
+      }
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Sticky WhatsApp button */
+    .whatsapp-float {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 40px;
+      right: 40px;
+      background-color: #25d366;
+      color: #FFF;
+      border-radius: 50px;
+      text-align: center;
+      font-size: 30px;
+      box-shadow: 2px 2px 3px #999;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .whatsapp-float:hover {
+      background-color: #128C7E;
+      transform: scale(1.1);
+    }
+
+    /* Mobile Sticky CTA */
+    .mobile-sticky-cta {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--primary-clr);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      z-index: 99;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 768px) {
+      .mobile-sticky-cta {
+        display: block;
+      }
+    }
+
+    /* Hamburger menu */
+    .hamburger {
+      display: none;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background: white;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        z-index: 99;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+    }
+    
+    /* Countdown Timer */
+    .countdown-timer {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      padding: 10px 15px;
+      display: inline-flex;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 15px;
+    }
+    
+    .countdown-timer span {
+      font-weight: bold;
+      color: #d32f2f;
+      margin: 0 5px;
+    }
+    
+    .countdown-timer i {
+      margin-right: 8px;
+      color: #d32f2f;
+    }
+    
+    .price-badge {
+      background: #ffeb3b;
+      color: #333;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-left: 10px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+
+<body class="bg-white font-sans">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 md:px-16 py-4 flex justify-between items-center">
+      <div class="flex items-center">
+        <img src="download.png" alt="3Skill Logo" class="h-10">
+      </div>
+      
+      <div class="hamburger" id="hamburger">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </div>
+      
+      <div class="nav-links" id="navLinks">
+        <a href="index.html" class="px-4 py-2 text-green-800 font-medium hover:text-green-600">Home</a>
+        <a href="Certificate-Based Course.html" class="px-4 py-2 text-gray-600 hover:text-green-800">Free Internship</a>
+        <a href="webinar.html" class="px-4 py-2 text-gray-600 hover:text-green-800">Webinars</a>
+        <a href="InternshipGuarantee.html" class="px-4 py-2 text-gray-600 hover:text-green-800">Courses</a>
+        
+        <a href="#" class="px-4 py-2 text-gray-600 hover:text-green-800">Webinars</a>
+        <a href="#" class="px-4 py-2 text-gray-600 hover:text-green-800">Testimonials</a>
+        <a href="about.html" class="px-4 py-2 text-gray-600 hover:text-green-800">About</a>
+      </div>
+      
+      <div class="hidden md:flex items-center space-x-4">
+        <button class="bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800"><a href="login.html">Profile</a></button>
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Featured Webinar Banner -->
+  <section class="w-full bg-green-50 py-8 px-4 md:px-16">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-8">
+      <!-- Mobile Image First -->
+      <div class="block md:hidden animate-slide-right">
+        <img src="Blue Orange Modern Business Webinar Youtube Thumbnail.png" alt="Webinar Banner" class="rounded-lg shadow-lg mobile-full-img">
+      </div>
+
+      <!-- Webinar Info -->
+      <div class="order-2 md:order-1 animate-slide-left">
+        <div class="flex items-center mb-2">
+          
+          
+        </div>
+        
+        <!-- Countdown Timer -->
+        <div class="countdown-timer hover-pulse">
+          <i class="fas fa-clock"></i>
+          <span id="countdown-hours">12</span>h 
+          <span id="countdown-minutes">34</span>m 
+          <span id="countdown-seconds">56</span>s  Limited Offer!
+          <span class="price-badge">Only ₹29</span>
+        </div>
+        
+        <h2 class="text-2xl md:text-4xl font-bold text-green-800 mb-4">Ultimate Data Science Career Pack All-in-One <span class="text-lg bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Only ₹29</span></h2>
+        <div class="text-gray-700 leading-7 border-l-4 border-green-500 pl-4 bg-gray-50 p-4 rounded shadow-sm space-y-2">
+  <div>📘 <b>Step-by-Step Roadmap (A–Z):</b> Learn Data Science from scratch to advanced.</div>
+  <div>🤖 <b>Top Job-Ready Projects:</b> Build real projects for your portfolio.</div>
+ 
+  <div>🧩 <b>DSA & Interview Qs:</b> Crack FAANG & startup interviews with confidence.</div>
+  <div>📄 <b>Resume Templates:</b> ATS-friendly templates to stand out.</div>
+</div>
+
+        <div class="flex items-center mb-6 space-x-4">
+          <div class="flex items-center text-sm text-gray-500">
+           
+          </div>
+          <div class="flex items-center text-sm text-gray-500">
+            
+          </div>
+          <div class="flex items-center text-sm text-gray-500">
+            
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <button class="bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition register-button hover-vibrate bhumap-effect flex items-center justify-center">
+            <i class="fas fa-ticket-alt mr-2"></i> <a href="https://smartpay.easebuzz.in/179742/9720dff2f49747bfa8568b71ea773be2">Purchase Now @ ₹29</a>
+          </button>
+          <button class="border-2 border-green-700 text-green-700 px-6 py-3 rounded-lg hover:bg-green-100 transition flex items-center justify-center">
+            <i class="far fa-file-alt mr-2"></i> <a href="Data_Scientist_Career_Pack_Showcase.pdf">View All Resource</a>
+          </button>
+        </div>
+        <div class="mt-6 flex items-center">
+          <div class="flex -space-x-2">
+            <img class="w-10 h-10 rounded-full border-2 border-white" src="https://www.shutterstock.com/image-photo/beautiful-young-indian-woman-student-600nw-2435890489.jpg" alt="">
+            <img class="w-10 h-10 rounded-full border-2 border-white" src="https://media.istockphoto.com/id/1473711199/photo/face-portrait-student-and-man-in-university-ready-for-back-to-school-learning-goals-or.jpg?s=612x612&w=0&k=20&c=Xrwp5ePvm6RjixgAjJo-OAw9oXkLt_HcmT3bdlLZUdw=" alt="">
+            <img class="w-10 h-10 rounded-full border-2 border-white" src="https://t3.ftcdn.net/jpg/06/46/32/42/360_F_646324251_74v4LWcvp3GcXXW5My0WWmIlcTtgTZDZ.jpg" alt="">
+          </div>
+          <div class="ml-4">
+            <p class="text-sm text-gray-600"> <span class="font-semibold">500+ students</span> already purchased</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Image -->
+      <div class="hidden md:block order-1 md:order-2 animate-slide-right">
+        <div class="relative">
+          <img src="Blue Orange Modern Business Webinar Youtube Thumbnail.png" alt="Webinar Banner" class="rounded-lg shadow-lg w-full h-auto">
+          <div class="absolute -bottom-4 -right-4 bg-white p-3 rounded-full shadow-lg">
+            <div class="w-16 h-16 bg-green-700 rounded-full flex items-center justify-center text-white text-2xl">
+              <i class="fas fa-play"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Webinars -->
+  <section class="bg-[#edfaf1] py-16 px-4 md:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-12 animate-fade-in">
+        <h2 class="text-2xl md:text-3xl font-bold text-[#208245] mb-2">Our Digital Products</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">Boost your career with our handpicked study packs, trusted by 4500+ learners.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Webinar Card 1 -->
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-300 card-hover animate-fade-in" style="animation-delay: 0.1s">
+          <div class="flex justify-between items-start mb-4">
+            <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">🔥 Bestseller</span>
+            <span class="text-xs text-gray-500"><i class="fas fa-users mr-1"></i> 500+ purchased</span>
+          </div>
+          <h3 class="text-lg font-semibold text-[#232d39] mb-2">Ultimate Data Scientist Career Pack</h3>
+          <div class="flex items-center mb-3">
+            <img class="w-8 h-8 rounded-full mr-2" src="download.png" alt="Mentor">
+            <p class="text-sm text-gray-600">Roadmap (A–Z)</p>
+          </div>
+          <div class="space-y-2 mb-4">
+            <p class="text-sm text-gray-600 flex items-center"> 🤖 Top Job-Ready Projects</p>
+            <p class="text-sm text-gray-600 flex items-center"> 📂 Resources & Guides</p>
+             <p class="text-sm text-gray-600 flex items-center"> 🧩 DSA + Interview Qs</p>
+              <p class="text-sm text-gray-600 flex items-center">📄 Resume Templates</p>
+            <p class="text-sm text-gray-600 flex items-center"><i class="fas fa-rupee-sign mr-2"></i> ₹29 <span class="text-xs text-gray-400 ml-1">(Certificate Included)</span></p>
+          </div>
+          <button class="w-full bg-green-700 text-white px-4 py-2 rounded hover:bg-green-900 transition register-button hover-vibrate"><a href="https://smartpay.easebuzz.in/179742/9720dff2f49747bfa8568b71ea773be2">📝 Purchase Now @ ₹29</a></button>
+        </div>
+
+        <!-- Webinar Card 2 -->
+       
+
+        <!-- Webinar Card 3 -->
+        
+      
+     
+  </section>
+
+  <!-- What You'll Learn Section -->
+  <section class="bg-[#d8e9df] py-16 px-4 md:px-16">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12 animate-fade-in">
+      <h2 class="text-2xl md:text-3xl font-bold text-[#208245] mb-2">🛒 Our Digital Products</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Boost your career with our best-selling study packs. Already trusted by <span class="font-semibold text-green-700">500+ learners</span> 🚀</p>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden animate-fade-in">
+      <!-- Tabs -->
+      <div class="grid grid-cols-2 md:grid-cols-3 border-b">
+        <button class="tab-btn py-4 px-2 text-sm md:text-base font-medium text-gray-600 hover:text-green-800 border-b-2 border-transparent hover:border-green-500 transition active" data-tab="pack1">
+          <i class="fas fa-box-open mr-2"></i> Career Pack
+        </button>
+        <button class="tab-btn py-4 px-2 text-sm md:text-base font-medium text-gray-600 hover:text-green-800 border-b-2 border-transparent hover:border-green-500 transition" data-tab="pack2">
+          <i class="fas fa-chart-line mr-2"></i> Analyst Pack
+        </button>
+        <button class="tab-btn py-4 px-2 text-sm md:text-base font-medium text-gray-600 hover:text-green-800 border-b-2 border-transparent hover:border-green-500 transition" data-tab="pack3">
+          <i class="fas fa-robot mr-2"></i> AI/ML Pack
+        </button>
+      </div>
+      
+      <div class="p-6 md:p-8">
+        <!-- Tab 1 Content -->
+        <div id="pack1" class="tab-content active">
+          <h3 class="text-xl font-semibold text-green-800 mb-4">🔥 Ultimate Data Scientist Career Pack</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex items-start">
+              <div class="bg-green-100 p-3 rounded-full mr-4 hover-bounce">
+                <i class="fas fa-road text-green-700"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Roadmap (A–Z)</h4>
+                <p class="text-sm text-gray-600">Complete learning journey from beginner to advanced</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="bg-green-100 p-3 rounded-full mr-4 hover-bounce">
+                <i class="fas fa-tasks text-green-700"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Top Projects</h4>
+                <p class="text-sm text-gray-600">Hands-on projects for your portfolio</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="bg-green-100 p-3 rounded-full mr-4 hover-bounce">
+                <i class="fas fa-folder-open text-green-700"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Resource Pack</h4>
+                <p class="text-sm text-gray-600">Handpicked study materials & guides</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="bg-green-100 p-3 rounded-full mr-4 hover-bounce">
+                <i class="fas fa-file-alt text-green-700"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Resume Templates</h4>
+                <p class="text-sm text-gray-600">ATS-friendly templates that stand out</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 flex items-center justify-between bg-green-50 p-4 rounded-lg">
+            <span class="text-lg font-bold text-green-800">Only ₹29</span>
+            <button class="bg-green-600 text-white px-5 py-2 rounded-lg shadow hover:bg-green-700 transition"> <a href="https://smartpay.easebuzz.in/179742/9720dff2f49747bfa8568b71ea773be2">🛒 Buy Now</a> </button>
+          </div>
+        </div>
+
+        <!-- Tab 2 Content -->
+        <div id="pack2" class="tab-content hidden">
+          <h3 class="text-xl font-semibold text-green-800 mb-4">📈 Data Analyst Starter Pack</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex items-start">
+              <div class="bg-blue-100 p-3 rounded-full mr-4 hover-bounce">
+                <i class="fas fa-chart-bar text-blue-700"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Analyst Roadmap</h4>
+                <p class="text-sm text-gray-600">Step-by-step learning guide for analysts</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="bg-blue-100 p-3 rounded-full mr-4 hover-bounce">
+                <i class="fas fa-toolbox text-blue-700"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Tools & Resources</h4>
+                <p class="text-sm text-gray-600">Excel, SQL, PowerBI, Tableau</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="bg-blue-100 p-3 rounded-full mr-4 hover-bounce">
+                <i class="fas fa-file text-blue-700"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Resume Template</h4>
+                <p class="text-sm text-gray-600">Customizable templates to land jobs</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 flex items-center justify-between bg-blue-50 p-4 rounded-lg">
+            <span class="text-lg font-bold text-blue-800">Only ₹49</span>
+            <button class="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition">🛒 Buy Now</button>
+          </div>
+        </div>
+
+        <!-- Tab 3 Content -->
+        <div id="pack3" class="tab-content hidden">
+          <h3 class="text-xl font-semibold text-green-800 mb-4">🤖 AI/ML Project Bootcamp</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex items-start">
+              <div class="bg-purple-100 p-3 rounded-full mr-4 hover-bounce">
+                <i class="fas fa-brain text-purple-700"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">AI/ML Roadmap</h4>
+                <p class="text-sm text-gray-600">Beginner to advanced path for ML/AI</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="bg-purple-100 p-3 rounded-full mr-4 hover-bounce">
+                <i class="fas fa-project-diagram text-purple-700"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Hands-on Projects</h4>
+                <p class="text-sm text-gray-600">Real-world AI/ML projects with datasets</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="bg-purple-100 p-3 rounded-full mr-4 hover-bounce">
+                <i class="fas fa-certificate text-purple-700"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Certificate & Resume Kit</h4>
+                <p class="text-sm text-gray-600">Showcase your skills with certification</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 flex items-center justify-between bg-purple-50 p-4 rounded-lg">
+            <span class="text-lg font-bold text-purple-800">Only ₹49</span>
+            <button class="bg-purple-600 text-white px-5 py-2 rounded-lg shadow hover:bg-purple-700 transition">🛒 Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  
+  <!-- Why Buy Section -->
+<section class="bg-[#edfaf1] py-16 px-4 md:px-16">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12 animate-fade-in">
+      <h2 class="text-2xl md:text-3xl font-bold text-[#208245] mb-2">🛒 Why Choose Our Digital Products?</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Trusted by <span class="text-green-700 font-semibold">500+ learners</span> to boost their career journey 🚀</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Feature 1 -->
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition text-center animate-fade-in" style="animation-delay: 0.1s">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 hover-bounce">
+          <i class="fas fa-box-open text-green-700 text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Instant Access</h3>
+        <p class="text-gray-600 text-sm">Get your products instantly after purchase – no waiting, start learning today</p>
+      </div>
+      
+      <!-- Feature 2 -->
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition text-center animate-fade-in" style="animation-delay: 0.2s">
+        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 hover-bounce">
+          <i class="fas fa-folder-open text-blue-700 text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">All-in-One Packs</h3>
+        <p class="text-gray-600 text-sm">Roadmaps, projects, resumes & resources bundled together in one place</p>
+      </div>
+      
+      <!-- Feature 3 -->
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition text-center animate-fade-in" style="animation-delay: 0.3s">
+        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 hover-bounce">
+          <i class="fas fa-infinity text-purple-700 text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Lifetime Access</h3>
+        <p class="text-gray-600 text-sm">Once purchased, the content is yours forever – learn at your own pace</p>
+      </div>
+      
+      <!-- Feature 4 -->
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition text-center animate-fade-in" style="animation-delay: 0.4s">
+        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 hover-bounce">
+          <i class="fas fa-tags text-orange-700 text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Affordable Pricing</h3>
+        <p class="text-gray-600 text-sm">High-value career packs at prices starting from just <span class="font-semibold text-green-700">₹29</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- CTA Section -->
+  <section class="bg-[#208245] py-16 px-4 md:px-16 text-white">
+    <div class="max-w-7xl mx-auto text-center animate-fade-in">
+      <h2 class="text-2xl text-green-800 md:text-4xl font-bold mb-6">Ready to Boost Your Career?</h2>
+      <p class="text-xl mb-9 text-green-800 max-w-3xl mx-auto">Grab your digital career pack today and fast-track your growth 🚀</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="bg-white text-green-800 px-8 py-3 rounded-lg hover:bg-gray-100 transition register-button hover-vibrate bhumap-effect flex items-center justify-center font-semibold">
+          <i class="fas fa-ticket-alt mr-2"></i> <a href="https://smartpay.easebuzz.in/179742/9720dff2f49747bfa8568b71ea773be2">Register for Webinar @ ₹29</a> 
+        </button>
+       <a href="tel:+916372105534" class="border-2 border-white text-white px-8 bg-green-700 py-3 rounded-lg hover:bg-green-800 transition flex items-center justify-center">
+              <i class="fas fa-phone-alt mr-2"></i> Talk to Counselor
+          </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12 px-4 md:px-16">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <img src="3skilllogo.png" alt="3Skill Logo" class="h-20 mb-4">
+        <p class="text-gray-400 text-sm">Empowering careers through skill development and mentorship since 2024.</p>
+        <div class="flex space-x-4 mt-4">
+          
+          <a href="https://twitter.com/3skillindia" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.linkedin.com/company/3-skill/" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://instagram.com/3skillofficial" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/6372105534" class="text-gray-400 hover:text-white"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+        <ul class="space-y-2">
+          <li><a href="index.html" class="text-gray-400 hover:text-white text-sm">Home</a></li>
+          <li><a href="about.html" class="text-gray-400 hover:text-white text-sm">About Us</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white text-sm">Webinars</a></li>
+          <li><a href="InternshipGuarantee.html" class="text-gray-400 hover:text-white text-sm">Courses</a></li>
+          <li><a href="Certificate-Based Course.html" class="text-gray-400 hover:text-white text-sm">Free Internship</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Support</h3>
+        <ul class="space-y-2">
+         
+          <li><a href="https://wa.me/6372105534" class="text-gray-400 hover:text-white text-sm">Help Center</a></li>
+          <li><a href="3Skill_Legal_Policies_June_2025.pdf" class="text-gray-400 hover:text-white text-sm">Privacy Policy</a></li>
+          <li><a href="3Skill_Legal_Policies_June_2025.pdf" class="text-gray-400 hover:text-white text-sm">Terms & Conditions</a></li>
+          <li><a href="3Skill_Legal_Policies_June_2025.pdf" class="text-gray-400 hover:text-white text-sm">Refund Policy</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+        <ul class="space-y-2 text-gray-400 text-sm">
+          
+          <li class="flex items-center">
+            <i class="fas fa-phone-alt mr-3"></i>
+            <span>+91 637210 5534</span>
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-envelope mr-3"></i>
+            <span>help@3skill.in</span>
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-envelope mr-3"></i>
+            <span>3skill.contact@gmail.com</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+      <p>© 2025 3Skill. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float Button -->
+  <a href="https://wa.me/916372105534" class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Mobile Sticky CTA -->
+    
+
+  <script>
+    // Mobile menu toggle
+    document.getElementById('hamburger').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('active');
+    });
+
+    // Tab functionality
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons and tabs
+        tabButtons.forEach(btn => btn.classList.remove('border-green-500', 'text-green-800'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        
+        // Add active class to clicked button and corresponding tab
+        button.classList.add('border-green-500', 'text-green-800');
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // Scroll animations
+    const animateOnScroll = () => {
+      const elements = document.querySelectorAll('.animate-fade-in, .animate-slide-left, .animate-slide-right');
+      elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (elementPosition < windowHeight - 100) {
+          element.style.opacity = '1';
+          element.style.transform = 'translateY(0)';
+        }
+      });
+    };
+
+    // Initialize animations
+    window.addEventListener('load', animateOnScroll);
+    window.addEventListener('scroll', animateOnScroll);
+
+    // Add hover effect to cards
+    const cards = document.querySelectorAll('.card-hover');
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-10px)';
+        card.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        card.style.boxShadow = '';
+      });
+    });
+    
+    // Countdown Timer
+    function updateCountdown() {
+      const now = new Date();
+      const targetDate = new Date('2025-10-03T23:59:59'); // August 1, 2025 at 6 PM
+      const timeLeft = targetDate - now;
+      
+      if (timeLeft <= 0) {
+        document.getElementById('countdown-hours').textContent = '00';
+        document.getElementById('countdown-minutes').textContent = '00';
+        document.getElementById('countdown-seconds').textContent = '00';
+        return;
+      }
+      
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      
+      document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+      document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+      document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+    
+    // Update countdown every second
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call
+    
+    // Register button effects
+    const registerButtons = document.querySelectorAll('.register-button');
+    registerButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault;
+        
+        // Create ripple effect
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple-effect');
+        this.appendChild(ripple);
+        
+        // Get click position
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // Position ripple
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        
+        // Remove ripple after animation
+        setTimeout(() => {
+          ripple.remove();
+        }, 1000);
+        
+        // Open link after animation
+        setTimeout(() => {
+          if(this.querySelector('a')) {
+            window.location.href = this.querySelector('a').href;
+          }
+        }, 300);
+      });
+    });
+  </script>
+</body>
+
+</html>

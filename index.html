@@ -1803,7 +1803,19 @@ Click below to start your test.
 </div>
 <!--   *** Website Container Ends ***   -->
 
+<script>
+	document.addEventListener("contextmenu", function(e) {
+      e.preventDefault();
+      return false;
+    });
 
+    // Also disable common right-click shortcuts
+    document.addEventListener("keydown", function(e) {
+      if (e.ctrlKey && (e.key === "u" || e.key === "U" || e.key === "s" || e.key === "S")) {
+        e.preventDefault();
+      }
+    });
+</script>
 
 <!--   *** Link To JQuery ***   -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>

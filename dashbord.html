@@ -1,0 +1,4388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎓 3Skill Student Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    }
+    
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 1rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    
+    .gradient-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .gradient-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: 600;
+    }
+    
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #667eea;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .card {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .progress-track {
+      height: 8px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      overflow: hidden; /* Ensure progress bar stays within bounds */
+    }
+    
+    .progress-bar {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.5s ease;
+    }
+    
+    /* Animation for login transition */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .fade-in-up {
+      animation: fadeInUp 0.5s ease-out forwards;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    /* Progress milestones */
+    .milestone-container {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-top: 2rem;
+      height: 8px;
+    }
+    
+    .milestone {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 3;
+    }
+    
+    .milestone-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .milestone.active .milestone-dot {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .milestone.completed .milestone-dot {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%); /* Green gradient for completed */
+      color: white;
+    }
+    
+    .milestone-line {
+      position: absolute;
+      top: 12px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background-color: #e2e8f0;
+      z-index: 1;
+    }
+    
+    .milestone-progress {
+      position: absolute;
+      top: 12px;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      z-index: 2;
+      transition: width 0.5s ease;
+    }
+    
+    .milestone-label {
+      font-size: 0.75rem;
+      color: #64748b;
+      text-align: center;
+    }
+    
+    .milestone.completed .milestone-label,
+    .milestone.active .milestone-label {
+      color: #4f46e5;
+      font-weight: 500;
+    }
+
+    /* Exam and Assignment Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-container {
+      background-color: white;
+      border-radius: 1rem;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #64748b;
+    }
+    
+    .camera-container {
+      width: 100%;
+      height: 300px;
+      background-color: #f1f5f9;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .camera-feed {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .camera-placeholder {
+      text-align: center;
+      color: #64748b;
+    }
+    
+    .question-container {
+      margin-bottom: 1.5rem;
+    }
+    
+    .question-text {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .option-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    .option-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 0.375rem;
+      transition: background-color 0.2s;
+    }
+    
+    .option-label:hover {
+      background-color: #f1f5f9;
+    }
+    
+    .option-input {
+      margin-right: 0.75rem;
+    }
+    
+    .submit-btn {
+      margin-top: 1rem;
+      width: 100%;
+    }
+    
+    /* Domain Selection */
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .domain-card {
+      border: 2px solid #e2e8f0;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .domain-card:hover {
+      transform: translateY(-5px);
+      border-color: #667eea;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .domain-card.selected {
+      border-color: #667eea;
+      background-color: #f0f4ff;
+    }
+    
+    .domain-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #667eea;
+    }
+    
+    /* Score Display */
+    .score-display {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+    
+    /* Mobile optimizations */
+    @media (max-width: 640px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      
+      #profileHeader {
+        margin-top: 1rem;
+      }
+      
+      #profile {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .video-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .video-actions button {
+        width: 100%;
+      }
+      
+      .milestone-container {
+        margin-top: 1.5rem;
+      }
+      
+      .milestone-dot {
+        width: 20px;
+        height: 20px;
+      }
+      
+      .milestone-line,
+      .milestone-progress {
+        top: 10px;
+        height: 3px;
+      }
+      
+      .modal-container {
+        width: 95%;
+        padding: 1rem;
+      }
+      
+      .camera-container {
+        height: 200px;
+      }
+      
+      .domain-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col items-center py-10 px-4">
+  <!-- Header with profile -->
+  <header class="w-full max-w-6xl px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center mb-8 sm:mb-10">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 flex items-center">
+      <i class="fas fa-graduation-cap mr-3 text-indigo-600"></i>
+      <span>3Skill Student Dashboard</span>
+    </h1>
+    
+    <div id="profileHeader" class="hidden flex items-center space-x-4 mt-4 sm:mt-0">
+      <div class="profile-pic" id="profileInitials"></div>
+      <span class="font-medium text-gray-700" id="headerStudentName"></span>
+    </div>
+  </header>
+
+  <!-- Login -->
+  <div id="loginBox" class="card p-6 sm:p-8 w-full max-w-md">
+    <div class="text-center mb-6 sm:mb-8">
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Welcome Back!</h2>
+      <p class="text-gray-600">Sign in to access your learning materials</p>
+    </div>
+    
+    <div class="mb-4 sm:mb-6">
+      <label for="emailInput" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+      <input id="emailInput" type="email" placeholder="student@example.com"
+        class="w-full px-4 py-2 sm:py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition" />
+    </div>
+    
+    <button onclick="loadStudent()" class="gradient-btn text-white px-6 py-2 sm:py-3 rounded-lg w-full font-medium flex items-center justify-center">
+      <span id="loginBtnText">Access Dashboard</span>
+      <i id="loginSpinner" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+    </button>
+    
+    <div class="mt-4 sm:mt-6 text-center text-sm text-gray-500">
+      <p>Need help? <a href="#" class="text-indigo-600 hover:underline">Contact support</a></p>
+    </div>
+  </div>
+
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 sm:p-8 rounded-xl text-center max-w-sm mx-4">
+      <div class="loading-spinner mx-auto mb-4 sm:mb-6"></div>
+      <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-2">Loading Your Dashboard</h3>
+      <p class="text-gray-600">Please wait while we prepare your learning materials...</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="mainContent" class="hidden w-full max-w-6xl px-4 sm:px-6">
+    <!-- Profile Card -->
+    <div id="profile" class="card p-6 sm:p-8 mb-6 sm:mb-8 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+      <div class="md:col-span-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Welcome back, <span id="studentName" class="text-indigo-600"></span>!</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 sm:mb-6">
+          <div>
+            <p class="text-sm text-gray-500">Email</p>
+            <p class="font-medium text-gray-700" id="studentEmail"></p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Track</p>
+            <p class="font-medium text-gray-700" id="studentTrack"></p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Progress</p>
+            <p class="font-medium text-gray-700"><span id="completedVideos">0</span> of <span id="totalVideos">0</span> videos completed</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Assignment Score</p>
+            <p class="font-medium text-gray-700" id="assignmentScoreDisplay">Not completed</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Exam Score</p>
+            <p class="font-medium text-gray-700" id="examScoreDisplay">Not completed</p>
+          </div>
+        </div>
+        
+        <div class="mb-2 flex justify-between text-sm text-gray-600">
+          <span>Course Progress</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-track w-full">
+          <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        </div>
+        
+        <!-- Progress Milestones -->
+        <div class="milestone-container mt-6">
+          <div class="milestone-progress" id="milestoneProgress" style="width: 0%"></div>
+          <div class="milestone-line"></div>
+          
+          <div class="milestone" id="milestoneVideos">
+            <div class="milestone-dot"><i class="fas fa-video text-xs"></i></div>
+            <span class="milestone-label">Videos</span>
+          </div>
+          
+          <div class="milestone" id="milestoneAssignment">
+            <div class="milestone-dot"><i class="fas fa-tasks text-xs"></i></div>
+            <span class="milestone-label">Assignment</span>
+          </div>
+          
+          <div class="milestone" id="milestoneExam">
+            <div class="milestone-dot"><i class="fas fa-graduation-cap text-xs"></i></div>
+            <span class="milestone-label">Final Exam</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex flex-col items-center justify-center mt-6 md:mt-0">
+        <div class="relative w-32 h-32 mb-4">
+          <svg class="w-full h-full" viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#667eea"/>
+                <stop offset="100%" stop-color="#764ba2"/>
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+            <circle cx="50" cy="50" r="45" fill="none" stroke="url(#gradient)" stroke-width="8" 
+                    stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" 
+                    id="progressCircle" transform="rotate(-90 50 50)"/>
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <span class="text-2xl font-bold text-gray-800" id="circlePercent">0%</span>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+
+    <!-- Video Player -->
+    <div id="playerContainer" class="mb-8 sm:mb-10">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-4">
+        <h3 class="text-lg sm:text-xl font-bold text-gray-800">Current Lesson</h3>
+        <div class="flex space-x-2 w-full sm:w-auto video-actions">
+          <button onclick="prevVideo()" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition flex items-center justify-center flex-1 sm:flex-none">
+            <i class="fas fa-chevron-left mr-2"></i> Previous
+          </button>
+          <button onclick="nextVideo()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition flex items-center justify-center flex-1 sm:flex-none">
+            Next <i class="fas fa-chevron-right ml-2"></i>
+          </button>
+          <button onclick="markVideoCompleted()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center justify-center flex-1 sm:flex-none">
+            <i class="fas fa-check mr-2"></i> Mark Complete
+          </button>
+        </div>
+      </div>
+      
+      <div class="video-container mb-4 sm:mb-6">
+        <iframe id="videoFrame"
+          src=""
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      
+      <h3 id="videoTitle" class="text-xl sm:text-2xl font-bold text-gray-800 mb-2"></h3>
+      <div class="flex items-center text-gray-500 mb-3 sm:mb-4">
+        <i class="fas fa-play-circle mr-2"></i>
+        <span id="videoCounter">Lesson 1 of 10</span>
+      </div>
+      <p id="videoDescription" class="text-gray-600">Loading video description...</p>
+    </div>
+
+    <!-- Course Content -->
+    <div class="card p-6 sm:p-8 mb-8 sm:mb-10">
+      <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-6">Course Content</h3>
+      <div class="space-y-3" id="courseContent">
+        <!-- Will be populated with JavaScript -->
+      </div>
+      
+      <!-- Assignment Section -->
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <h4 class="text-md sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
+          <i class="fas fa-tasks mr-2 text-indigo-600"></i>
+          Course Assignment
+        </h4>
+        <div class="p-4 sm:p-5 bg-white rounded-lg border border-gray-200">
+          <div class="flex items-start">
+            <div class="mr-3 sm:mr-4 flex-shrink-0">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 text-gray-600 cursor-pointer" id="assignmentToggle">
+                <i class="fas fa-plus text-sm sm:text-base"></i>
+              </div>
+            </div>
+            <div class="flex-grow">
+              <h5 class="text-sm sm:text-base font-medium text-gray-800 mb-1">Complete the course assignment</h5>
+              <p class="text-xs sm:text-sm text-gray-500 mb-2">Apply what you've learned in a practical project</p>
+              <div id="assignmentDetails" class="hidden mt-2">
+                <p class="text-sm text-gray-600 mb-3">This assignment contains 15 questions to test your understanding of the course material. You must enable your camera to proceed.</p>
+                <button onclick="startAssignment()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm">
+                  Take Assignment
+                </button>
+              </div>
+            </div>
+            <div class="ml-3 sm:ml-4">
+              <i id="assignmentStatus" class="fas fa-circle text-gray-300 text-sm sm:text-base"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Exam Section -->
+      <div class="mt-6">
+        <h4 class="text-md sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
+          <i class="fas fa-graduation-cap mr-2 text-indigo-600"></i>
+          Final Exam
+        </h4>
+        <div class="p-4 sm:p-5 bg-white rounded-lg border border-gray-200">
+          <div class="flex items-start">
+            <div class="mr-3 sm:mr-4 flex-shrink-0">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 text-gray-600 cursor-pointer" id="examToggle">
+                <i class="fas fa-plus text-sm sm:text-base"></i>
+              </div>
+            </div>
+            <div class="flex-grow">
+              <h5 class="text-sm sm:text-base font-medium text-gray-800 mb-1">Take the final exam</h5>
+              <p class="text-xs sm:text-sm text-gray-500 mb-2">Test your knowledge to complete the course</p>
+              <div id="examDetails" class="hidden mt-2">
+                <p class="text-sm text-gray-600 mb-3">The final exam contains 50 questions covering all course material. You must enable your camera to proceed.</p>
+                <button onclick="startExam()" id="takeExamBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm" disabled>
+                  Take Final Exam
+                </button>
+              </div>
+            </div>
+            <div class="ml-3 sm:ml-4">
+              <i id="examStatus" class="fas fa-circle text-gray-300 text-sm sm:text-base"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Domain Selection Modal -->
+  <div id="domainModal" class="hidden modal-overlay">
+    <div class="modal-container">
+      <button class="modal-close" onclick="closeDomainModal()">&times;</button>
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Select Your Domain</h2>
+      <p class="text-gray-600 mb-6">Please select the domain for your assessment. Questions will be tailored to your selection.</p>
+      
+      <div class="domain-grid">
+        <div class="domain-card" data-domain="web">
+          <div class="domain-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3 class="font-medium">Web Development</h3>
+        </div>
+        
+        <div class="domain-card" data-domain="data">
+          <div class="domain-icon">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+          <h3 class="font-medium">Data Science</h3>
+        </div>
+        
+        <div class="domain-card" data-domain="marketing">
+          <div class="domain-icon">
+            <i class="fas fa-bullhorn"></i>
+          </div>
+          <h3 class="font-medium">Digital Marketing</h3>
+        </div>
+        
+        <div class="domain-card" data-domain="design">
+          <div class="domain-icon">
+            <i class="fas fa-paint-brush"></i>
+          </div>
+          <h3 class="font-medium">UI/UX Design</h3>
+        </div>
+      </div>
+      
+      <div class="mt-6">
+        <button id="confirmDomainBtn" onclick="confirmDomain()" class="gradient-btn text-white px-4 py-2 rounded-lg w-full font-medium" disabled>
+          Confirm Selection
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assignment Modal -->
+  <div id="assignmentModal" class="hidden modal-overlay">
+    <div class="modal-container">
+      <button class="modal-close" onclick="closeAssignmentModal()">&times;</button>
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Course Assignment - <span id="assignmentDomainName"></span></h2>
+      
+      <div class="camera-container" id="assignmentCameraContainer">
+        <div class="camera-placeholder">
+          <i class="fas fa-camera fa-3x mb-2 text-gray-400"></i>
+          <p>Camera feed will appear here</p>
+        </div>
+        <video id="assignmentCameraFeed" class="hidden camera-feed" autoplay playsinline></video>
+      </div>
+      
+      <div class="mb-4">
+        <button id="startAssignmentBtn" onclick="verifyAssignmentCamera()" class="gradient-btn text-white px-4 py-2 rounded-lg w-full font-medium">
+          Start Assignment
+        </button>
+      </div>
+      
+      <div id="assignmentQuestions" class="hidden">
+        <div class="mb-4 flex justify-between items-center">
+          <p class="text-sm text-gray-600">You're being monitored through your camera. Please don't navigate away from this page.</p>
+          <span class="text-sm font-medium">Question <span id="assignmentCurrentQuestion">1</span> of <span id="assignmentTotalQuestions">15</span></span>
+        </div>
+        
+        <div id="assignmentQuestionContainer">
+          <!-- Questions will be inserted here -->
+        </div>
+        
+        <div class="flex justify-between mt-4">
+          <button onclick="prevAssignmentQuestion()" id="assignmentPrevBtn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition" disabled>
+            Previous
+          </button>
+          <button onclick="nextAssignmentQuestion()" id="assignmentNextBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+            Next
+          </button>
+        </div>
+        
+        <button onclick="submitAssignment()" id="assignmentSubmitBtn" class="gradient-btn text-white px-4 py-2 rounded-lg w-full font-medium submit-btn mt-4 hidden">
+          Submit Assignment
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exam Modal -->
+  <div id="examModal" class="hidden modal-overlay">
+    <div class="modal-container">
+      <button class="modal-close" onclick="closeExamModal()">&times;</button>
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Final Exam - <span id="examDomainName"></span></h2>
+      
+      <div class="camera-container" id="examCameraContainer">
+        <div class="camera-placeholder">
+          <i class="fas fa-camera fa-3x mb-2 text-gray-400"></i>
+          <p>Camera feed will appear here</p>
+        </div>
+        <video id="examCameraFeed" class="hidden camera-feed" autoplay playsinline></video>
+      </div>
+      
+      <div class="mb-4">
+        <button id="startExamBtn" onclick="verifyExamCamera()" class="gradient-btn text-white px-4 py-2 rounded-lg w-full font-medium">
+          Start Exam
+        </button>
+      </div>
+      
+      <div id="examQuestions" class="hidden">
+        <div class="mb-4 flex justify-between items-center">
+          <p class="text-sm text-gray-600">You're being monitored through your camera. Please don't navigate away from this page.</p>
+          <span class="text-sm font-medium">Question <span id="examCurrentQuestion">1</span> of <span id="examTotalQuestions">50</span></span>
+        </div>
+        
+        <div id="examQuestionContainer">
+          <!-- Questions will be inserted here -->
+        </div>
+        
+        <div class="flex justify-between mt-4">
+          <button onclick="prevExamQuestion()" id="examPrevBtn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition" disabled>
+            Previous
+          </button>
+          <button onclick="nextExamQuestion()" id="examNextBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+            Next
+          </button>
+        </div>
+        
+        <button onclick="submitExam()" id="examSubmitBtn" class="gradient-btn text-white px-4 py-2 rounded-lg w-full font-medium submit-btn mt-4 hidden">
+          Submit Exam
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Modal -->
+  <div id="resultsModal" class="hidden modal-overlay">
+    <div class="modal-container">
+      <button class="modal-close" onclick="closeResultsModal()">&times;</button>
+      <div class="text-center">
+        <div class="w-20 h-20 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+          <i class="fas fa-check text-3xl text-green-600"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2" id="resultsTitle"></h2>
+        <p class="text-gray-600 mb-6" id="resultsDescription"></p>
+        
+        <div class="bg-gray-50 p-4 rounded-lg mb-6">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-gray-700">Score:</span>
+            <span class="text-2xl font-bold text-indigo-600" id="resultsScore"></span>
+          </div>
+          <div class="progress-track w-full">
+            <div class="progress-bar" id="resultsProgressBar"></div>
+          </div>
+        </div>
+        
+        <button onclick="closeResultsModal()" class="gradient-btn text-white px-6 py-3 rounded-lg font-medium">
+          Continue to Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+ <script>
+    const webAppURL = "https://script.google.com/macros/s/AKfycbyTB4Pmj2T46zV7JmPN3_ERJxSiaMe_ETnS5i89jQS1sjeuMDGUGhQmqr1bk_N5uSjnig/exec"; // Replace with your URL
+
+let videos = [];
+let currentIndex = 0;
+let completedVideos;
+let assignmentCompleted;
+let examCompleted;
+let assignmentScore;
+let examScore;
+let player; // YouTube player instance
+let storagePrefix; // Will be set per user
+
+// Track-specific questions
+let selectedDomain = "";
+let assignmentQuestions = [];
+let examQuestions = [];
+let currentAssignmentQuestion = 0;
+let currentExamQuestion = 0;
+let assignmentStream = null;
+let examStream = null;
+let studentTrack = "";
+let assignmentAnswers = {};
+let examAnswers = {};
+let fullScreenEnabled = false;
+
+// Domain-specific questions
+ const questionBanks = {
+      web: {
+        assignment: [
+  {
+    id: 1,
+    text: "What does HTML stand for?",
+    options: [
+      { id: "1-1", text: "Hyperlinks and Text Markup Language" },
+      { id: "1-2", text: "Home Tool Markup Language" },
+      { id: "1-3", text: "Hyper Text Markup Language" },
+      { id: "1-4", text: "Hyper Tool Markup Language" }
+    ],
+    correctAnswer: "1-3"
+  },
+  {
+    id: 2,
+    text: "What is the correct HTML element for inserting a line break?",
+    options: [
+      { id: "2-1", text: "<break>" },
+      { id: "2-2", text: "<br>" },
+      { id: "2-3", text: "<lb>" },
+      { id: "2-4", text: "<line>" }
+    ],
+    correctAnswer: "2-2"
+  },
+  {
+    id: 3,
+    text: "Which HTML tag is used to display an image?",
+    options: [
+      { id: "3-1", text: "<img>" },
+      { id: "3-2", text: "<image>" },
+      { id: "3-3", text: "<picture>" },
+      { id: "3-4", text: "<src>" }
+    ],
+    correctAnswer: "3-1"
+  },
+  {
+    id: 4,
+    text: "What does CSS stand for?",
+    options: [
+      { id: "4-1", text: "Computer Style Sheets" },
+      { id: "4-2", text: "Colorful Style Sheets" },
+      { id: "4-3", text: "Cascading Style Sheets" },
+      { id: "4-4", text: "Creative Style Sheets" }
+    ],
+    correctAnswer: "4-3"
+  },
+  {
+    id: 5,
+    text: "Where in an HTML document is the correct place to refer to an external CSS file?",
+    options: [
+      { id: "5-1", text: "At the end of the document" },
+      { id: "5-2", text: "Inside the <body>" },
+      { id: "5-3", text: "Inside the <head>" },
+      { id: "5-4", text: "Inside the <footer>" }
+    ],
+    correctAnswer: "5-3"
+  },
+  {
+    id: 6,
+    text: "Which is the correct CSS syntax?",
+    options: [
+      { id: "6-1", text: "body\\:color=black;" },
+      { id: "6-2", text: "{body;color\\:black;}" },
+      { id: "6-3", text: "body {color: black;}" },
+      { id: "6-4", text: "{body\\:color=black;}" }
+    ],
+    correctAnswer: "6-3"
+  },
+  {
+    id: 7,
+    text: 'How do you write "Hello World" in an alert box in JavaScript?',
+    options: [
+      { id: "7-1", text: 'alertBox("Hello World");' },
+      { id: "7-2", text: 'msg("Hello World");' },
+      { id: "7-3", text: 'alert("Hello World");' },
+      { id: "7-4", text: 'msgBox("Hello World");' }
+    ],
+    correctAnswer: "7-3"
+  },
+  {
+    id: 8,
+    text: "Which HTML tag is used to define a hyperlink?",
+    options: [
+      { id: "8-1", text: "<link>" },
+      { id: "8-2", text: "<a>" },
+      { id: "8-3", text: "<href>" },
+      { id: "8-4", text: "<hyperlink>" }
+    ],
+    correctAnswer: "8-2"
+  },
+  {
+    id: 9,
+    text: "What is the correct way to comment in HTML?",
+    options: [
+      { id: "9-1", text: "// This is a comment" },
+      { id: "9-2", text: "<!-- This is a comment -->" },
+      { id: "9-3", text: "/* This is a comment */" },
+      { id: "9-4", text: "# This is a comment" }
+    ],
+    correctAnswer: "9-2"
+  },
+  {
+    id: 10,
+    text: "Which symbol is used for ID selectors in CSS?",
+    options: [
+      { id: "10-1", text: "." },
+      { id: "10-2", text: "#" },
+      { id: "10-3", text: "*" },
+      { id: "10-4", text: "%" }
+    ],
+    correctAnswer: "10-2"
+  },
+  {
+    id: 11,
+    text: "What is the default file extension for an HTML file?",
+    options: [
+      { id: "11-1", text: ".html" },
+      { id: "11-2", text: ".ht" },
+      { id: "11-3", text: ".web" },
+      { id: "11-4", text: ".doc" }
+    ],
+    correctAnswer: "11-1"
+  },
+  {
+    id: 12,
+    text: "Which of the following is a JavaScript data type?",
+    options: [
+      { id: "12-1", text: "Text" },
+      { id: "12-2", text: "Number" },
+      { id: "12-3", text: "Paragraph" },
+      { id: "12-4", text: "Font" }
+    ],
+    correctAnswer: "12-2"
+  },
+  {
+    id: 13,
+    text: "How do you apply a class in HTML?",
+    options: [
+      { id: "13-1", text: '<div class="name">' },
+      { id: "13-2", text: "<div class:name>" },
+      { id: "13-3", text: '<div.class="name">' },
+      { id: "13-4", text: '<div class:name="name">' }
+    ],
+    correctAnswer: "13-1"
+  },
+  {
+    id: 14,
+    text: "What is the correct HTML tag for the largest heading?",
+    options: [
+      { id: "14-1", text: "<heading>" },
+      { id: "14-2", text: "<h6>" },
+      { id: "14-3", text: "<h1>" },
+      { id: "14-4", text: "<head>" }
+    ],
+    correctAnswer: "14-3"
+  },
+  {
+    id: 15,
+    text: "Which tag is used to create an unordered list in HTML?",
+    options: [
+      { id: "15-1", text: "<ul>" },
+      { id: "15-2", text: "<ol>" },
+      { id: "15-3", text: "<list>" },
+      { id: "15-4", text: "<li>" }
+    ],
+    correctAnswer: "15-1"
+  },
+  {
+    id: 16,
+    text: "Which property is used to change the background color in CSS?",
+    options: [
+      { id: "16-1", text: "color" },
+      { id: "16-2", text: "bgcolor" },
+      { id: "16-3", text: "background-color" },
+      { id: "16-4", text: "back-color" }
+    ],
+    correctAnswer: "16-3"
+  },
+  {
+    id: 17,
+    text: "What does the <title> tag do in HTML?",
+    options: [
+      { id: "17-1", text: "Sets the page title in the browser tab" },
+      { id: "17-2", text: "Adds a heading" },
+      { id: "17-3", text: "Creates a tooltip" },
+      { id: "17-4", text: "Adds metadata" }
+    ],
+    correctAnswer: "17-1"
+  },
+  {
+    id: 18,
+    text: "How can you make text bold in HTML?",
+    options: [
+      { id: "18-1", text: "<strong> or <b>" },
+      { id: "18-2", text: "<bold>" },
+      { id: "18-3", text: "<text bold>" },
+      { id: "18-4", text: "<highlight>" }
+    ],
+    correctAnswer: "18-1"
+  },
+  {
+    id: 19,
+    text: "In CSS, how do you select all <p> elements?",
+    options: [
+      { id: "19-1", text: "p.all" },
+      { id: "19-2", text: "p" },
+      { id: "19-3", text: "#p" },
+      { id: "19-4", text: ".p" }
+    ],
+    correctAnswer: "19-2"
+  },
+  {
+    id: 20,
+    text: "What does JavaScript primarily run on?",
+    options: [
+      { id: "20-1", text: "Server" },
+      { id: "20-2", text: "Compiler" },
+      { id: "20-3", text: "Web browser" },
+      { id: "20-4", text: "Terminal" }
+    ],
+    correctAnswer: "20-3"
+  }
+],
+        exam:[
+  {
+    id: 1,
+    text: "What does HTML stand for?",
+    options: [
+      { id: "1-1", text: "Hyperlinks and Text Markup Language" },
+      { id: "1-2", text: "Home Tool Markup Language" },
+      { id: "1-3", text: "Hyper Text Markup Language" },
+      { id: "1-4", text: "Hyper Text Markdown Language" }
+    ],
+    correctAnswer: "1-3"
+  },
+  {
+    id: 2,
+    text: "What is the correct HTML element for inserting a line break?",
+    options: [
+      { id: "2-1", text: "<break>" },
+      { id: "2-2", text: "<br>" },
+      { id: "2-3", text: "<lb>" },
+      { id: "2-4", text: "<line>" }
+    ],
+    correctAnswer: "2-2"
+  },
+  {
+    id: 3,
+    text: "Which attribute is used to provide an image description?",
+    options: [
+      { id: "3-1", text: "description" },
+      { id: "3-2", text: "src" },
+      { id: "3-3", text: "title" },
+      { id: "3-4", text: "alt" }
+    ],
+    correctAnswer: "3-4"
+  },
+  {
+    id: 4,
+    text: "What is the correct HTML element for inserting a background color?",
+    options: [
+      { id: "4-1", text: '<body style="background-color:yellow;">' },
+      { id: "4-2", text: "<background>yellow</background>" },
+      { id: "4-3", text: "<bg>yellow</bg>" },
+      { id: "4-4", text: "<color>yellow</color>" }
+    ],
+    correctAnswer: "4-1"
+  },
+  {
+    id: 5,
+    text: "Which tag is used to create a hyperlink in HTML?",
+    options: [
+      { id: "5-1", text: "<link>" },
+      { id: "5-2", text: "<href>" },
+      { id: "5-3", text: "<a>" },
+      { id: "5-4", text: "<url>" }
+    ],
+    correctAnswer: "5-3"
+  },
+  {
+    id: 6,
+    text: "Which HTML tag is used to display a table?",
+    options: [
+      { id: "6-1", text: "<tab>" },
+      { id: "6-2", text: "<table>" },
+      { id: "6-3", text: "<td>" },
+      { id: "6-4", text: "<tbl>" }
+    ],
+    correctAnswer: "6-2"
+  },
+  {
+    id: 7,
+    text: "How can you make a numbered list in HTML?",
+    options: [
+      { id: "7-1", text: "<ul>" },
+      { id: "7-2", text: "<ol>" },
+      { id: "7-3", text: "<li>" },
+      { id: "7-4", text: "<dl>" }
+    ],
+    correctAnswer: "7-2"
+  },
+  {
+    id: 8,
+    text: "Which tag is used to define a table cell?",
+    options: [
+      { id: "8-1", text: "<tc>" },
+      { id: "8-2", text: "<cell>" },
+      { id: "8-3", text: "<tr>" },
+      { id: "8-4", text: "<td>" }
+    ],
+    correctAnswer: "8-4"
+  },
+  {
+    id: 9,
+    text: "Which tag is used to define an image in HTML?",
+    options: [
+      { id: "9-1", text: "<img>" },
+      { id: "9-2", text: "<src>" },
+      { id: "9-3", text: "<image>" },
+      { id: "9-4", text: "<pic>" }
+    ],
+    correctAnswer: "9-1"
+  },
+  {
+    id: 10,
+    text: "What is the purpose of the <head> tag in HTML?",
+    options: [
+      { id: "10-1", text: "To display page header" },
+      { id: "10-2", text: "To link external files" },
+      { id: "10-3", text: "To contain metadata and links" },
+      { id: "10-4", text: "To show title text" }
+    ],
+    correctAnswer: "10-3"
+  },
+  {
+    id: 11,
+    text: "What does CSS stand for?",
+    options: [
+      { id: "11-1", text: "Creative Style Sheets" },
+      { id: "11-2", text: "Cascading Style Sheets" },
+      { id: "11-3", text: "Computer Style Sheets" },
+      { id: "11-4", text: "Colorful Style Sheets" }
+    ],
+    correctAnswer: "11-2"
+  },
+  {
+    id: 12,
+    text: "Which HTML tag is used to link an external CSS file?",
+    options: [
+      { id: "12-1", text: "<css>" },
+      { id: "12-2", text: "<link>" },
+      { id: "12-3", text: "<style>" },
+      { id: "12-4", text: "<script>" }
+    ],
+    correctAnswer: "12-2"
+  },
+  {
+    id: 13,
+    text: "How do you change the text color to red in CSS?",
+    options: [
+      { id: "13-1", text: "color: red;" },
+      { id: "13-2", text: "font-color: red;" },
+      { id: "13-3", text: "text-color: red;" },
+      { id: "13-4", text: "color-text: red;" }
+    ],
+    correctAnswer: "13-1"
+  },
+  {
+    id: 14,
+    text: "Which CSS property controls the text size?",
+    options: [
+      { id: "14-1", text: "font-style" },
+      { id: "14-2", text: "text-size" },
+      { id: "14-3", text: "font-size" },
+      { id: "14-4", text: "size" }
+    ],
+    correctAnswer: "14-3"
+  },
+  {
+    id: 15,
+    text: "What is the correct CSS syntax to center text?",
+    options: [
+      { id: "15-1", text: "text-align: center;" },
+      { id: "15-2", text: "align-text: center;" },
+      { id: "15-3", text: "center: text;" },
+      { id: "15-4", text: "align: center;" }
+    ],
+    correctAnswer: "15-1"
+  },
+  {
+    id: 16,
+    text: "How do you add a background color using CSS?",
+    options: [
+      { id: "16-1", text: "bg-color: blue;" },
+      { id: "16-2", text: "background: blue;" },
+      { id: "16-3", text: "color-background: blue;" },
+      { id: "16-4", text: "background-color: blue;" }
+    ],
+    correctAnswer: "16-4"
+  },
+  {
+    id: 17,
+    text: "Which is the correct CSS syntax to make all <p> elements bold?",
+    options: [
+      { id: "17-1", text: "p { font-weight: bold; }" },
+      { id: "17-2", text: "p { style: bold; }" },
+      { id: "17-3", text: "p { text:bold; }" },
+      { id: "17-4", text: "p = bold;" }
+    ],
+    correctAnswer: "17-1"
+  },
+  {
+    id: 18,
+    text: "How do you select an element with the ID 'main'?",
+    options: [
+      { id: "18-1", text: ".main" },
+      { id: "18-2", text: "main" },
+      { id: "18-3", text: "#main" },
+      { id: "18-4", text: "$main" }
+    ],
+    correctAnswer: "18-3"
+  },
+  {
+    id: 19,
+    text: "How do you select all elements with class 'menu'?",
+    options: [
+      { id: "19-1", text: "#menu" },
+      { id: "19-2", text: ".menu" },
+      { id: "19-3", text: "menu" },
+      { id: "19-4", text: "*menu" }
+    ],
+    correctAnswer: "19-2"
+  },
+  {
+    id: 20,
+    text: "Which property is used to change the font in CSS?",
+    options: [
+      { id: "20-1", text: "text-font" },
+      { id: "20-2", text: "font-family" },
+      { id: "20-3", text: "font-style" },
+      { id: "20-4", text: "typeface" }
+    ],
+    correctAnswer: "20-2"
+  },
+  {
+    id: 21,
+    text: "What is JavaScript used for?",
+    options: [
+      { id: "21-1", text: "Styling web pages" },
+      { id: "21-2", text: "Structuring web pages" },
+      { id: "21-3", text: "Adding interactivity" },
+      { id: "21-4", text: "Creating databases" }
+    ],
+    correctAnswer: "21-3"
+  },
+  {
+    id: 22,
+    text: "How do you write a comment in JavaScript?",
+    options: [
+      { id: "22-1", text: "<!-- comment -->" },
+      { id: "22-2", text: "/* comment */" },
+      { id: "22-3", text: "// comment" },
+      { id: "22-4", text: "# comment" }
+    ],
+    correctAnswer: "22-3"
+  },
+  {
+    id: 23,
+    text: "Which keyword declares a variable in JavaScript?",
+    options: [
+      { id: "23-1", text: "let" },
+      { id: "23-2", text: "var" },
+      { id: "23-3", text: "const" },
+      { id: "23-4", text: "All of the above" }
+    ],
+    correctAnswer: "23-4"
+  },
+  {
+    id: 24,
+    text: "How do you write \"Hello World\" in an alert box?",
+    options: [
+      { id: "24-1", text: "alertBox(\"Hello World\");" },
+      { id: "24-2", text: "msg(\"Hello World\");" },
+      { id: "24-3", text: "alert(\"Hello World\");" },
+      { id: "24-4", text: "popup(\"Hello World\");" }
+    ],
+    correctAnswer: "24-3"
+  },
+  {
+    id: 25,
+    text: "What symbol is used for single-line comments in JavaScript?",
+    options: [
+      { id: "25-1", text: "//" },
+      { id: "25-2", text: "<!--" },
+      { id: "25-3", text: "**" },
+      { id: "25-4", text: "\\\\" }
+    ],
+    correctAnswer: "25-1"
+  },
+  {
+    id: 26,
+    text: "Which operator is used to assign a value to a variable?",
+    options: [
+      { id: "26-1", text: "==" },
+      { id: "26-2", text: "=" },
+      { id: "26-3", text: "===" },
+      { id: "26-4", text: ":=" }
+    ],
+    correctAnswer: "26-2"
+  },
+  {
+    id: 27,
+    text: "How do you call a function in JavaScript named myFunc?",
+    options: [
+      { id: "27-1", text: "call myFunc();" },
+      { id: "27-2", text: "call function myFunc();" },
+      { id: "27-3", text: "myFunc();" },
+      { id: "27-4", text: "run myFunc();" }
+    ],
+    correctAnswer: "27-3"
+  },
+  {
+    id: 28,
+    text: "Which built-in method returns the length of a string?",
+    options: [
+      { id: "28-1", text: "length()" },
+      { id: "28-2", text: "size()" },
+      { id: "28-3", text: "count()" },
+      { id: "28-4", text: "length" }
+    ],
+    correctAnswer: "28-4"
+  },
+  {
+    id: 29,
+    text: "What is the result of typeof \"hello\"?",
+    options: [
+      { id: "29-1", text: "string" },
+      { id: "29-2", text: "text" },
+      { id: "29-3", text: "word" },
+      { id: "29-4", text: "object" }
+    ],
+    correctAnswer: "29-1"
+  },
+  {
+    id: 30,
+    text: "Which method is used to parse a string to integer in JavaScript?",
+    options: [
+      { id: "30-1", text: "Number()" },
+      { id: "30-2", text: "parseInt()" },
+      { id: "30-3", text: "parse()" },
+      { id: "30-4", text: "toInt()" }
+    ],
+    correctAnswer: "30-2"
+  },
+  {
+    id: 31,
+    text: "Which language is used to structure a web page?",
+    options: [
+      { id: "31-1", text: "HTML" },
+      { id: "31-2", text: "CSS" },
+      { id: "31-3", text: "JavaScript" },
+      { id: "31-4", text: "PHP" }
+    ],
+    correctAnswer: "31-1"
+  },
+  {
+    id: 32,
+    text: "Which of the following is a frontend language?",
+    options: [
+      { id: "32-1", text: "PHP" },
+      { id: "32-2", text: "Python" },
+      { id: "32-3", text: "JavaScript" },
+      { id: "32-4", text: "Node.js" }
+    ],
+    correctAnswer: "32-3"
+  },
+  {
+    id: 33,
+    text: "Which of the following is used to host websites?",
+    options: [
+      { id: "33-1", text: "Visual Studio Code" },
+      { id: "33-2", text: "GitHub Pages" },
+      { id: "33-3", text: "Google Docs" },
+      { id: "33-4", text: "Canva" }
+    ],
+    correctAnswer: "33-2"
+  },
+  {
+    id: 34,
+    text: "Which protocol is used to transfer web pages?",
+    options: [
+      { id: "34-1", text: "FTP" },
+      { id: "34-2", text: "SMTP" },
+      { id: "34-3", text: "HTTP" },
+      { id: "34-4", text: "SNMP" }
+    ],
+    correctAnswer: "34-3"
+  },
+  {
+    id: 35,
+    text: "What is a responsive website?",
+    options: [
+      { id: "35-1", text: "One that loads fast" },
+      { id: "35-2", text: "One that adjusts to screen size" },
+      { id: "35-3", text: "One that uses JavaScript" },
+      { id: "35-4", text: "One that is interactive" }
+    ],
+    correctAnswer: "35-2"
+  },
+  {
+    id: 36,
+    text: "Which tool is used for version control in development?",
+    options: [
+      { id: "36-1", text: "Figma" },
+      { id: "36-2", text: "Git" },
+      { id: "36-3", text: "Chrome" },
+      { id: "36-4", text: "VS Code" }
+    ],
+    correctAnswer: "36-2"
+  },
+  {
+    id: 37,
+    text: "What does URL stand for?",
+    options: [
+      { id: "37-1", text: "Universal Resource Locator" },
+      { id: "37-2", text: "Uniform Resource Locator" },
+      { id: "37-3", text: "Unified Reference Link" },
+      { id: "37-4", text: "Unique Routing Locator" }
+    ],
+    correctAnswer: "37-2"
+  },
+  {
+    id: 38,
+    text: "Which of these is a web browser?",
+    options: [
+      { id: "38-1", text: "MySQL" },
+      { id: "38-2", text: "Node.js" },
+      { id: "38-3", text: "Chrome" },
+      { id: "38-4", text: "Linux" }
+    ],
+    correctAnswer: "38-3"
+  },
+  {
+    id: 39,
+    text: "What is the default port for HTTP?",
+    options: [
+      { id: "39-1", text: "22" },
+      { id: "39-2", text: "80" },
+      { id: "39-3", text: "443" },
+      { id: "39-4", text: "21" }
+    ],
+    correctAnswer: "39-2"
+  },
+  {
+    id: 40,
+    text: "Which one is a CSS framework?",
+    options: [
+      { id: "40-1", text: "Laravel" },
+      { id: "40-2", text: "Flask" },
+      { id: "40-3", text: "Bootstrap" },
+      { id: "40-4", text: "Express" }
+    ],
+    correctAnswer: "40-3"
+  }
+]
+      },
+      data: {
+        assignment:[
+  {
+    id: 1,
+    text: "What is Data Science primarily about?",
+    options: [
+      { id: "1-1", text: "Drawing images" },
+      { id: "1-2", text: "Making phone apps" },
+      { id: "1-3", text: "Extracting knowledge from data" },
+      { id: "1-4", text: "Fixing hardware" }
+    ],
+    correctAnswer: "1-3"
+  },
+  {
+    id: 2,
+    text: "Which of the following languages is commonly used in Data Science?",
+    options: [
+      { id: "2-1", text: "Java" },
+      { id: "2-2", text: "Python" },
+      { id: "2-3", text: "HTML" },
+      { id: "2-4", text: "Swift" }
+    ],
+    correctAnswer: "2-2"
+  },
+  {
+    id: 3,
+    text: "What is a DataFrame in Python?",
+    options: [
+      { id: "3-1", text: "A type of loop" },
+      { id: "3-2", text: "A graph" },
+      { id: "3-3", text: "A 2D labeled data structure" },
+      { id: "3-4", text: "A machine learning model" }
+    ],
+    correctAnswer: "3-3"
+  },
+  {
+    id: 4,
+    text: "Which Python library is used for data manipulation and analysis?",
+    options: [
+      { id: "4-1", text: "Pandas" },
+      { id: "4-2", text: "Django" },
+      { id: "4-3", text: "NumPy" },
+      { id: "4-4", text: "Flask" }
+    ],
+    correctAnswer: "4-1"
+  },
+  {
+    id: 5,
+    text: "What does CSV stand for?",
+    options: [
+      { id: "5-1", text: "Computer Separated Values" },
+      { id: "5-2", text: "Comma Separated Values" },
+      { id: "5-3", text: "Code Separated Variables" },
+      { id: "5-4", text: "Column Separated Values" }
+    ],
+    correctAnswer: "5-2"
+  },
+  {
+    id: 6,
+    text: "Which library is used for data visualization in Python?",
+    options: [
+      { id: "6-1", text: "NLTK" },
+      { id: "6-2", text: "Pandas" },
+      { id: "6-3", text: "Matplotlib" },
+      { id: "6-4", text: "TensorFlow" }
+    ],
+    correctAnswer: "6-3"
+  },
+  {
+    id: 7,
+    text: "What is the average of the values: 4, 8, 10?",
+    options: [
+      { id: "7-1", text: "6" },
+      { id: "7-2", text: "7" },
+      { id: "7-3", text: "8" },
+      { id: "7-4", text: "9" }
+    ],
+    correctAnswer: "7-2"
+  },
+  {
+    id: 8,
+    text: "Which of the following is a type of chart used in data visualization?",
+    options: [
+      { id: "8-1", text: "Bar chart" },
+      { id: "8-2", text: "Text chart" },
+      { id: "8-3", text: "Voice chart" },
+      { id: "8-4", text: "Slide chart" }
+    ],
+    correctAnswer: "8-1"
+  },
+  {
+    id: 9,
+    text: "What is the process of removing errors and inconsistencies from data called?",
+    options: [
+      { id: "9-1", text: "Data Mining" },
+      { id: "9-2", text: "Data Wrangling" },
+      { id: "9-3", text: "Data Loading" },
+      { id: "9-4", text: "Data Scaling" }
+    ],
+    correctAnswer: "9-2"
+  },
+  {
+    id: 10,
+    text: "What is a common format for storing structured data?",
+    options: [
+      { id: "10-1", text: "PDF" },
+      { id: "10-2", text: "MP3" },
+      { id: "10-3", text: "CSV" },
+      { id: "10-4", text: "JPEG" }
+    ],
+    correctAnswer: "10-3"
+  },
+  {
+    id: 11,
+    text: "Which algorithm is used for classification problems?",
+    options: [
+      { id: "11-1", text: "K-Means" },
+      { id: "11-2", text: "Linear Regression" },
+      { id: "11-3", text: "Decision Tree" },
+      { id: "11-4", text: "PCA" }
+    ],
+    correctAnswer: "11-3"
+  },
+  {
+    id: 12,
+    text: "What does “Supervised Learning” mean?",
+    options: [
+      { id: "12-1", text: "The model learns without data" },
+      { id: "12-2", text: "The model works without training" },
+      { id: "12-3", text: "The model learns with labeled data" },
+      { id: "12-4", text: "The model learns randomly" }
+    ],
+    correctAnswer: "12-3"
+  },
+  {
+    id: 13,
+    text: "Which measure shows how spread out data values are?",
+    options: [
+      { id: "13-1", text: "Mean" },
+      { id: "13-2", text: "Median" },
+      { id: "13-3", text: "Variance" },
+      { id: "13-4", text: "Mode" }
+    ],
+    correctAnswer: "13-3"
+  },
+  {
+    id: 14,
+    text: "What is the median of this list: 3, 6, 7, 8, 12?",
+    options: [
+      { id: "14-1", text: "6" },
+      { id: "14-2", text: "7" },
+      { id: "14-3", text: "8" },
+      { id: "14-4", text: "12" }
+    ],
+    correctAnswer: "14-2"
+  },
+  {
+    id: 15,
+    text: "Which tool is popular for writing and sharing data science code and visualizations?",
+    options: [
+      { id: "15-1", text: "MS Word" },
+      { id: "15-2", text: "Notepad" },
+      { id: "15-3", text: "Jupyter Notebook" },
+      { id: "15-4", text: "Excel" }
+    ],
+    correctAnswer: "15-3"
+  },
+  {
+    id: 16,
+    text: "What does NumPy mainly deal with?",
+    options: [
+      { id: "16-1", text: "Text data" },
+      { id: "16-2", text: "Audio files" },
+      { id: "16-3", text: "Arrays and numerical data" },
+      { id: "16-4", text: "HTML pages" }
+    ],
+    correctAnswer: "16-3"
+  },
+  {
+    id: 17,
+    text: "Which term describes splitting data into training and testing sets?",
+    options: [
+      { id: "17-1", text: "Data merging" },
+      { id: "17-2", text: "Data cleaning" },
+      { id: "17-3", text: "Data partitioning" },
+      { id: "17-4", text: "Data importing" }
+    ],
+    correctAnswer: "17-3"
+  },
+  {
+    id: 18,
+    text: "What does the acronym 'EDA' stand for in data science?",
+    options: [
+      { id: "18-1", text: "Easy Data Access" },
+      { id: "18-2", text: "Exploratory Data Analysis" },
+      { id: "18-3", text: "Efficient Data Aggregation" },
+      { id: "18-4", text: "External Data Application" }
+    ],
+    correctAnswer: "18-2"
+  },
+  {
+    id: 19,
+    text: "Which one is a Python machine learning library?",
+    options: [
+      { id: "19-1", text: "Matplotlib" },
+      { id: "19-2", text: "Scikit-learn" },
+      { id: "19-3", text: "Flask" },
+      { id: "19-4", text: "Pillow" }
+    ],
+    correctAnswer: "19-2"
+  },
+  {
+    id: 20,
+    text: "What is the role of a data scientist?",
+    options: [
+      { id: "20-1", text: "Design websites" },
+      { id: "20-2", text: "Develop games" },
+      { id: "20-3", text: "Analyze and interpret complex data" },
+      { id: "20-4", text: "Repair hardware" }
+    ],
+    correctAnswer: "20-3"
+  }
+],
+
+        exam: [
+  {
+    id: 1,
+    text: "What is the mean of the numbers: 2, 4, 6, 8, 10?",
+    options: [
+      { id: "1-1", text: "5" },
+      { id: "1-2", text: "6" },
+      { id: "1-3", text: "7" },
+      { id: "1-4", text: "8" }
+    ],
+    correctAnswer: "1-2"
+  },
+  {
+    id: 2,
+    text: "Which measure of central tendency is not affected by outliers?",
+    options: [
+      { id: "2-1", text: "Mean" },
+      { id: "2-2", text: "Median" },
+      { id: "2-3", text: "Mode" },
+      { id: "2-4", text: "Average" }
+    ],
+    correctAnswer: "2-2"
+  },
+  {
+    id: 3,
+    text: "What is the probability of getting heads when flipping a fair coin?",
+    options: [
+      { id: "3-1", text: "0.25" },
+      { id: "3-2", text: "0.5" },
+      { id: "3-3", text: "0.75" },
+      { id: "3-4", text: "1.0" }
+    ],
+    correctAnswer: "3-2"
+  },
+  {
+    id: 4,
+    text: "Standard deviation measures:",
+    options: [
+      { id: "4-1", text: "The center of the data" },
+      { id: "4-2", text: "The correlation of the data" },
+      { id: "4-3", text: "The spread of the data" },
+      { id: "4-4", text: "The mode of the data" }
+    ],
+    correctAnswer: "4-3"
+  },
+  {
+    id: 5,
+    text: "Which of the following distributions is symmetric?",
+    options: [
+      { id: "5-1", text: "Normal distribution" },
+      { id: "5-2", text: "Poisson distribution" },
+      { id: "5-3", text: "Binomial distribution" },
+      { id: "5-4", text: "Exponential distribution" }
+    ],
+    correctAnswer: "5-1"
+  },
+  {
+    id: 6,
+    text: "Which Python library is used for data manipulation and analysis?",
+    options: [
+      { id: "6-1", text: "Matplotlib" },
+      { id: "6-2", text: "NumPy" },
+      { id: "6-3", text: "Pandas" },
+      { id: "6-4", text: "Seaborn" }
+    ],
+    correctAnswer: "6-3"
+  },
+  {
+    id: 7,
+    text: "Which function is used to read a CSV file in pandas?",
+    options: [
+      { id: "7-1", text: "pd.read()" },
+      { id: "7-2", text: "pd.load_csv()" },
+      { id: "7-3", text: "pd.read_csv()" },
+      { id: "7-4", text: "pd.csv()" }
+    ],
+    correctAnswer: "7-3"
+  },
+  {
+    id: 8,
+    text: "Which data structure in pandas is used for a single column of data?",
+    options: [
+      { id: "8-1", text: "DataFrame" },
+      { id: "8-2", text: "Series" },
+      { id: "8-3", text: "Array" },
+      { id: "8-4", text: "List" }
+    ],
+    correctAnswer: "8-2"
+  },
+  {
+    id: 9,
+    text: "What does df.head() do in pandas?",
+    options: [
+      { id: "9-1", text: "Shows the last 5 rows" },
+      { id: "9-2", text: "Shows the first 5 rows" },
+      { id: "9-3", text: "Removes the first row" },
+      { id: "9-4", text: "Displays column names" }
+    ],
+    correctAnswer: "9-2"
+  },
+  {
+    id: 10,
+    text: "Which of the following is used to handle missing data in pandas?",
+    options: [
+      { id: "10-1", text: "drop_nulls()" },
+      { id: "10-2", text: "remove_na()" },
+      { id: "10-3", text: "dropna()" },
+      { id: "10-4", text: "cutna()" }
+    ],
+    correctAnswer: "10-3"
+  },
+  {
+    id: 11,
+    text: "Which Python library is used to create static visualizations?",
+    options: [
+      { id: "11-1", text: "TensorFlow" },
+      { id: "11-2", text: "Keras" },
+      { id: "11-3", text: "Matplotlib" },
+      { id: "11-4", text: "SciPy" }
+    ],
+    correctAnswer: "11-3"
+  },
+  {
+    id: 12,
+    text: "What does the plt.plot() function do in Matplotlib?",
+    options: [
+      { id: "12-1", text: "Displays a histogram" },
+      { id: "12-2", text: "Creates a pie chart" },
+      { id: "12-3", text: "Plots a line chart" },
+      { id: "12-4", text: "Displays a heatmap" }
+    ],
+    correctAnswer: "12-3"
+  },
+  {
+    id: 13,
+    text: "Which function is used to create a histogram in Seaborn?",
+    options: [
+      { id: "13-1", text: "sns.hist()" },
+      { id: "13-2", text: "sns.histogram()" },
+      { id: "13-3", text: "sns.histplot()" },
+      { id: "13-4", text: "sns.plot()" }
+    ],
+    correctAnswer: "13-3"
+  },
+  {
+    id: 14,
+    text: "Which of the following libraries is built on top of Matplotlib?",
+    options: [
+      { id: "14-1", text: "NumPy" },
+      { id: "14-2", text: "Seaborn" },
+      { id: "14-3", text: "Scikit-learn" },
+      { id: "14-4", text: "Statsmodels" }
+    ],
+    correctAnswer: "14-2"
+  },
+  {
+    id: 15,
+    text: "In a boxplot, what does the line inside the box represent?",
+    options: [
+      { id: "15-1", text: "Mean" },
+      { id: "15-2", text: "Mode" },
+      { id: "15-3", text: "Median" },
+      { id: "15-4", text: "Range" }
+    ],
+    correctAnswer: "15-3"
+  },
+  {
+    id: 16,
+    text: "Which of the following is a supervised learning algorithm?",
+    options: [
+      { id: "16-1", text: "K-Means" },
+      { id: "16-2", text: "DBSCAN" },
+      { id: "16-3", text: "Linear Regression" },
+      { id: "16-4", text: "PCA" }
+    ],
+    correctAnswer: "16-3"
+  },
+  {
+    id: 17,
+    text: "Which algorithm is used for classification problems?",
+    options: [
+      { id: "17-1", text: "Linear Regression" },
+      { id: "17-2", text: "KNN" },
+      { id: "17-3", text: "K-Means" },
+      { id: "17-4", text: "PCA" }
+    ],
+    correctAnswer: "17-2"
+  },
+  {
+    id: 18,
+    text: "Which library is commonly used for machine learning in Python?",
+    options: [
+      { id: "18-1", text: "Pandas" },
+      { id: "18-2", text: "Scikit-learn" },
+      { id: "18-3", text: "NumPy" },
+      { id: "18-4", text: "TensorFlow" }
+    ],
+    correctAnswer: "18-2"
+  },
+  {
+    id: 19,
+    text: "What is overfitting in machine learning?",
+    options: [
+      { id: "19-1", text: "Model is too simple" },
+      { id: "19-2", text: "Model fits only test data" },
+      { id: "19-3", text: "Model fits training data too well" },
+      { id: "19-4", text: "Model has high bias" }
+    ],
+    correctAnswer: "19-3"
+  },
+  {
+    id: 20,
+    text: "Which metric is commonly used for regression evaluation?",
+    options: [
+      { id: "20-1", text: "Accuracy" },
+      { id: "20-2", text: "Precision" },
+      { id: "20-3", text: "RMSE" },
+      { id: "20-4", text: "F1-score" }
+    ],
+    correctAnswer: "20-3"
+  },
+  {
+    id: 21,
+    text: "What is data wrangling?",
+    options: [
+      { id: "21-1", text: "Data storage" },
+      { id: "21-2", text: "Cleaning and transforming data" },
+      { id: "21-3", text: "Visualizing data" },
+      { id: "21-4", text: "Collecting raw data" }
+    ],
+    correctAnswer: "21-2"
+  },
+  {
+    id: 22,
+    text: "What does df.drop(columns=['A']) do?",
+    options: [
+      { id: "22-1", text: "Deletes all rows" },
+      { id: "22-2", text: "Drops column named A" },
+      { id: "22-3", text: "Adds column A" },
+      { id: "22-4", text: "Filters column A" }
+    ],
+    correctAnswer: "22-2"
+  },
+  {
+    id: 23,
+    text: "Which method is used to remove duplicate rows in pandas?",
+    options: [
+      { id: "23-1", text: "drop_duplicates()" },
+      { id: "23-2", text: "remove_duplicates()" },
+      { id: "23-3", text: "delete_duplicates()" },
+      { id: "23-4", text: "clean_duplicates()" }
+    ],
+    correctAnswer: "23-1"
+  },
+  {
+    id: 24,
+    text: "What does normalization do?",
+    options: [
+      { id: "24-1", text: "Converts data to 0 or 1" },
+      { id: "24-2", text: "Converts categorical to numeric" },
+      { id: "24-3", text: "Scales data between 0 and 1" },
+      { id: "24-4", text: "Finds outliers" }
+    ],
+    correctAnswer: "24-3"
+  },
+  {
+    id: 25,
+    text: "What is one-hot encoding used for?",
+    options: [
+      { id: "25-1", text: "Compress data" },
+      { id: "25-2", text: "Normalize data" },
+      { id: "25-3", text: "Handle missing values" },
+      { id: "25-4", text: "Convert categorical to numeric" }
+    ],
+    correctAnswer: "25-4"
+  },
+  {
+    id: 26,
+    text: "Which tool is commonly used for big data processing?",
+    options: [
+      { id: "26-1", text: "Excel" },
+      { id: "26-2", text: "Apache Spark" },
+      { id: "26-3", text: "Notepad" },
+      { id: "26-4", text: "SQLite" }
+    ],
+    correctAnswer: "26-2"
+  },
+  {
+    id: 27,
+    text: "Which of these is a NoSQL database?",
+    options: [
+      { id: "27-1", text: "MySQL" },
+      { id: "27-2", text: "SQLite" },
+      { id: "27-3", text: "PostgreSQL" },
+      { id: "27-4", text: "MongoDB" }
+    ],
+    correctAnswer: "27-4"
+  },
+  {
+    id: 28,
+    text: "Which language is most commonly used in data science?",
+    options: [
+      { id: "28-1", text: "Java" },
+      { id: "28-2", text: "Python" },
+      { id: "28-3", text: "C++" },
+      { id: "28-4", text: "Ruby" }
+    ],
+    correctAnswer: "28-2"
+  },
+  {
+    id: 29,
+    text: "Which of the following is not a Python IDE?",
+    options: [
+      { id: "29-1", text: "Jupyter Notebook" },
+      { id: "29-2", text: "Spyder" },
+      { id: "29-3", text: "PyCharm" },
+      { id: "29-4", text: "WordPad" }
+    ],
+    correctAnswer: "29-4"
+  },
+  {
+    id: 30,
+    text: "Which Python package is used for numerical computation?",
+    options: [
+      { id: "30-1", text: "Matplotlib" },
+      { id: "30-2", text: "NumPy" },
+      { id: "30-3", text: "Pandas" },
+      { id: "30-4", text: "Seaborn" }
+    ],
+    correctAnswer: "30-2"
+  },
+  {
+    id: 31,
+    text: "What is the full form of CSV?",
+    options: [
+      { id: "31-1", text: "Computer Separated Values" },
+      { id: "31-2", text: "Comma-Separated Values" },
+      { id: "31-3", text: "Column Sorted Values" },
+      { id: "31-4", text: "Common Spreadsheet View" }
+    ],
+    correctAnswer: "31-2"
+  },
+  {
+    id: 32,
+    text: "Which of the following best describes the data science process?",
+    options: [
+      { id: "32-1", text: "Collect → Store → Forget" },
+      { id: "32-2", text: "Collect → Clean → Analyze → Visualize → Model" },
+      { id: "32-3", text: "Design → Implement → Maintain" },
+      { id: "32-4", text: "Encode → Decode → Share" }
+    ],
+    correctAnswer: "32-2"
+  },
+  {
+    id: 33,
+    text: "Which one is an example of unstructured data?",
+    options: [
+      { id: "33-1", text: "Excel sheet" },
+      { id: "33-2", text: "SQL table" },
+      { id: "33-3", text: "CSV file" },
+      { id: "33-4", text: "Social media post" }
+    ],
+    correctAnswer: "33-4"
+  },
+  {
+    id: 34,
+    text: "Which algorithm is used for clustering?",
+    options: [
+      { id: "34-1", text: "Logistic Regression" },
+      { id: "34-2", text: "K-Means" },
+      { id: "34-3", text: "Decision Tree" },
+      { id: "34-4", text: "Naive Bayes" }
+    ],
+    correctAnswer: "34-2"
+  },
+  {
+    id: 35,
+    text: "Which chart is best for showing parts of a whole?",
+    options: [
+      { id: "35-1", text: "Line chart" },
+      { id: "35-2", text: "Histogram" },
+      { id: "35-3", text: "Pie chart" },
+      { id: "35-4", text: "Box plot" }
+    ],
+    correctAnswer: "35-3"
+  },
+  {
+    id: 36,
+    text: "Which type of machine learning does not use labeled data?",
+    options: [
+      { id: "36-1", text: "Supervised" },
+      { id: "36-2", text: "Reinforcement" },
+      { id: "36-3", text: "Unsupervised" },
+      { id: "36-4", text: "Deep learning" }
+    ],
+    correctAnswer: "36-3"
+  },
+  {
+    id: 37,
+    text: "Which evaluation metric is used in classification tasks?",
+    options: [
+      { id: "37-1", text: "MSE" },
+      { id: "37-2", text: "Accuracy" },
+      { id: "37-3", text: "RMSE" },
+      { id: "37-4", text: "R-squared" }
+    ],
+    correctAnswer: "37-2"
+  },
+  {
+    id: 38,
+    text: "What is the main goal of PCA (Principal Component Analysis)?",
+    options: [
+      { id: "38-1", text: "Classification" },
+      { id: "38-2", text: "Dimensionality Reduction" },
+      { id: "38-3", text: "Regression" },
+      { id: "38-4", text: "Clustering" }
+    ],
+    correctAnswer: "38-2"
+  },
+  {
+    id: 39,
+    text: "Which model is best for predicting a binary outcome?",
+    options: [
+      { id: "39-1", text: "Linear Regression" },
+      { id: "39-2", text: "Logistic Regression" },
+      { id: "39-3", text: "K-Means" },
+      { id: "39-4", text: "PCA" }
+    ],
+    correctAnswer: "39-2"
+  },
+  {
+    id: 40,
+    text: "Which of the following is an example of supervised learning?",
+    options: [
+      { id: "40-1", text: "Image Clustering" },
+      { id: "40-2", text: "Email Spam Detection" },
+      { id: "40-3", text: "PCA" },
+      { id: "40-4", text: "Market Segmentation" }
+    ],
+    correctAnswer: "40-2"
+  }
+],
+
+      },
+      marketing: {
+        assignment:[
+  {
+    id: 1,
+    text: "What does SEO stand for?",
+    options: [
+      { id: "1-1", text: "Search Email Optimization" },
+      { id: "1-2", text: "Social Engagement Optimization" },
+      { id: "1-3", text: "Search Engine Optimization" },
+      { id: "1-4", text: "Smart Engine Operation" }
+    ],
+    correctAnswer: "1-3"
+  },
+  {
+    id: 2,
+    text: "Which of the following is a popular social media platform for digital marketing?",
+    options: [
+      { id: "2-1", text: "Photoshop" },
+      { id: "2-2", text: "Google Docs" },
+      { id: "2-3", text: "Instagram" },
+      { id: "2-4", text: "VLC Player" }
+    ],
+    correctAnswer: "2-3"
+  },
+  {
+    id: 3,
+    text: "What does PPC stand for in online advertising?",
+    options: [
+      { id: "3-1", text: "Pay Per Click" },
+      { id: "3-2", text: "Page Performance Count" },
+      { id: "3-3", text: "Paid Promotion Channel" },
+      { id: "3-4", text: "Pay Per Customer" }
+    ],
+    correctAnswer: "3-1"
+  },
+  {
+    id: 4,
+    text: "What is the purpose of keywords in digital marketing?",
+    options: [
+      { id: "4-1", text: "To write HTML code" },
+      { id: "4-2", text: "To decorate websites" },
+      { id: "4-3", text: "To help search engines understand content" },
+      { id: "4-4", text: "To track users" }
+    ],
+    correctAnswer: "4-3"
+  },
+  {
+    id: 5,
+    text: "Which of these is an example of email marketing?",
+    options: [
+      { id: "5-1", text: "A TV ad" },
+      { id: "5-2", text: "A blog post" },
+      { id: "5-3", text: "A promotional email" },
+      { id: "5-4", text: "A billboard" }
+    ],
+    correctAnswer: "5-3"
+  },
+  {
+    id: 6,
+    text: "What tool is commonly used to analyze website traffic?",
+    options: [
+      { id: "6-1", text: "Microsoft Excel" },
+      { id: "6-2", text: "Google Analytics" },
+      { id: "6-3", text: "Gmail" },
+      { id: "6-4", text: "Zoom" }
+    ],
+    correctAnswer: "6-2"
+  },
+  {
+    id: 7,
+    text: "What is a “call to action” (CTA)?",
+    options: [
+      { id: "7-1", text: "A phone call from a marketer" },
+      { id: "7-2", text: "A command encouraging the user to take action" },
+      { id: "7-3", text: "A popup ad" },
+      { id: "7-4", text: "A coding function" }
+    ],
+    correctAnswer: "7-2"
+  },
+  {
+    id: 8,
+    text: "What is the primary purpose of content marketing?",
+    options: [
+      { id: "8-1", text: "To entertain users" },
+      { id: "8-2", text: "To post photos" },
+      { id: "8-3", text: "To educate and attract potential customers" },
+      { id: "8-4", text: "To increase storage space" }
+    ],
+    correctAnswer: "8-3"
+  },
+  {
+    id: 9,
+    text: "Which platform is primarily used for professional networking?",
+    options: [
+      { id: "9-1", text: "Facebook" },
+      { id: "9-2", text: "TikTok" },
+      { id: "9-3", text: "LinkedIn" },
+      { id: "9-4", text: "YouTube" }
+    ],
+    correctAnswer: "9-3"
+  },
+  {
+    id: 10,
+    text: "What is meant by “organic traffic” in digital marketing?",
+    options: [
+      { id: "10-1", text: "Paid visitors" },
+      { id: "10-2", text: "Unpaid, natural website visits from search engines" },
+      { id: "10-3", text: "Visits from social media ads" },
+      { id: "10-4", text: "Spam traffic" }
+    ],
+    correctAnswer: "10-2"
+  },
+  {
+    id: 11,
+    text: "Which of the following is a Google product used for online advertising?",
+    options: [
+      { id: "11-1", text: "Google Slides" },
+      { id: "11-2", text: "Google Drive" },
+      { id: "11-3", text: "Google Ads" },
+      { id: "11-4", text: "Google Sheets" }
+    ],
+    correctAnswer: "11-3"
+  },
+  {
+    id: 12,
+    text: "What does ROI stand for?",
+    options: [
+      { id: "12-1", text: "Rate of Investment" },
+      { id: "12-2", text: "Return on Investment" },
+      { id: "12-3", text: "Reach on Instagram" },
+      { id: "12-4", text: "Ranking of Insights" }
+    ],
+    correctAnswer: "12-2"
+  },
+  {
+    id: 13,
+    text: "Which of the following is a metric in email marketing?",
+    options: [
+      { id: "13-1", text: "Engagement rate" },
+      { id: "13-2", text: "Click-through rate" },
+      { id: "13-3", text: "Conversion rate" },
+      { id: "13-4", text: "All of the above" }
+    ],
+    correctAnswer: "13-4"
+  },
+  {
+    id: 14,
+    text: "What is a landing page?",
+    options: [
+      { id: "14-1", text: "A website’s homepage" },
+      { id: "14-2", text: "The contact page" },
+      { id: "14-3", text: "A page where visitors land after clicking a link" },
+      { id: "14-4", text: "The about page" }
+    ],
+    correctAnswer: "14-3"
+  },
+  {
+    id: 15,
+    text: "Which type of content is best for engaging audiences?",
+    options: [
+      { id: "15-1", text: "Long text without images" },
+      { id: "15-2", text: "Broken links" },
+      { id: "15-3", text: "Interactive and visual content" },
+      { id: "15-4", text: "Outdated information" }
+    ],
+    correctAnswer: "15-3"
+  },
+  {
+    id: 16,
+    text: "Which is a good tool for scheduling social media posts?",
+    options: [
+      { id: "16-1", text: "MS Word" },
+      { id: "16-2", text: "Canva" },
+      { id: "16-3", text: "Hootsuite" },
+      { id: "16-4", text: "Chrome" }
+    ],
+    correctAnswer: "16-3"
+  },
+  {
+    id: 17,
+    text: "What does CPC mean in online ads?",
+    options: [
+      { id: "17-1", text: "Cost Per Click" },
+      { id: "17-2", text: "Click Per Conversion" },
+      { id: "17-3", text: "Content Promotion Channel" },
+      { id: "17-4", text: "Conversion Paid Campaign" }
+    ],
+    correctAnswer: "17-1"
+  },
+  {
+    id: 18,
+    text: "What is influencer marketing?",
+    options: [
+      { id: "18-1", text: "Marketing with software tools" },
+      { id: "18-2", text: "Promoting products through popular social media users" },
+      { id: "18-3", text: "Marketing using printed flyers" },
+      { id: "18-4", text: "Marketing through government agencies" }
+    ],
+    correctAnswer: "18-2"
+  },
+  {
+    id: 19,
+    text: "What does the “bounce rate” in Google Analytics refer to?",
+    options: [
+      { id: "19-1", text: "How fast your site loads" },
+      { id: "19-2", text: "Number of users who click ads" },
+      { id: "19-3", text: "Percentage of visitors who leave without interacting" },
+      { id: "19-4", text: "Amount of storage used" }
+    ],
+    correctAnswer: "19-3"
+  },
+  {
+    id: 20,
+    text: "What is a hashtag used for in social media marketing?",
+    options: [
+      { id: "20-1", text: "To style text" },
+      { id: "20-2", text: "To show trending stock prices" },
+      { id: "20-3", text: "To group and categorize content" },
+      { id: "20-4", text: "To block users" }
+    ],
+    correctAnswer: "20-3"
+  }
+],
+        exam: [
+          {
+  id: 1,
+  text: "What is Digital Marketing?",
+  options: [
+    { id: "1-1", text: "Selling products online only" },
+    { id: "1-2", text: "Promoting products using electronic devices or the internet" },
+    { id: "1-3", text: "Creating digital products" },
+    { id: "1-4", text: "Posting ads in newspapers" }
+  ],
+  correctAnswer: "1-2"
+},
+{
+  id: 2,
+  text: "Which of the following is NOT a channel of digital marketing?",
+  options: [
+    { id: "2-1", text: "SEO" },
+    { id: "2-2", text: "Email marketing" },
+    { id: "2-3", text: "Television ads" },
+    { id: "2-4", text: "Social media" }
+  ],
+  correctAnswer: "2-3"
+},
+{
+  id: 3,
+  text: "Which term describes the practice of improving the visibility of a website in search engines?",
+  options: [
+    { id: "3-1", text: "SEM" },
+    { id: "3-2", text: "SMM" },
+    { id: "3-3", text: "SEO" },
+    { id: "3-4", text: "PPC" }
+  ],
+  correctAnswer: "3-3"
+},
+{
+  id: 4,
+  text: "What does PPC stand for?",
+  options: [
+    { id: "4-1", text: "Pay Per Call" },
+    { id: "4-2", text: "Pay Per Click" },
+    { id: "4-3", text: "Paid Promotion Campaign" },
+    { id: "4-4", text: "Public Promotion Click" }
+  ],
+  correctAnswer: "4-2"
+},
+{
+  id: 5,
+  text: "Which of the following is a free tool for analyzing website traffic?",
+  options: [
+    { id: "5-1", text: "Google Ads" },
+    { id: "5-2", text: "Google Analytics" },
+    { id: "5-3", text: "Facebook Insights" },
+    { id: "5-4", text: "Canva" }
+  ],
+  correctAnswer: "5-2"
+},
+{
+  id: 6,
+  text: "Which tag is used to define the title of a web page for SEO?",
+  options: [
+    { id: "6-1", text: "<meta>" },
+    { id: "6-2", text: "<title>" },
+    { id: "6-3", text: "<head>" },
+    { id: "6-4", text: "<body>" }
+  ],
+  correctAnswer: "6-2"
+},
+{
+  id: 7,
+  text: "What does a \"keyword\" mean in SEO?",
+  options: [
+    { id: "7-1", text: "A random word in a document" },
+    { id: "7-2", text: "A paid search term" },
+    { id: "7-3", text: "The search term entered into search engines" },
+    { id: "7-4", text: "The header tag" }
+  ],
+  correctAnswer: "7-3"
+},
+{
+  id: 8,
+  text: "Which of the following improves on-page SEO?",
+  options: [
+    { id: "8-1", text: "Backlinks" },
+    { id: "8-2", text: "Title tags and meta descriptions" },
+    { id: "8-3", text: "Social shares" },
+    { id: "8-4", text: "Google Ads" }
+  ],
+  correctAnswer: "8-2"
+},
+{
+  id: 9,
+  text: "Which tool is commonly used for keyword research?",
+  options: [
+    { id: "9-1", text: "Google Trends" },
+    { id: "9-2", text: "Google Slides" },
+    { id: "9-3", text: "Canva" },
+    { id: "9-4", text: "Zoom" }
+  ],
+  correctAnswer: "9-1"
+},
+{
+  id: 10,
+  text: "Which of these is a black hat SEO technique?",
+  options: [
+    { id: "10-1", text: "Quality content" },
+    { id: "10-2", text: "Keyword stuffing" },
+    { id: "10-3", text: "Fast page speed" },
+    { id: "10-4", text: "Responsive design" }
+  ],
+  correctAnswer: "10-2"
+},
+{
+  id: 11,
+  text: "What platform is mainly used for Google SEM campaigns?",
+  options: [
+    { id: "11-1", text: "Google My Business" },
+    { id: "11-2", text: "Google Ads" },
+    { id: "11-3", text: "Google Trends" },
+    { id: "11-4", text: "Google Drive" }
+  ],
+  correctAnswer: "11-2"
+},
+{
+  id: 12,
+  text: "What is a CTR in advertising?",
+  options: [
+    { id: "12-1", text: "Click Through Rate" },
+    { id: "12-2", text: "Click Time Ratio" },
+    { id: "12-3", text: "Customer Target Range" },
+    { id: "12-4", text: "Click Traffic Run" }
+  ],
+  correctAnswer: "12-1"
+},
+{
+  id: 13,
+  text: "What affects the Quality Score in Google Ads?",
+  options: [
+    { id: "13-1", text: "Budget only" },
+    { id: "13-2", text: "Keyword relevance, ad quality, landing page" },
+    { id: "13-3", text: "Logo design" },
+    { id: "13-4", text: "Social media reach" }
+  ],
+  correctAnswer: "13-2"
+},
+{
+  id: 14,
+  text: "What is the benefit of using ad extensions in Google Ads?",
+  options: [
+    { id: "14-1", text: "They shorten ads" },
+    { id: "14-2", text: "They improve CTR and visibility" },
+    { id: "14-3", text: "They reduce impressions" },
+    { id: "14-4", text: "They hide contact info" }
+  ],
+  correctAnswer: "14-2"
+},
+{
+  id: 15,
+  text: "What is a landing page?",
+  options: [
+    { id: "15-1", text: "A page with your contact details" },
+    { id: "15-2", text: "Any blog page" },
+    { id: "15-3", text: "The page a user lands on after clicking an ad" },
+    { id: "15-4", text: "Your homepage only" }
+  ],
+  correctAnswer: "15-3"
+},
+{
+  id: 16,
+  text: "Which is NOT a social media platform used for marketing?",
+  options: [
+    { id: "16-1", text: "Instagram" },
+    { id: "16-2", text: "YouTube" },
+    { id: "16-3", text: "Twitter" },
+    { id: "16-4", text: "Excel" }
+  ],
+  correctAnswer: "16-4"
+},
+{
+  id: 17,
+  text: "Which metric shows how many users interacted with a post?",
+  options: [
+    { id: "17-1", text: "Reach" },
+    { id: "17-2", text: "Engagement" },
+    { id: "17-3", text: "Impression" },
+    { id: "17-4", text: "Bounce rate" }
+  ],
+  correctAnswer: "17-2"
+},
+{
+  id: 18,
+  text: "Which tool helps schedule social media posts?",
+  options: [
+    { id: "18-1", text: "Canva" },
+    { id: "18-2", text: "Google Sheets" },
+    { id: "18-3", text: "Buffer" },
+    { id: "18-4", text: "Gmail" }
+  ],
+  correctAnswer: "18-3"
+},
+{
+  id: 19,
+  text: "What kind of content performs best on Instagram?",
+  options: [
+    { id: "19-1", text: "Long text blogs" },
+    { id: "19-2", text: "Short videos and images" },
+    { id: "19-3", text: "Job listings" },
+    { id: "19-4", text: "Whitepapers" }
+  ],
+  correctAnswer: "19-2"
+},
+{
+  id: 20,
+  text: "Which social media platform is primarily B2B focused?",
+  options: [
+    { id: "20-1", text: "Instagram" },
+    { id: "20-2", text: "Facebook" },
+    { id: "20-3", text: "LinkedIn" },
+    { id: "20-4", text: "Snapchat" }
+  ],
+  correctAnswer: "20-3"
+},
+{
+  id: 21,
+  text: "What is the purpose of email marketing?",
+  options: [
+    { id: "21-1", text: "To send spam" },
+    { id: "21-2", text: "To send promotions and updates directly to users" },
+    { id: "21-3", text: "To make websites faster" },
+    { id: "21-4", text: "To rank higher in SEO" }
+  ],
+  correctAnswer: "21-2"
+},
+{
+  id: 22,
+  text: "Which tool is popular for email campaigns?",
+  options: [
+    { id: "22-1", text: "Mailchimp" },
+    { id: "22-2", text: "Google Docs" },
+    { id: "22-3", text: "Dropbox" },
+    { id: "22-4", text: "TikTok" }
+  ],
+  correctAnswer: "22-1"
+},
+{
+  id: 23,
+  text: "What is an email open rate?",
+  options: [
+    { id: "23-1", text: "Number of emails bounced" },
+    { id: "23-2", text: "Number of people who clicked links" },
+    { id: "23-3", text: "Percentage of recipients who opened the email" },
+    { id: "23-4", text: "Spam reports" }
+  ],
+  correctAnswer: "23-3"
+},
+{
+  id: 24,
+  text: "What’s a common reason for high bounce rates in email marketing?",
+  options: [
+    { id: "24-1", text: "Attractive content" },
+    { id: "24-2", text: "Invalid email addresses" },
+    { id: "24-3", text: "Mobile-optimized emails" },
+    { id: "24-4", text: "Email segmentation" }
+  ],
+  correctAnswer: "24-2"
+},
+{
+  id: 25,
+  text: "Which technique helps avoid emails going to spam?",
+  options: [
+    { id: "25-1", text: "Using lots of images" },
+    { id: "25-2", text: "Sending emails without subject lines" },
+    { id: "25-3", text: "Using verified email lists" },
+    { id: "25-4", text: "Sending from personal accounts" }
+  ],
+  correctAnswer: "25-3"
+},
+{
+  id: 26,
+  text: "Which tool is best for tracking website performance?",
+  options: [
+    { id: "26-1", text: "Google Analytics" },
+    { id: "26-2", text: "Google Maps" },
+    { id: "26-3", text: "Google Translate" },
+    { id: "26-4", text: "Google Meet" }
+  ],
+  correctAnswer: "26-1"
+},
+{
+  id: 27,
+  text: "What does a high bounce rate usually indicate?",
+  options: [
+    { id: "27-1", text: "Users like your site" },
+    { id: "27-2", text: "Users are leaving quickly" },
+    { id: "27-3", text: "More ad clicks" },
+    { id: "27-4", text: "Better SEO" }
+  ],
+  correctAnswer: "27-2"
+},
+{
+  id: 28,
+  text: "Which metric shows the number of times your ad was seen?",
+  options: [
+    { id: "28-1", text: "Clicks" },
+    { id: "28-2", text: "CTR" },
+    { id: "28-3", text: "Impressions" },
+    { id: "28-4", text: "Engagement" }
+  ],
+  correctAnswer: "28-3"
+},
+{
+  id: 29,
+  text: "What does conversion rate measure?",
+  options: [
+    { id: "29-1", text: "% of users who click on links" },
+    { id: "29-2", text: "% of traffic from mobile" },
+    { id: "29-3", text: "% of visitors who complete a desired action" },
+    { id: "29-4", text: "% of emails delivered" }
+  ],
+  correctAnswer: "29-3"
+},
+{
+  id: 30,
+  text: "Which Google tool is used for keyword research?",
+  options: [
+    { id: "30-1", text: "Google Calendar" },
+    { id: "30-2", text: "Google Trends" },
+    { id: "30-3", text: "Google Sites" },
+    { id: "30-4", text: "Google Forms" }
+  ],
+  correctAnswer: "30-2"
+},
+{
+  id: 31,
+  text: "What does CTA stand for?",
+  options: [
+    { id: "31-1", text: "Cost to Advertise" },
+    { id: "31-2", text: "Call to Action" },
+    { id: "31-3", text: "Click to Apply" },
+    { id: "31-4", text: "Content Tracking Analysis" }
+  ],
+  correctAnswer: "31-2"
+},
+{
+  id: 32,
+  text: "What type of content helps boost SEO?",
+  options: [
+    { id: "32-1", text: "Plagiarized content" },
+    { id: "32-2", text: "Fresh, relevant, keyword-rich content" },
+    { id: "32-3", text: "Hidden content" },
+    { id: "32-4", text: "Outdated content" }
+  ],
+  correctAnswer: "32-2"
+},
+{
+  id: 33,
+  text: "Which is a good platform for running e-commerce ads?",
+  options: [
+    { id: "33-1", text: "Pinterest" },
+    { id: "33-2", text: "YouTube" },
+    { id: "33-3", text: "Google Shopping" },
+    { id: "33-4", text: "Spotify" }
+  ],
+  correctAnswer: "33-3"
+},
+{
+  id: 34,
+  text: "Content marketing mainly focuses on:",
+  options: [
+    { id: "34-1", text: "Viral videos" },
+    { id: "34-2", text: "Pushy sales" },
+    { id: "34-3", text: "Providing valuable information" },
+    { id: "34-4", text: "Hard selling" }
+  ],
+  correctAnswer: "34-3"
+},
+{
+  id: 35,
+  text: "A blog helps digital marketing by:",
+  options: [
+    { id: "35-1", text: "Hiding keywords" },
+    { id: "35-2", text: "Increasing bounce rate" },
+    { id: "35-3", text: "Improving SEO and driving traffic" },
+    { id: "35-4", text: "Slowing down the site" }
+  ],
+  correctAnswer: "35-3"
+},
+{
+  id: 36,
+  text: "Which format is most used for mobile-friendly content?",
+  options: [
+    { id: "36-1", text: "Flash" },
+    { id: "36-2", text: "HTML" },
+    { id: "36-3", text: "PDF" },
+    { id: "36-4", text: "AMP" }
+  ],
+  correctAnswer: "36-4"
+},
+{
+  id: 37,
+  text: "Which is an influencer marketing platform?",
+  options: [
+    { id: "37-1", text: "Upwork" },
+    { id: "37-2", text: "TikTok" },
+    { id: "37-3", text: "BuzzSumo" },
+    { id: "37-4", text: "Indeed" }
+  ],
+  correctAnswer: "37-3"
+},
+{
+  id: 38,
+  text: "Voice search is increasing due to:",
+  options: [
+    { id: "38-1", text: "Google Docs" },
+    { id: "38-2", text: "Smart assistants like Alexa" },
+    { id: "38-3", text: "Long content" },
+    { id: "38-4", text: "PDFs" }
+  ],
+  correctAnswer: "38-2"
+},
+{
+  id: 39,
+  text: "Which of the following is a KPI in digital marketing?",
+  options: [
+    { id: "39-1", text: "Impressions" },
+    { id: "39-2", text: "Click-through rate" },
+    { id: "39-3", text: "Bounce rate" },
+    { id: "39-4", text: "All of the above" }
+  ],
+  correctAnswer: "39-4"
+},
+{
+  id: 40,
+  text: "What is a sales funnel?",
+  options: [
+    { id: "40-1", text: "A tool to increase price" },
+    { id: "40-2", text: "A customer journey from awareness to purchase" },
+    { id: "40-3", text: "A pop-up tool" },
+    { id: "40-4", text: "A blog template" }
+  ],
+  correctAnswer: "40-2"
+}
+],
+
+      },
+      ai: {
+        assignment: [
+  {
+    id: 1,
+    text: "What does AI stand for?",
+    options: [
+      { id: "1-1", text: "Automatic Intelligence" },
+      { id: "1-2", text: "Artificial Integration" },
+      { id: "1-3", text: "Artificial Intelligence" },
+      { id: "1-4", text: "Auto Input" }
+    ],
+    correctAnswer: "1-3"
+  },
+  {
+    id: 2,
+    text: "Which of the following is a branch of AI?",
+    options: [
+      { id: "2-1", text: "Mechanical Engineering" },
+      { id: "2-2", text: "Machine Learning" },
+      { id: "2-3", text: "Civil Engineering" },
+      { id: "2-4", text: "Organic Chemistry" }
+    ],
+    correctAnswer: "2-2"
+  },
+  {
+    id: 3,
+    text: "Which programming language is most commonly used in AI today?",
+    options: [
+      { id: "3-1", text: "HTML" },
+      { id: "3-2", text: "Python" },
+      { id: "3-3", text: "PHP" },
+      { id: "3-4", text: "SQL" }
+    ],
+    correctAnswer: "3-2"
+  },
+  {
+    id: 4,
+    text: "What is the main goal of AI?",
+    options: [
+      { id: "4-1", text: "To replace the internet" },
+      { id: "4-2", text: "To build machines that think and learn" },
+      { id: "4-3", text: "To improve human eyesight" },
+      { id: "4-4", text: "To build websites faster" }
+    ],
+    correctAnswer: "4-2"
+  },
+  {
+    id: 5,
+    text: "What is Machine Learning?",
+    options: [
+      { id: "5-1", text: "Writing HTML by hand" },
+      { id: "5-2", text: "Learning how to use machines" },
+      { id: "5-3", text: "Teaching computers to learn from data" },
+      { id: "5-4", text: "Building robots" }
+    ],
+    correctAnswer: "5-3"
+  },
+  {
+    id: 6,
+    text: "Which of the following is an application of AI?",
+    options: [
+      { id: "6-1", text: "Google Translate" },
+      { id: "6-2", text: "Microsoft Word" },
+      { id: "6-3", text: "Notepad" },
+      { id: "6-4", text: "Calculator" }
+    ],
+    correctAnswer: "6-1"
+  },
+  {
+    id: 7,
+    text: "What is a dataset in AI?",
+    options: [
+      { id: "7-1", text: "A collection of wires" },
+      { id: "7-2", text: "A group of machines" },
+      { id: "7-3", text: "A collection of data used to train models" },
+      { id: "7-4", text: "A program file" }
+    ],
+    correctAnswer: "7-3"
+  },
+  {
+    id: 8,
+    text: "Which company developed ChatGPT?",
+    options: [
+      { id: "8-1", text: "Google" },
+      { id: "8-2", text: "Facebook" },
+      { id: "8-3", text: "Microsoft" },
+      { id: "8-4", text: "OpenAI" }
+    ],
+    correctAnswer: "8-4"
+  },
+  {
+    id: 9,
+    text: "What does NLP stand for in AI?",
+    options: [
+      { id: "9-1", text: "New Learning Process" },
+      { id: "9-2", text: "Natural Language Processing" },
+      { id: "9-3", text: "Normal Language Programming" },
+      { id: "9-4", text: "Neural Language Pattern" }
+    ],
+    correctAnswer: "9-2"
+  },
+  {
+    id: 10,
+    text: "Which of the following is an example of AI in everyday life?",
+    options: [
+      { id: "10-1", text: "Alarm Clock" },
+      { id: "10-2", text: "Smart Assistant (like Siri or Alexa)" },
+      { id: "10-3", text: "Microwave" },
+      { id: "10-4", text: "Electric Fan" }
+    ],
+    correctAnswer: "10-2"
+  },
+  {
+    id: 11,
+    text: "What is a neural network inspired by?",
+    options: [
+      { id: "11-1", text: "Internet cables" },
+      { id: "11-2", text: "Human brain" },
+      { id: "11-3", text: "Solar system" },
+      { id: "11-4", text: "Computer chips" }
+    ],
+    correctAnswer: "11-2"
+  },
+  {
+    id: 12,
+    text: "What is a chatbot?",
+    options: [
+      { id: "12-1", text: "A human working online" },
+      { id: "12-2", text: "A type of mobile app" },
+      { id: "12-3", text: "An AI that can simulate conversation" },
+      { id: "12-4", text: "A robot that dances" }
+    ],
+    correctAnswer: "12-3"
+  },
+  {
+    id: 13,
+    text: "Which of these is NOT a type of machine learning?",
+    options: [
+      { id: "13-1", text: "Supervised learning" },
+      { id: "13-2", text: "Unsupervised learning" },
+      { id: "13-3", text: "Reinforcement learning" },
+      { id: "13-4", text: "Random learning" }
+    ],
+    correctAnswer: "13-4"
+  },
+  {
+    id: 14,
+    text: "Which AI term means \"the model can make predictions on new data\"?",
+    options: [
+      { id: "14-1", text: "Overfitting" },
+      { id: "14-2", text: "Generalization" },
+      { id: "14-3", text: "Encoding" },
+      { id: "14-4", text: "Compiling" }
+    ],
+    correctAnswer: "14-2"
+  },
+  {
+    id: 15,
+    text: "What is the name of the AI that defeated world champions in chess?",
+    options: [
+      { id: "15-1", text: "Alexa" },
+      { id: "15-2", text: "Siri" },
+      { id: "15-3", text: "Deep Blue" },
+      { id: "15-4", text: "Cortana" }
+    ],
+    correctAnswer: "15-3"
+  },
+  {
+    id: 16,
+    text: "Which AI technique is used in self-driving cars?",
+    options: [
+      { id: "16-1", text: "Web design" },
+      { id: "16-2", text: "Data entry" },
+      { id: "16-3", text: "Computer vision" },
+      { id: "16-4", text: "Spreadsheet analysis" }
+    ],
+    correctAnswer: "16-3"
+  },
+  {
+    id: 17,
+    text: "What is an algorithm?",
+    options: [
+      { id: "17-1", text: "A dance move" },
+      { id: "17-2", text: "A step-by-step procedure for solving a problem" },
+      { id: "17-3", text: "A type of AI" },
+      { id: "17-4", text: "A robot language" }
+    ],
+    correctAnswer: "17-2"
+  },
+  {
+    id: 18,
+    text: "What does the Turing Test evaluate?",
+    options: [
+      { id: "18-1", text: "Computer speed" },
+      { id: "18-2", text: "Robot size" },
+      { id: "18-3", text: "If a machine can mimic human intelligence" },
+      { id: "18-4", text: "Data storage" }
+    ],
+    correctAnswer: "18-3"
+  },
+  {
+    id: 19,
+    text: "What is the full form of GPT in ChatGPT?",
+    options: [
+      { id: "19-1", text: "General Purpose Tool" },
+      { id: "19-2", text: "Generative Pre-trained Transformer" },
+      { id: "19-3", text: "Graphical Processing Technique" },
+      { id: "19-4", text: "Great Predictive Transformer" }
+    ],
+    correctAnswer: "19-2"
+  },
+  {
+    id: 20,
+    text: "What is the term for a computer’s ability to understand spoken words?",
+    options: [
+      { id: "20-1", text: "Voice coding" },
+      { id: "20-2", text: "Speech recognition" },
+      { id: "20-3", text: "Speech mixing" },
+      { id: "20-4", text: "Sound processing" }
+    ],
+    correctAnswer: "20-2"
+  }
+],
+        exam:[
+  {
+    id: 1,
+    text: "What does AI stand for?",
+    options: [
+      { id: "1-1", text: "Automated Intelligence" },
+      { id: "1-2", text: "Artificial Integration" },
+      { id: "1-3", text: "Artificial Intelligence" },
+      { id: "1-4", text: "Automatic Interaction" }
+    ],
+    correctAnswer: "1-3"
+  },
+  {
+    id: 2,
+    text: "Which of the following is an example of AI?",
+    options: [
+      { id: "2-1", text: "Washing machine" },
+      { id: "2-2", text: "Email spam filter" },
+      { id: "2-3", text: "Electric fan" },
+      { id: "2-4", text: "Calculator" }
+    ],
+    correctAnswer: "2-2"
+  },
+  {
+    id: 3,
+    text: "Which of the following is a branch of AI?",
+    options: [
+      { id: "3-1", text: "Cloud computing" },
+      { id: "3-2", text: "Robotics" },
+      { id: "3-3", text: "Networking" },
+      { id: "3-4", text: "Database management" }
+    ],
+    correctAnswer: "3-2"
+  },
+  {
+    id: 4,
+    text: "Who is considered the father of Artificial Intelligence?",
+    options: [
+      { id: "4-1", text: "Alan Turing" },
+      { id: "4-2", text: "Elon Musk" },
+      { id: "4-3", text: "John McCarthy" },
+      { id: "4-4", text: "Geoffrey Hinton" }
+    ],
+    correctAnswer: "4-3"
+  },
+  {
+    id: 5,
+    text: "Which of these is not an AI application?",
+    options: [
+      { id: "5-1", text: "Face recognition" },
+      { id: "5-2", text: "Self-driving cars" },
+      { id: "5-3", text: "Spreadsheet calculations" },
+      { id: "5-4", text: "Chatbots" }
+    ],
+    correctAnswer: "5-3"
+  },
+  {
+    id: 6,
+    text: "Which of the following is not a type of machine learning?",
+    options: [
+      { id: "6-1", text: "Supervised" },
+      { id: "6-2", text: "Unsupervised" },
+      { id: "6-3", text: "Reinforcement" },
+      { id: "6-4", text: "Observational" }
+    ],
+    correctAnswer: "6-4"
+  },
+  {
+    id: 7,
+    text: "Supervised learning requires:",
+    options: [
+      { id: "7-1", text: "No data" },
+      { id: "7-2", text: "Unlabeled data" },
+      { id: "7-3", text: "Labeled data" },
+      { id: "7-4", text: "Reinforced data" }
+    ],
+    correctAnswer: "7-3"
+  },
+  {
+    id: 8,
+    text: "In unsupervised learning, the model is trained on:",
+    options: [
+      { id: "8-1", text: "Labeled data" },
+      { id: "8-2", text: "Data with missing values" },
+      { id: "8-3", text: "Unlabeled data" },
+      { id: "8-4", text: "Cleaned data only" }
+    ],
+    correctAnswer: "8-3"
+  },
+  {
+    id: 9,
+    text: "Which of the following is a reinforcement learning example?",
+    options: [
+      { id: "9-1", text: "Email classification" },
+      { id: "9-2", text: "Chatbot conversation" },
+      { id: "9-3", text: "Game playing AI (e.g., AlphaGo)" },
+      { id: "9-4", text: "Spam filtering" }
+    ],
+    correctAnswer: "9-3"
+  },
+  {
+    id: 10,
+    text: "Which algorithm is commonly used for classification tasks?",
+    options: [
+      { id: "10-1", text: "K-Means" },
+      { id: "10-2", text: "Linear Regression" },
+      { id: "10-3", text: "Decision Trees" },
+      { id: "10-4", text: "PCA" }
+    ],
+    correctAnswer: "10-3"
+  },
+  {
+    id: 11,
+    text: "Which algorithm is best suited for regression?",
+    options: [
+      { id: "11-1", text: "Decision Tree" },
+      { id: "11-2", text: "Naive Bayes" },
+      { id: "11-3", text: "Linear Regression" },
+      { id: "11-4", text: "K-Means" }
+    ],
+    correctAnswer: "11-3"
+  },
+  {
+    id: 12,
+    text: "K-Means algorithm is used for:",
+    options: [
+      { id: "12-1", text: "Classification" },
+      { id: "12-2", text: "Clustering" },
+      { id: "12-3", text: "Regression" },
+      { id: "12-4", text: "Prediction" }
+    ],
+    correctAnswer: "12-2"
+  },
+  {
+    id: 13,
+    text: "Which of the following is a supervised learning algorithm?",
+    options: [
+      { id: "13-1", text: "K-Means" },
+      { id: "13-2", text: "DBSCAN" },
+      { id: "13-3", text: "Logistic Regression" },
+      { id: "13-4", text: "Apriori" }
+    ],
+    correctAnswer: "13-3"
+  },
+  {
+    id: 14,
+    text: "What does the K in KNN stand for?",
+    options: [
+      { id: "14-1", text: "Knowledge" },
+      { id: "14-2", text: "Kernel" },
+      { id: "14-3", text: "K-value (number of neighbors)" },
+      { id: "14-4", text: "None" }
+    ],
+    correctAnswer: "14-3"
+  },
+  {
+    id: 15,
+    text: "Which algorithm is used to reduce dimensionality?",
+    options: [
+      { id: "15-1", text: "Random Forest" },
+      { id: "15-2", text: "PCA" },
+      { id: "15-3", text: "SVM" },
+      { id: "15-4", text: "Naive Bayes" }
+    ],
+    correctAnswer: "15-2"
+  },
+  {
+    id: 16,
+    text: "Which of the following is a deep learning framework?",
+    options: [
+      { id: "16-1", text: "Pandas" },
+      { id: "16-2", text: "TensorFlow" },
+      { id: "16-3", text: "Matplotlib" },
+      { id: "16-4", text: "Scikit-learn" }
+    ],
+    correctAnswer: "16-2"
+  },
+  {
+    id: 17,
+    text: "What is a neuron in deep learning?",
+    options: [
+      { id: "17-1", text: "A biological brain cell" },
+      { id: "17-2", text: "A mathematical function" },
+      { id: "17-3", text: "A variable" },
+      { id: "17-4", text: "An optimizer" }
+    ],
+    correctAnswer: "17-2"
+  },
+  {
+    id: 18,
+    text: "Which type of network is used for image processing?",
+    options: [
+      { id: "18-1", text: "RNN" },
+      { id: "18-2", text: "CNN" },
+      { id: "18-3", text: "SVM" },
+      { id: "18-4", text: "Naive Bayes" }
+    ],
+    correctAnswer: "18-2"
+  },
+  {
+    id: 19,
+    text: "RNN is best suited for:",
+    options: [
+      { id: "19-1", text: "Static images" },
+      { id: "19-2", text: "Time-series or sequence data" },
+      { id: "19-3", text: "Clustering" },
+      { id: "19-4", text: "Dimensionality reduction" }
+    ],
+    correctAnswer: "19-2"
+  },
+  {
+    id: 20,
+    text: "The final layer of a classification neural network is usually:",
+    options: [
+      { id: "20-1", text: "ReLU" },
+      { id: "20-2", text: "Softmax" },
+      { id: "20-3", text: "Sigmoid" },
+      { id: "20-4", text: "Tanh" }
+    ],
+    correctAnswer: "20-2"
+  },
+  {
+    id: 21,
+    text: "Which of the following is used for classification accuracy?",
+    options: [
+      { id: "21-1", text: "MSE" },
+      { id: "21-2", text: "RMSE" },
+      { id: "21-3", text: "Accuracy score" },
+      { id: "21-4", text: "R-squared" }
+    ],
+    correctAnswer: "21-3"
+  },
+  {
+    id: 22,
+    text: "Confusion matrix is used for evaluating:",
+    options: [
+      { id: "22-1", text: "Regression" },
+      { id: "22-2", text: "Clustering" },
+      { id: "22-3", text: "Classification" },
+      { id: "22-4", text: "Time complexity" }
+    ],
+    correctAnswer: "22-3"
+  },
+  {
+    id: 23,
+    text: "Which metric is useful for imbalanced classification problems?",
+    options: [
+      { id: "23-1", text: "Accuracy" },
+      { id: "23-2", text: "Precision & Recall" },
+      { id: "23-3", text: "MSE" },
+      { id: "23-4", text: "RMSE" }
+    ],
+    correctAnswer: "23-2"
+  },
+  {
+    id: 24,
+    text: "What does ROC stand for in ROC Curve?",
+    options: [
+      { id: "24-1", text: "Rate of Change" },
+      { id: "24-2", text: "Receiver Operating Characteristic" },
+      { id: "24-3", text: "Regression of Classification" },
+      { id: "24-4", text: "Recall over Confidence" }
+    ],
+    correctAnswer: "24-2"
+  },
+  {
+    id: 25,
+    text: "Which value represents the error in regression models?",
+    options: [
+      { id: "25-1", text: "Precision" },
+      { id: "25-2", text: "Accuracy" },
+      { id: "25-3", text: "MSE" },
+      { id: "25-4", text: "AUC" }
+    ],
+    correctAnswer: "25-3"
+  },
+  {
+    id: 26,
+    text: "Which library is used for ML in Python?",
+    options: [
+      { id: "26-1", text: "Pandas" },
+      { id: "26-2", text: "Matplotlib" },
+      { id: "26-3", text: "Scikit-learn" },
+      { id: "26-4", text: "Flask" }
+    ],
+    correctAnswer: "26-3"
+  },
+  {
+    id: 27,
+    text: "Which library is widely used for numerical computation in Python?",
+    options: [
+      { id: "27-1", text: "NumPy" },
+      { id: "27-2", text: "TensorFlow" },
+      { id: "27-3", text: "Seaborn" },
+      { id: "27-4", text: "Keras" }
+    ],
+    correctAnswer: "27-1"
+  },
+  {
+    id: 28,
+    text: "Which library is an abstraction over TensorFlow?",
+    options: [
+      { id: "28-1", text: "Scikit-learn" },
+      { id: "28-2", text: "NumPy" },
+      { id: "28-3", text: "Keras" },
+      { id: "28-4", text: "Pandas" }
+    ],
+    correctAnswer: "28-3"
+  },
+  {
+    id: 29,
+    text: "Which environment is most used for prototyping in data science?",
+    options: [
+      { id: "29-1", text: "Jupyter Notebook" },
+      { id: "29-2", text: "PowerPoint" },
+      { id: "29-3", text: "Excel" },
+      { id: "29-4", text: "Dreamweaver" }
+    ],
+    correctAnswer: "29-1"
+  },
+  {
+    id: 30,
+    text: "Which of these is NOT a Python library for AI/ML?",
+    options: [
+      { id: "30-1", text: "Scikit-learn" },
+      { id: "30-2", text: "NumPy" },
+      { id: "30-3", text: "BeautifulSoup" },
+      { id: "30-4", text: "TensorFlow" }
+    ],
+    correctAnswer: "30-3"
+  },
+  {
+    id: 31,
+    text: "Which of the following is an application of AI?",
+    options: [
+      { id: "31-1", text: "Excel formulas" },
+      { id: "31-2", text: "Traffic predictions on Google Maps" },
+      { id: "31-3", text: "Document printing" },
+      { id: "31-4", text: "WiFi routers" }
+    ],
+    correctAnswer: "31-2"
+  },
+  {
+    id: 32,
+    text: "What is Natural Language Processing (NLP)?",
+    options: [
+      { id: "32-1", text: "Programming hardware" },
+      { id: "32-2", text: "Studying body language" },
+      { id: "32-3", text: "Understanding and generating human language" },
+      { id: "32-4", text: "Processing images" }
+    ],
+    correctAnswer: "32-3"
+  },
+  {
+    id: 33,
+    text: "Which company developed AlphaGo?",
+    options: [
+      { id: "33-1", text: "Microsoft" },
+      { id: "33-2", text: "DeepMind (Google)" },
+      { id: "33-3", text: "OpenAI" },
+      { id: "33-4", text: "IBM" }
+    ],
+    correctAnswer: "33-2"
+  },
+  {
+    id: 34,
+    text: "Which AI model can generate text from prompts?",
+    options: [
+      { id: "34-1", text: "CNN" },
+      { id: "34-2", text: "KNN" },
+      { id: "34-3", text: "GPT" },
+      { id: "34-4", text: "PCA" }
+    ],
+    correctAnswer: "34-3"
+  },
+  {
+    id: 35,
+    text: "Which industry widely uses AI for fraud detection?",
+    options: [
+      { id: "35-1", text: "Agriculture" },
+      { id: "35-2", text: "Education" },
+      { id: "35-3", text: "Banking/Finance" },
+      { id: "35-4", text: "Tourism" }
+    ],
+    correctAnswer: "35-3"
+  },
+  {
+    id: 36,
+    text: "What is one risk of using AI?",
+    options: [
+      { id: "36-1", text: "Data loss" },
+      { id: "36-2", text: "Bias in decision-making" },
+      { id: "36-3", text: "File corruption" },
+      { id: "36-4", text: "Storage issues" }
+    ],
+    correctAnswer: "36-2"
+  },
+  {
+    id: 37,
+    text: "Which of the following is important for ethical AI?",
+    options: [
+      { id: "37-1", text: "Speed" },
+      { id: "37-2", text: "Transparency" },
+      { id: "37-3", text: "Deep learning" },
+      { id: "37-4", text: "More parameters" }
+    ],
+    correctAnswer: "37-2"
+  },
+  {
+    id: 38,
+    text: "AI bias usually results from:",
+    options: [
+      { id: "38-1", text: "High RAM usage" },
+      { id: "38-2", text: "Poor internet" },
+      { id: "38-3", text: "Biased training data" },
+      { id: "38-4", text: "CPU overheating" }
+    ],
+    correctAnswer: "38-3"
+  },
+  {
+    id: 39,
+    text: "Which of the following is NOT a limitation of AI?",
+    options: [
+      { id: "39-1", text: "Lack of emotions" },
+      { id: "39-2", text: "Automation" },
+      { id: "39-3", text: "Data dependency" },
+      { id: "39-4", text: "Expensive training" }
+    ],
+    correctAnswer: "39-2"
+  },
+  {
+    id: 40,
+    text: "Which term describes AI systems making decisions that humans can't explain?",
+    options: [
+      { id: "40-1", text: "Deep Bias" },
+      { id: "40-2", text: "Neural Overfitting" },
+      { id: "40-3", text: "Black Box" },
+      { id: "40-4", text: "AutoML" }
+    ],
+    correctAnswer: "40-3"
+  }
+],
+      }
+    };
+
+
+// Get domain display name
+function getDomainName(domain) {
+  const domains = {
+    web: "Web Development",
+    data: "Data Science",
+    marketing: "Digital Marketing",
+    ai: "AIML"
+  };
+  return domains[domain] || domain;
+}
+
+async function loadStudent() {
+  const email = document.getElementById("emailInput").value.trim().toLowerCase();
+  if (!email) {
+    alert("Please enter your email.");
+    return;
+  }
+
+  // Show loading state on button
+  document.getElementById("loginBtnText").textContent = "Authenticating...";
+  document.getElementById("loginSpinner").classList.remove("hidden");
+  
+  // Show full loading screen
+  document.getElementById("loadingScreen").classList.remove("hidden");
+
+  try {
+    const res = await fetch(webAppURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `email=${encodeURIComponent(email)}`
+    });
+
+    const data = await res.json();
+
+    if (data.found) {
+      // Set storage prefix based on email
+      storagePrefix = email + '_';
+      
+      // Load user-specific progress from localStorage
+      completedVideos = JSON.parse(localStorage.getItem(storagePrefix + 'completedVideos')) || [];
+      assignmentCompleted = JSON.parse(localStorage.getItem(storagePrefix + 'assignmentCompleted')) || false;
+      examCompleted = JSON.parse(localStorage.getItem(storagePrefix + 'examCompleted')) || false;
+      assignmentScore = JSON.parse(localStorage.getItem(storagePrefix + 'assignmentScore')) || 0;
+      examScore = JSON.parse(localStorage.getItem(storagePrefix + 'examScore')) || 0;
+
+      // Hide loading and login
+      document.getElementById("loadingScreen").classList.add("hidden");
+      document.getElementById("loginBox").classList.add("hidden");
+      
+      // Set student data
+      document.getElementById("studentName").textContent = data.name;
+      document.getElementById("studentEmail").textContent = data.email;
+      document.getElementById("studentTrack").textContent = data.track;
+      
+      // Store student track for fetching questions
+      studentTrack = data.track;
+      
+      // Set header profile
+      document.getElementById("headerStudentName").textContent = data.name;
+      document.getElementById("profileInitials").textContent = getInitials(data.name);
+      document.getElementById("profileHeader").classList.remove("hidden");
+      
+      videos = data.videos; // [{ title: ..., id: ..., description: ... }]
+      document.getElementById("totalVideos").textContent = videos.length;
+      updateCompletedCount();
+      
+      // Show main content with animation
+      document.getElementById("mainContent").classList.remove("hidden");
+      document.querySelectorAll("#mainContent > *").forEach(el => {
+        el.classList.add("fade-in-up");
+      });
+      
+      // Load first video
+      currentIndex = 0;
+      loadVideo(currentIndex);
+      renderCourseContent();
+      
+      // Update progress
+      updateProgress();
+      
+      // Load YouTube API
+      loadYouTubeAPI();
+      
+      // Setup assignment and exam toggles
+      setupMilestoneToggles();
+      
+      // Update assignment and exam status
+      updateAssignmentStatus();
+      updateExamStatus();
+    } else {
+      document.getElementById("loadingScreen").classList.add("hidden");
+      document.getElementById("loginBtnText").textContent = "Access Dashboard";
+      document.getElementById("loginSpinner").classList.add("hidden");
+      alert("Email not found in our database. Please try again or contact support.");
+    }
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById("loadingScreen").classList.add("hidden");
+    document.getElementById("loginBtnText").textContent = "Access Dashboard";
+    document.getElementById("loginSpinner").classList.add("hidden");
+    alert("Error connecting to server. Please check your internet connection.");
+  }
+}
+
+function getInitials(name) {
+  return name.split(' ').map(n => n[0]).join('').toUpperCase();
+}
+
+function loadYouTubeAPI() {
+  // Load YouTube iframe API
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
+
+// This function is called by YouTube API when ready
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('videoFrame', {
+    events: {
+      'onStateChange': onPlayerStateChange
+    }
+  });
+}
+
+function loadVideo(index) {
+  const video = videos[index];
+  document.getElementById("videoTitle").textContent = video.title;
+  document.getElementById("videoDescription").textContent = video.description || "No description available";
+  document.getElementById("videoCounter").textContent = `Lesson ${index + 1} of ${videos.length}`;
+  
+  // Update YouTube embed with autoplay
+  document.getElementById("videoFrame").src =
+    `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0&modestbranding=1&controls=1&enablejsapi=1`;
+  
+  // Mark as completed if already watched
+  const videoItem = document.querySelector(`.video-item[data-index="${index}"]`);
+  if (videoItem) {
+    if (completedVideos.includes(index)) {
+      videoItem.classList.add("completed");
+    } else {
+      videoItem.classList.remove("completed");
+    }
+  }
+  
+  // Scroll to top of video player on mobile
+  if (window.innerWidth < 640) {
+    document.getElementById('playerContainer').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function onPlayerStateChange(event) {
+  // YouTube player state: 0 = ended, 1 = playing, 2 = paused, etc.
+  if (event.data === YT.PlayerState.ENDED) { // Video ended
+    markVideoCompleted();
+  }
+}
+
+function markVideoCompleted() {
+  if (!completedVideos.includes(currentIndex)) {
+    completedVideos.push(currentIndex);
+    localStorage.setItem(storagePrefix + 'completedVideos', JSON.stringify(completedVideos));
+    updateCompletedCount();
+    updateProgress();
+    
+    // Update UI
+    const videoItem = document.querySelector(`.video-item[data-index="${currentIndex}"]`);
+    if (videoItem) videoItem.classList.add("completed");
+    
+    // Auto-play next video if available
+    if (currentIndex < videos.length - 1) {
+      setTimeout(() => {
+        nextVideo();
+      }, 1000); // 1 second delay before auto-playing next
+    }
+  }
+}
+
+function nextVideo() {
+  if (currentIndex < videos.length - 1) {
+    currentIndex++;
+    loadVideo(currentIndex);
+    scrollToVideoItem(currentIndex);
+  } else {
+    // Show completion message if last video
+    alert("Congratulations! You've completed all video lessons. Now complete your assignment.");
+  }
+}
+
+function prevVideo() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    loadVideo(currentIndex);
+    scrollToVideoItem(currentIndex);
+  }
+}
+
+function updateCompletedCount() {
+  document.getElementById("completedVideos").textContent = completedVideos.length;
+}
+
+function updateProgress() {
+  // Calculate video progress (50% of total progress)
+  const videoPercent = Math.round((completedVideos.length / videos.length) * 50);
+  
+  // Add 25% if assignment is completed
+  const assignmentPercent = assignmentCompleted ? 25 : 0;
+  
+  // Add 25% if exam is completed
+  const examPercent = examCompleted ? 25 : 0;
+  
+  const totalPercent = videoPercent + assignmentPercent + examPercent;
+  
+  document.getElementById("progressPercent").textContent = `${totalPercent}%`;
+  document.getElementById("circlePercent").textContent = `${totalPercent}%`;
+  document.getElementById("progressBar").style.width = `${totalPercent}%`;
+  
+  // Animate circular progress
+  const circle = document.getElementById("progressCircle");
+  const circumference = 2 * Math.PI * 45;
+  const offset = circumference - (totalPercent / 100) * circumference;
+  circle.style.transition = "stroke-dashoffset 0.5s ease"; // Smooth animation
+  circle.style.strokeDashoffset = offset;
+  
+  // Update milestone progress
+  updateMilestoneProgress(totalPercent);
+  
+  // Update score displays
+  updateScoreDisplays();
+}
+
+function updateScoreDisplays() {
+  const assignmentScoreDisplay = document.getElementById("assignmentScoreDisplay");
+  const examScoreDisplay = document.getElementById("examScoreDisplay");
+  
+  if (assignmentCompleted) {
+    assignmentScoreDisplay.textContent = `${assignmentScore}%`;
+  } else {
+    assignmentScoreDisplay.textContent = "Not completed";
+  }
+  
+  if (examCompleted) {
+    examScoreDisplay.textContent = `${examScore}%`;
+  } else {
+    examScoreDisplay.textContent = "Not completed";
+  }
+}
+
+function updateMilestoneProgress(percent) {
+  // Update the milestone progress bar
+  document.getElementById("milestoneProgress").style.width = `${percent}%`;
+  
+  // Update milestone statuses
+  const videoMilestone = document.getElementById("milestoneVideos");
+  const assignmentMilestone = document.getElementById("milestoneAssignment");
+  const examMilestone = document.getElementById("milestoneExam");
+  
+  // Videos milestone (complete when all videos are watched)
+  if (completedVideos.length === videos.length) {
+    videoMilestone.classList.add("completed");
+  } else if (completedVideos.length > 0) {
+    videoMilestone.classList.add("active");
+    videoMilestone.classList.remove("completed");
+  } else {
+    videoMilestone.classList.remove("active", "completed");
+  }
+  
+  // Assignment milestone
+  if (assignmentCompleted) {
+    assignmentMilestone.classList.add("completed");
+  } else if (completedVideos.length === videos.length) {
+    assignmentMilestone.classList.add("active");
+    assignmentMilestone.classList.remove("completed");
+  } else {
+    assignmentMilestone.classList.remove("active", "completed");
+  }
+  
+  // Exam milestone
+  if (examCompleted) {
+    examMilestone.classList.add("completed");
+  } else if (assignmentCompleted && completedVideos.length === videos.length) {
+    examMilestone.classList.add("active");
+    examMilestone.classList.remove("completed");
+  } else {
+    examMilestone.classList.remove("active", "completed");
+  }
+}
+
+function resetProgress() {
+  if (confirm("Are you sure you want to reset your progress? This will mark all videos, assignments, and exams as incomplete.")) {
+    completedVideos = [];
+    assignmentCompleted = false;
+    examCompleted = false;
+    assignmentScore = 0;
+    examScore = 0;
+    
+    localStorage.setItem(storagePrefix + 'completedVideos', JSON.stringify(completedVideos));
+    localStorage.setItem(storagePrefix + 'assignmentCompleted', JSON.stringify(assignmentCompleted));
+    localStorage.setItem(storagePrefix + 'examCompleted', JSON.stringify(examCompleted));
+    localStorage.setItem(storagePrefix + 'assignmentScore', JSON.stringify(assignmentScore));
+    localStorage.setItem(storagePrefix + 'examScore', JSON.stringify(examScore));
+    
+    updateCompletedCount();
+    updateProgress();
+    updateAssignmentStatus();
+    updateExamStatus();
+    
+    // Update all video items
+    document.querySelectorAll(".video-item").forEach(item => {
+      item.classList.remove("completed");
+    });
+  }
+}
+
+function renderCourseContent() {
+  const container = document.getElementById("courseContent");
+  container.innerHTML = "";
+  
+  videos.forEach((video, index) => {
+    const isCompleted = completedVideos.includes(index);
+    const isCurrent = index === currentIndex;
+    
+    const item = document.createElement("div");
+    item.className = `video-item p-3 sm:p-4 rounded-lg border transition cursor-pointer ${isCompleted ? "bg-green-50 border-green-200" : "bg-white border-gray-200"} ${isCurrent ? "ring-2 ring-indigo-500" : ""}`;
+    item.dataset.index = index;
+    item.innerHTML = `
+      <div class="flex items-center">
+        <div class="mr-3 sm:mr-4 flex-shrink-0">
+          <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${isCompleted ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-600"}">
+            ${isCompleted ? '<i class="fas fa-check text-sm sm:text-base"></i>' : index + 1}
+          </div>
+        </div>
+        <div class="flex-grow">
+          <h4 class="text-sm sm:text-base font-medium ${isCurrent ? "text-indigo-600" : "text-gray-800"}">${video.title}</h4>
+          <p class="text-xs sm:text-sm text-gray-500">${video.duration || 'Duration not specified'}</p>
+        </div>
+        <div class="ml-3 sm:ml-4">
+          <i class="fas ${isCompleted ? 'fa-check-circle text-green-500' : 'fa-circle text-gray-300'} text-sm sm:text-base"></i>
+        </div>
+      </div>
+    `;
+    
+    item.addEventListener("click", () => {
+      currentIndex = index;
+      loadVideo(currentIndex);
+      renderCourseContent(); // Re-render to update current video highlight
+    });
+    
+    container.appendChild(item);
+  });
+}
+
+function scrollToVideoItem(index) {
+  const item = document.querySelector(`.video-item[data-index="${index}"]`);
+  if (item) {
+    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  renderCourseContent(); // Re-render to update current video highlight
+}
+
+function setupMilestoneToggles() {
+  // Assignment toggle
+  document.getElementById("assignmentToggle").addEventListener("click", function() {
+    const details = document.getElementById("assignmentDetails");
+    const icon = this.querySelector("i");
+    
+    if (details.classList.contains("hidden")) {
+      details.classList.remove("hidden");
+      icon.classList.remove("fa-plus");
+      icon.classList.add("fa-minus");
+    } else {
+      details.classList.add("hidden");
+      icon.classList.remove("fa-minus");
+      icon.classList.add("fa-plus");
+    }
+  });
+  
+  // Exam toggle
+  document.getElementById("examToggle").addEventListener("click", function() {
+    const details = document.getElementById("examDetails");
+    const icon = this.querySelector("i");
+    
+    if (details.classList.contains("hidden")) {
+      details.classList.remove("hidden");
+      icon.classList.remove("fa-plus");
+      icon.classList.add("fa-minus");
+    } else {
+      details.classList.add("hidden");
+      icon.classList.remove("fa-minus");
+      icon.classList.add("fa-plus");
+    }
+  });
+}
+
+function updateAssignmentStatus() {
+  const statusIcon = document.getElementById("assignmentStatus");
+  
+  if (assignmentCompleted) {
+    statusIcon.classList.remove("fa-circle", "text-gray-300");
+    statusIcon.classList.add("fa-check-circle", "text-green-500");
+  } else {
+    statusIcon.classList.remove("fa-check-circle", "text-green-500");
+    statusIcon.classList.add("fa-circle", "text-gray-300");
+  }
+}
+
+function updateExamStatus() {
+  const statusIcon = document.getElementById("examStatus");
+  const takeExamBtn = document.getElementById("takeExamBtn");
+  
+  if (examCompleted) {
+    statusIcon.classList.remove("fa-circle", "text-gray-300");
+    statusIcon.classList.add("fa-check-circle", "text-green-500");
+    takeExamBtn.textContent = "Exam Completed";
+    takeExamBtn.disabled = true;
+  } else {
+    statusIcon.classList.remove("fa-check-circle", "text-green-500");
+    statusIcon.classList.add("fa-circle", "text-gray-300");
+    takeExamBtn.textContent = "Take Final Exam";
+    
+    // Enable exam button only if all videos and assignment are completed
+    if (completedVideos.length === videos.length && assignmentCompleted) {
+      takeExamBtn.disabled = false;
+    } else {
+      takeExamBtn.disabled = true;
+    }
+  }
+}
+
+// Domain Selection Functions
+function showDomainModal(type) {
+  document.getElementById("domainModal").classList.remove("hidden");
+  selectedDomain = "";
+  assignmentType = type;
+  
+  // Reset domain selection
+  document.querySelectorAll(".domain-card").forEach(card => {
+    card.classList.remove("selected");
+  });
+  
+  document.getElementById("confirmDomainBtn").disabled = true;
+}
+
+function closeDomainModal() {
+  document.getElementById("domainModal").classList.add("hidden");
+}
+
+// Setup domain selection
+document.querySelectorAll(".domain-card").forEach(card => {
+  card.addEventListener("click", function() {
+    // Remove selected class from all cards
+    document.querySelectorAll(".domain-card").forEach(c => {
+      c.classList.remove("selected");
+    });
+    
+    // Add selected class to clicked card
+    this.classList.add("selected");
+    
+    // Enable confirm button
+    document.getElementById("confirmDomainBtn").disabled = false;
+    
+    // Store selected domain
+    selectedDomain = this.dataset.domain;
+  });
+});
+
+function confirmDomain() {
+  if (selectedDomain) {
+    closeDomainModal();
+    
+    if (assignmentType === "assignment") {
+      // Load assignment questions for selected domain
+      assignmentQuestions = questionBanks[selectedDomain].assignment;
+      startAssignmentWithDomain();
+    } else if (assignmentType === "exam") {
+      // Load exam questions for selected domain
+      examQuestions = questionBanks[selectedDomain].exam;
+      startExamWithDomain();
+    }
+  }
+}
+
+// Assignment Functions
+function startAssignment() {
+  if (completedVideos.length === videos.length) {
+    showDomainModal("assignment");
+  } else {
+    alert("Please complete all video lessons before taking the assignment.");
+  }
+}
+
+function startAssignmentWithDomain() {
+  document.getElementById("assignmentModal").classList.remove("hidden");
+  document.getElementById("assignmentDomainName").textContent = getDomainName(selectedDomain);
+  document.getElementById("assignmentQuestions").classList.add("hidden");
+  document.getElementById("assignmentCameraFeed").classList.add("hidden");
+  document.querySelector("#assignmentCameraContainer .camera-placeholder").classList.remove("hidden");
+  document.getElementById("startAssignmentBtn").classList.remove("hidden");
+  
+  // Reset assignment state
+  currentAssignmentQuestion = 0;
+  assignmentAnswers = {};
+}
+
+function closeAssignmentModal() {
+  document.getElementById("assignmentModal").classList.add("hidden");
+  stopAssignmentCamera();
+  exitFullScreen();
+}
+
+async function verifyAssignmentCamera() {
+  try {
+    assignmentStream = await navigator.mediaDevices.getUserMedia({ video: true });
+    document.getElementById("assignmentCameraFeed").srcObject = assignmentStream;
+    document.getElementById("assignmentCameraFeed").classList.remove("hidden");
+    document.querySelector("#assignmentCameraContainer .camera-placeholder").classList.add("hidden");
+    document.getElementById("startAssignmentBtn").classList.add("hidden");
+    
+    // Show questions after camera is verified
+    document.getElementById("assignmentQuestions").classList.remove("hidden");
+    renderAssignmentQuestions();
+    
+    // Enable full screen
+    enableFullScreen();
+  } catch (err) {
+    alert("Could not access camera. Please enable camera permissions to continue with the assignment.");
+    console.error("Camera access error:", err);
+  }
+}
+
+function stopAssignmentCamera() {
+  if (assignmentStream) {
+    assignmentStream.getTracks().forEach(track => track.stop());
+    assignmentStream = null;
+  }
+}
+
+function renderAssignmentQuestions() {
+  const container = document.getElementById("assignmentQuestionContainer");
+  container.innerHTML = "";
+  
+  document.getElementById("assignmentTotalQuestions").textContent = assignmentQuestions.length;
+  document.getElementById("assignmentCurrentQuestion").textContent = currentAssignmentQuestion + 1;
+  
+  const question = assignmentQuestions[currentAssignmentQuestion];
+  const questionElement = document.createElement("div");
+  questionElement.className = "question-container";
+  questionElement.innerHTML = `
+    <h3 class="question-text">${currentAssignmentQuestion + 1}. ${question.text}</h3>
+    <div class="options-container">
+      ${question.options.map(option => `
+        <div class="option-item">
+          <label class="option-label">
+            <input type="radio" name="assignment-q${question.id}" value="${option.id}" class="option-input"
+              ${assignmentAnswers[question.id] === option.id ? 'checked' : ''}>
+            ${option.text}
+          </label>
+        </div>
+      `).join("")}
+    </div>
+  `;
+  
+  // Add event listeners to radio buttons
+  questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      assignmentAnswers[question.id] = e.target.value;
+    });
+  });
+  
+  container.appendChild(questionElement);
+  
+  // Update navigation buttons
+  updateAssignmentNavigation();
+}
+
+function updateAssignmentNavigation() {
+  const prevBtn = document.getElementById("assignmentPrevBtn");
+  const nextBtn = document.getElementById("assignmentNextBtn");
+  const submitBtn = document.getElementById("assignmentSubmitBtn");
+  
+  // Previous button
+  if (currentAssignmentQuestion === 0) {
+    prevBtn.disabled = true;
+  } else {
+    prevBtn.disabled = false;
+  }
+  
+  // Next button
+  if (currentAssignmentQuestion === assignmentQuestions.length - 1) {
+    nextBtn.disabled = true;
+    submitBtn.classList.remove("hidden");
+  } else {
+    nextBtn.disabled = false;
+    submitBtn.classList.add("hidden");
+  }
+}
+
+function prevAssignmentQuestion() {
+  if (currentAssignmentQuestion > 0) {
+    currentAssignmentQuestion--;
+    renderAssignmentQuestions();
+  }
+}
+
+function nextAssignmentQuestion() {
+  if (currentAssignmentQuestion < assignmentQuestions.length - 1) {
+    currentAssignmentQuestion++;
+    renderAssignmentQuestions();
+  }
+}
+
+function submitAssignment() {
+  // Calculate score
+  let correctAnswers = 0;
+  
+  assignmentQuestions.forEach(question => {
+    if (assignmentAnswers[question.id] === question.correctAnswer) {
+      correctAnswers++;
+    }
+  });
+  
+  const score = Math.round((correctAnswers / assignmentQuestions.length) * 100);
+  
+  // Update assignment status
+  assignmentCompleted = true;
+  assignmentScore = score;
+  
+  // Save to localStorage with prefix
+  localStorage.setItem(storagePrefix + 'assignmentCompleted', JSON.stringify(assignmentCompleted));
+  localStorage.setItem(storagePrefix + 'assignmentScore', JSON.stringify(assignmentScore));
+  
+  // Update progress and status
+  updateProgress();
+  updateAssignmentStatus();
+  updateExamStatus(); // Enable exam button if all conditions are met
+  
+  // Close modal and stop camera
+  document.getElementById("assignmentModal").classList.add("hidden");
+  stopAssignmentCamera();
+  exitFullScreen();
+  
+  // Close assignment details
+  document.getElementById("assignmentDetails").classList.add("hidden");
+  document.getElementById("assignmentToggle").querySelector("i").classList.remove("fa-minus");
+  document.getElementById("assignmentToggle").querySelector("i").classList.add("fa-plus");
+  
+  // Show results
+  showResults("Assignment Completed", `You scored ${score}% on the ${getDomainName(selectedDomain)} assignment`, score);
+}
+
+// Exam Functions
+function startExam() {
+  if (completedVideos.length === videos.length && assignmentCompleted) {
+    showDomainModal("exam");
+  } else {
+    alert("Please complete all video lessons and the assignment before taking the exam.");
+  }
+}
+
+function startExamWithDomain() {
+  document.getElementById("examModal").classList.remove("hidden");
+  document.getElementById("examDomainName").textContent = getDomainName(selectedDomain);
+  document.getElementById("examQuestions").classList.add("hidden");
+  document.getElementById("examCameraFeed").classList.add("hidden");
+  document.querySelector("#examCameraContainer .camera-placeholder").classList.remove("hidden");
+  document.getElementById("startExamBtn").classList.remove("hidden");
+  
+  // Reset exam state
+  currentExamQuestion = 0;
+  examAnswers = {};
+}
+
+function closeExamModal() {
+  document.getElementById("examModal").classList.add("hidden");
+  stopExamCamera();
+  exitFullScreen();
+}
+
+async function verifyExamCamera() {
+  try {
+    examStream = await navigator.mediaDevices.getUserMedia({ video: true }); // FIXED: Changed from navig.mediaDevices to navigator.mediaDevices
+    document.getElementById("examCameraFeed").srcObject = examStream;
+    document.getElementById("examCameraFeed").classList.remove("hidden");
+    document.querySelector("#examCameraContainer .camera-placeholder").classList.add("hidden");
+    document.getElementById("startExamBtn").classList.add("hidden");
+    
+    // Show questions after camera is verified
+    document.getElementById("examQuestions").classList.remove("hidden");
+    renderExamQuestions();
+    
+    // Enable full screen
+    enableFullScreen();
+  } catch (err) {
+    alert("Could not access camera. Please enable camera permissions to continue with the exam.");
+    console.error("Camera access error:", err);
+  }
+}
+
+function stopExamCamera() {
+  if (examStream) {
+    examStream.getTracks().forEach(track => track.stop());
+    examStream = null;
+  }
+}
+
+function renderExamQuestions() {
+  const container = document.getElementById("examQuestionContainer");
+  container.innerHTML = "";
+  
+  document.getElementById("examTotalQuestions").textContent = examQuestions.length;
+  document.getElementById("examCurrentQuestion").textContent = currentExamQuestion + 1;
+  
+  const question = examQuestions[currentExamQuestion];
+  const questionElement = document.createElement("div");
+  questionElement.className = "question-container";
+  questionElement.innerHTML = `
+    <h3 class="question-text">${currentExamQuestion + 1}. ${question.text}</h3>
+    <div class="options-container">
+      ${question.options.map(option => `
+        <div class="option-item">
+          <label class="option-label">
+            <input type="radio" name="exam-q${question.id}" value="${option.id}" class="option-input"
+              ${examAnswers[question.id] === option.id ? 'checked' : ''}>
+            ${option.text}
+          </label>
+        </div>
+      `).join("")}
+    </div>
+  `;
+  
+  // Add event listeners to radio buttons
+  questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      examAnswers[question.id] = e.target.value;
+    });
+  });
+  
+  container.appendChild(questionElement);
+  
+  // Update navigation buttons
+  updateExamNavigation();
+}
+
+function updateExamNavigation() {
+  const prevBtn = document.getElementById("examPrevBtn");
+  const nextBtn = document.getElementById("examNextBtn");
+  const submitBtn = document.getElementById("examSubmitBtn");
+  
+  // Previous button
+  if (currentExamQuestion === 0) {
+    prevBtn.disabled = true;
+  } else {
+    prevBtn.disabled = false;
+  }
+  
+  // Next button
+  if (currentExamQuestion === examQuestions.length - 1) {
+    nextBtn.disabled = true;
+    submitBtn.classList.remove("hidden");
+  } else {
+    nextBtn.disabled = false;
+    submitBtn.classList.add("hidden");
+  }
+}
+
+function prevExamQuestion() {
+  if (currentExamQuestion > 0) {
+    currentExamQuestion--;
+    renderExamQuestions();
+  }
+}
+
+function nextExamQuestion() {
+  if (currentExamQuestion < examQuestions.length - 1) {
+    currentExamQuestion++;
+    renderExamQuestions();
+  }
+}
+
+function submitExam() {
+  // Calculate score
+  let correctAnswers = 0;
+  
+  examQuestions.forEach(question => {
+    if (examAnswers[question.id] === question.correctAnswer) {
+      correctAnswers++;
+    }
+  });
+  
+  const score = Math.round((correctAnswers / examQuestions.length) * 100);
+  
+  // Update exam status
+  examCompleted = true;
+  examScore = score;
+  
+  // Save to localStorage with prefix
+  localStorage.setItem(storagePrefix + 'examCompleted', JSON.stringify(examCompleted));
+  localStorage.setItem(storagePrefix + 'examScore', JSON.stringify(examScore));
+  
+  // Update progress and status
+  updateProgress();
+  updateExamStatus();
+  
+  // Close modal and stop camera
+  document.getElementById("examModal").classList.add("hidden");
+  stopExamCamera();
+  exitFullScreen();
+  
+  // Close exam details
+  document.getElementById("examDetails").classList.add("hidden");
+  document.getElementById("examToggle").querySelector("i").classList.remove("fa-minus");
+  document.getElementById("examToggle").querySelector("i").classList.add("fa-plus");
+  
+  // Show results
+  showResults("Exam Completed", `You scored ${score}% on the ${getDomainName(selectedDomain)} exam`, score);
+}
+
+// Full Screen Functions
+function enableFullScreen() {
+  const elem = document.documentElement;
+  
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+  
+  fullScreenEnabled = true;
+  
+  // Add event listener for fullscreen change
+  document.addEventListener('fullscreenchange', handleFullScreenChange);
+  document.addEventListener('webkitfullscreenchange', handleFullScreenChange);
+  document.addEventListener('msfullscreenchange', handleFullScreenChange);
+}
+
+function exitFullScreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) { /* Safari */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE11 */
+    document.msExitFullscreen();
+  }
+  
+  fullScreenEnabled = false;
+  
+  // Remove event listeners
+  document.removeEventListener('fullscreenchange', handleFullScreenChange);
+  document.removeEventListener('webkitfullscreenchange', handleFullScreenChange);
+  document.removeEventListener('msfullscreenchange', handleFullScreenChange);
+}
+
+function handleFullScreenChange() {
+  if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+    // User exited full screen mode
+    if (fullScreenEnabled) {
+      // Auto-submit if in exam or assignment
+      if (document.getElementById("assignmentQuestions").classList.contains("hidden") === false) {
+        submitAssignment();
+        alert("Assignment was submitted because you exited full screen mode.");
+      } else if (document.getElementById("examQuestions").classList.contains("hidden") === false) {
+        submitExam();
+        alert("Exam was submitted because you exited full screen mode.");
+      }
+    }
+  }
+}
+
+// Results Modal Functions
+function showResults(title, description, score) {
+  document.getElementById("resultsTitle").textContent = title;
+  document.getElementById("resultsDescription").textContent = description;
+  document.getElementById("resultsScore").textContent = `${score}%`;
+  document.getElementById("resultsProgressBar").style.width = `${score}%`;
+  
+  document.getElementById("resultsModal").classList.remove("hidden");
+}
+
+function closeResultsModal() {
+  document.getElementById("resultsModal").classList.add("hidden");
+}
+
+// Add event listener for Enter key in email input
+document.getElementById("emailInput").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    loadStudent();
+  }
+});
+
+// Initialize the page (no progress load here, it's done in loadStudent)
+updateScoreDisplays();
+  </script>
+</body>
+</html>
+

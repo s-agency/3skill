@@ -18,6 +18,19 @@
 	<title>3 Skill</title>
 </head>
 <body>
+  <script>
+    document.addEventListener("contextmenu", function(e) {
+      e.preventDefault();
+      return false;
+    });
+
+    // Also disable common right-click shortcuts
+    document.addEventListener("keydown", function(e) {
+      if (e.ctrlKey && (e.key === "u" || e.key === "U" || e.key === "s" || e.key === "S")) {
+        e.preventDefault();
+      }
+    });
+  </script>
 <!--   *** Website Container Starts ***   -->
 <div class="website-container">
 	
@@ -32,7 +45,7 @@
 			<li><a href="index.html">Home</a></li>
 			<li><a href="about.html" target="_blank">About</a></li>
 			<li><a href="3Skill_Internship_Guarantee_Course_Details.pdf" target="_blank">Courses</a></li>
-			<li><a href="profile.html" target="_blank">Login</a></li>
+			<li><a href="dashbord.html" target="_blank">dashboard</a></li>
 			<li><a href="Certificate-Based Course.html" target="_blank">Internship</a></li>
 		</ul>
 		
@@ -52,6 +65,8 @@
 			<div style="background-color:#f5e9e8; padding:15px; border-left:5px solid #4caf50; border-radius:8px; font-size:1.1rem;">
   ✅ <strong> Certificate Included:</strong> Registration Fee ₹399 is only for certificate & slot
 </div>
+<a href="dashbord.html" class="btn-yellow">Students dashboard</a>
+
 <br>
  
      </div>
@@ -104,14 +119,7 @@
     h5 span{
       color: #208245;
     }
-    .courses-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 20px;
-      padding: 0 40px 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    
 
     .card {
       background: white;
@@ -189,7 +197,14 @@
   font-weight: 600;
   color: #111;
 }
-
+.courses-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+  padding: 0 40px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 .course-price {
   font-size: 1.2rem;
   font-weight: 600;
@@ -199,11 +214,54 @@
       background: #0056c4;
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.8rem;
-      }
-    }
+    
+   /* Mobile optimization */
+@media (max-width: 600px) {
+  .courses-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+    gap: 12px; /* smaller gap */
+    padding: 0 10px 20px;
+  }
+
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+
+  .card img {
+    height: 120px;   /* smaller image */
+    padding: 10px;   /* less padding */
+  }
+
+  .card-content {
+    padding: 12px;   /* tighter padding */
+  }
+
+  .card h2 {
+    font-size: 1rem; /* smaller title */
+    margin: 6px 0;
+  }
+
+  .details {
+    font-size: 0.75rem; /* smaller text */
+    margin-bottom: 4px;
+  }
+
+  .apply-btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    border-radius: 6px;
+  }
+
+  .course-title {
+    font-size: 1rem;
+  }
+
+  .course-price {
+    font-size: 1rem;
+  }
+}
+
   </style>
 
   <h1>3Skill Free Internship with Certification Option</h1>

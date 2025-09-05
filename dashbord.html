@@ -13,7 +13,43 @@
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
     }
+    .timer-display {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ef4444;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      z-index: 10000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
     
+    .warning-banner {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      color: #92400e;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      text-align: center;
+      font-weight: 500;
+    }
+    
+    .security-alert {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ef4444;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      z-index: 10000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
     .video-container {
       position: relative;
       padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
@@ -431,7 +467,7 @@
     </button>
     
     <div class="mt-4 sm:mt-6 text-center text-sm text-gray-500">
-      <p>Need help? <a href="#" class="text-indigo-600 hover:underline">Contact support</a></p>
+      <p>Need help? <a href="https://wa.me/6372105534" class="text-indigo-600 hover:underline">Contact support</a></p>
     </div>
   </div>
 
@@ -655,11 +691,11 @@
           <h3 class="font-medium">Digital Marketing</h3>
         </div>
         
-        <div class="domain-card" data-domain="design">
+        <div class="domain-card" data-domain="aiml">
           <div class="domain-icon">
             <i class="fas fa-paint-brush"></i>
           </div>
-          <h3 class="font-medium">UI/UX Design</h3>
+          <h3 class="font-medium">AIML</h3>
         </div>
       </div>
       
@@ -790,8 +826,8 @@
       </div>
     </div>
   </div>
- <script>
-    const webAppURL = "https://script.google.com/macros/s/AKfycbyTB4Pmj2T46zV7JmPN3_ERJxSiaMe_ETnS5i89jQS1sjeuMDGUGhQmqr1bk_N5uSjnig/exec"; // Replace with your URL
+<script>
+  const webAppURL = "https://script.google.com/macros/s/AKfycbyTB4Pmj2T46zV7JmPN3_ERJxSiaMe_ETnS5i89jQS1sjeuMDGUGhQmqr1bk_N5uSjnig/exec";
 
 let videos = [];
 let currentIndex = 0;
@@ -800,8 +836,8 @@ let assignmentCompleted;
 let examCompleted;
 let assignmentScore;
 let examScore;
-let player; // YouTube player instance
-let storagePrefix; // Will be set per user
+let player;
+let storagePrefix;
 
 // Track-specific questions
 let selectedDomain = "";
@@ -816,672 +852,685 @@ let assignmentAnswers = {};
 let examAnswers = {};
 let fullScreenEnabled = false;
 
+// NEW: Track assessment state and timers
+let assignmentTimer = null;
+let examTimer = null;
+let assignmentTimeLeft = 30 * 60; // 30 minutes in seconds
+let examTimeLeft = 45 * 60; // 45 minutes in seconds
+let isAssignmentSubmitted = false;
+let isExamSubmitted = false;
+let currentAssessmentType = null;
+let assignmentType = "";
+
 // Domain-specific questions
- const questionBanks = {
+// Domain-specific questions
+    const questionBanks = {
       web: {
-        assignment: [
+        assignment:  [
   {
     id: 1,
-    text: "What does HTML stand for?",
+    text: "What does CSS stand for?",
     options: [
-      { id: "1-1", text: "Hyperlinks and Text Markup Language" },
-      { id: "1-2", text: "Home Tool Markup Language" },
-      { id: "1-3", text: "Hyper Text Markup Language" },
-      { id: "1-4", text: "Hyper Tool Markup Language" }
+      { id: "1-1", text: "Computer Style Sheets" },
+      { id: "1-2", text: "Colorful Style Sheets" },
+      { id: "1-3", text: "Cascading Style Sheets" },
+      { id: "1-4", text: "Creative Style System" }
     ],
     correctAnswer: "1-3"
   },
   {
     id: 2,
-    text: "What is the correct HTML element for inserting a line break?",
+    text: "Which company developed React.js?",
     options: [
-      { id: "2-1", text: "<break>" },
-      { id: "2-2", text: "<br>" },
-      { id: "2-3", text: "<lb>" },
-      { id: "2-4", text: "<line>" }
+      { id: "2-1", text: "Google" },
+      { id: "2-2", text: "Facebook" },
+      { id: "2-3", text: "Microsoft" },
+      { id: "2-4", text: "Twitter" }
     ],
     correctAnswer: "2-2"
   },
   {
     id: 3,
-    text: "Which HTML tag is used to display an image?",
+    text: "Which HTML tag is used to define a hyperlink?",
     options: [
-      { id: "3-1", text: "<img>" },
-      { id: "3-2", text: "<image>" },
-      { id: "3-3", text: "<picture>" },
-      { id: "3-4", text: "<src>" }
+      { id: "3-1", text: "a" },
+      { id: "3-2", text: "link" },
+      { id: "3-3", text: "href" },
+      { id: "3-4", text: "hyperlink" }
     ],
     correctAnswer: "3-1"
   },
   {
     id: 4,
-    text: "What does CSS stand for?",
+    text: "Which command starts a local server in React apps?",
     options: [
-      { id: "4-1", text: "Computer Style Sheets" },
-      { id: "4-2", text: "Colorful Style Sheets" },
-      { id: "4-3", text: "Cascading Style Sheets" },
-      { id: "4-4", text: "Creative Style Sheets" }
-    ],
-    correctAnswer: "4-3"
-  },
-  {
-    id: 5,
-    text: "Where in an HTML document is the correct place to refer to an external CSS file?",
-    options: [
-      { id: "5-1", text: "At the end of the document" },
-      { id: "5-2", text: "Inside the <body>" },
-      { id: "5-3", text: "Inside the <head>" },
-      { id: "5-4", text: "Inside the <footer>" }
-    ],
-    correctAnswer: "5-3"
-  },
-  {
-    id: 6,
-    text: "Which is the correct CSS syntax?",
-    options: [
-      { id: "6-1", text: "body\\:color=black;" },
-      { id: "6-2", text: "{body;color\\:black;}" },
-      { id: "6-3", text: "body {color: black;}" },
-      { id: "6-4", text: "{body\\:color=black;}" }
-    ],
-    correctAnswer: "6-3"
-  },
-  {
-    id: 7,
-    text: 'How do you write "Hello World" in an alert box in JavaScript?',
-    options: [
-      { id: "7-1", text: 'alertBox("Hello World");' },
-      { id: "7-2", text: 'msg("Hello World");' },
-      { id: "7-3", text: 'alert("Hello World");' },
-      { id: "7-4", text: 'msgBox("Hello World");' }
-    ],
-    correctAnswer: "7-3"
-  },
-  {
-    id: 8,
-    text: "Which HTML tag is used to define a hyperlink?",
-    options: [
-      { id: "8-1", text: "<link>" },
-      { id: "8-2", text: "<a>" },
-      { id: "8-3", text: "<href>" },
-      { id: "8-4", text: "<hyperlink>" }
-    ],
-    correctAnswer: "8-2"
-  },
-  {
-    id: 9,
-    text: "What is the correct way to comment in HTML?",
-    options: [
-      { id: "9-1", text: "// This is a comment" },
-      { id: "9-2", text: "<!-- This is a comment -->" },
-      { id: "9-3", text: "/* This is a comment */" },
-      { id: "9-4", text: "# This is a comment" }
-    ],
-    correctAnswer: "9-2"
-  },
-  {
-    id: 10,
-    text: "Which symbol is used for ID selectors in CSS?",
-    options: [
-      { id: "10-1", text: "." },
-      { id: "10-2", text: "#" },
-      { id: "10-3", text: "*" },
-      { id: "10-4", text: "%" }
-    ],
-    correctAnswer: "10-2"
-  },
-  {
-    id: 11,
-    text: "What is the default file extension for an HTML file?",
-    options: [
-      { id: "11-1", text: ".html" },
-      { id: "11-2", text: ".ht" },
-      { id: "11-3", text: ".web" },
-      { id: "11-4", text: ".doc" }
-    ],
-    correctAnswer: "11-1"
-  },
-  {
-    id: 12,
-    text: "Which of the following is a JavaScript data type?",
-    options: [
-      { id: "12-1", text: "Text" },
-      { id: "12-2", text: "Number" },
-      { id: "12-3", text: "Paragraph" },
-      { id: "12-4", text: "Font" }
-    ],
-    correctAnswer: "12-2"
-  },
-  {
-    id: 13,
-    text: "How do you apply a class in HTML?",
-    options: [
-      { id: "13-1", text: '<div class="name">' },
-      { id: "13-2", text: "<div class:name>" },
-      { id: "13-3", text: '<div.class="name">' },
-      { id: "13-4", text: '<div class:name="name">' }
-    ],
-    correctAnswer: "13-1"
-  },
-  {
-    id: 14,
-    text: "What is the correct HTML tag for the largest heading?",
-    options: [
-      { id: "14-1", text: "<heading>" },
-      { id: "14-2", text: "<h6>" },
-      { id: "14-3", text: "<h1>" },
-      { id: "14-4", text: "<head>" }
-    ],
-    correctAnswer: "14-3"
-  },
-  {
-    id: 15,
-    text: "Which tag is used to create an unordered list in HTML?",
-    options: [
-      { id: "15-1", text: "<ul>" },
-      { id: "15-2", text: "<ol>" },
-      { id: "15-3", text: "<list>" },
-      { id: "15-4", text: "<li>" }
-    ],
-    correctAnswer: "15-1"
-  },
-  {
-    id: 16,
-    text: "Which property is used to change the background color in CSS?",
-    options: [
-      { id: "16-1", text: "color" },
-      { id: "16-2", text: "bgcolor" },
-      { id: "16-3", text: "background-color" },
-      { id: "16-4", text: "back-color" }
-    ],
-    correctAnswer: "16-3"
-  },
-  {
-    id: 17,
-    text: "What does the <title> tag do in HTML?",
-    options: [
-      { id: "17-1", text: "Sets the page title in the browser tab" },
-      { id: "17-2", text: "Adds a heading" },
-      { id: "17-3", text: "Creates a tooltip" },
-      { id: "17-4", text: "Adds metadata" }
-    ],
-    correctAnswer: "17-1"
-  },
-  {
-    id: 18,
-    text: "How can you make text bold in HTML?",
-    options: [
-      { id: "18-1", text: "<strong> or <b>" },
-      { id: "18-2", text: "<bold>" },
-      { id: "18-3", text: "<text bold>" },
-      { id: "18-4", text: "<highlight>" }
-    ],
-    correctAnswer: "18-1"
-  },
-  {
-    id: 19,
-    text: "In CSS, how do you select all <p> elements?",
-    options: [
-      { id: "19-1", text: "p.all" },
-      { id: "19-2", text: "p" },
-      { id: "19-3", text: "#p" },
-      { id: "19-4", text: ".p" }
-    ],
-    correctAnswer: "19-2"
-  },
-  {
-    id: 20,
-    text: "What does JavaScript primarily run on?",
-    options: [
-      { id: "20-1", text: "Server" },
-      { id: "20-2", text: "Compiler" },
-      { id: "20-3", text: "Web browser" },
-      { id: "20-4", text: "Terminal" }
-    ],
-    correctAnswer: "20-3"
-  }
-],
-        exam:[
-  {
-    id: 1,
-    text: "What does HTML stand for?",
-    options: [
-      { id: "1-1", text: "Hyperlinks and Text Markup Language" },
-      { id: "1-2", text: "Home Tool Markup Language" },
-      { id: "1-3", text: "Hyper Text Markup Language" },
-      { id: "1-4", text: "Hyper Text Markdown Language" }
-    ],
-    correctAnswer: "1-3"
-  },
-  {
-    id: 2,
-    text: "What is the correct HTML element for inserting a line break?",
-    options: [
-      { id: "2-1", text: "<break>" },
-      { id: "2-2", text: "<br>" },
-      { id: "2-3", text: "<lb>" },
-      { id: "2-4", text: "<line>" }
-    ],
-    correctAnswer: "2-2"
-  },
-  {
-    id: 3,
-    text: "Which attribute is used to provide an image description?",
-    options: [
-      { id: "3-1", text: "description" },
-      { id: "3-2", text: "src" },
-      { id: "3-3", text: "title" },
-      { id: "3-4", text: "alt" }
-    ],
-    correctAnswer: "3-4"
-  },
-  {
-    id: 4,
-    text: "What is the correct HTML element for inserting a background color?",
-    options: [
-      { id: "4-1", text: '<body style="background-color:yellow;">' },
-      { id: "4-2", text: "<background>yellow</background>" },
-      { id: "4-3", text: "<bg>yellow</bg>" },
-      { id: "4-4", text: "<color>yellow</color>" }
+      { id: "4-1", text: "npm start" },
+      { id: "4-2", text: "npm run" },
+      { id: "4-3", text: "node app.js" },
+      { id: "4-4", text: "react start" }
     ],
     correctAnswer: "4-1"
   },
   {
     id: 5,
-    text: "Which tag is used to create a hyperlink in HTML?",
+    text: "Which protocol is used for secure communication?",
     options: [
-      { id: "5-1", text: "<link>" },
-      { id: "5-2", text: "<href>" },
-      { id: "5-3", text: "<a>" },
-      { id: "5-4", text: "<url>" }
+      { id: "5-1", text: "HTTP" },
+      { id: "5-2", text: "FTP" },
+      { id: "5-3", text: "HTTPS" },
+      { id: "5-4", text: "SSH" }
     ],
     correctAnswer: "5-3"
   },
   {
     id: 6,
-    text: "Which HTML tag is used to display a table?",
+    text: "Which method adds an element to the end of an array?",
     options: [
-      { id: "6-1", text: "<tab>" },
-      { id: "6-2", text: "<table>" },
-      { id: "6-3", text: "<td>" },
-      { id: "6-4", text: "<tbl>" }
+      { id: "6-1", text: "add()" },
+      { id: "6-2", text: "push()" },
+      { id: "6-3", text: "append()" },
+      { id: "6-4", text: "insert()" }
     ],
     correctAnswer: "6-2"
   },
   {
     id: 7,
-    text: "How can you make a numbered list in HTML?",
+    text: "What does typeof [] return?",
     options: [
-      { id: "7-1", text: "<ul>" },
-      { id: "7-2", text: "<ol>" },
-      { id: "7-3", text: "<li>" },
-      { id: "7-4", text: "<dl>" }
+      { id: "7-1", text: "\"array\"" },
+      { id: "7-2", text: "\"object\"" },
+      { id: "7-3", text: "\"list\"" },
+      { id: "7-4", text: "\"undefined\"" }
     ],
     correctAnswer: "7-2"
   },
   {
     id: 8,
-    text: "Which tag is used to define a table cell?",
+    text: "Which layout system is newer in CSS?",
     options: [
-      { id: "8-1", text: "<tc>" },
-      { id: "8-2", text: "<cell>" },
-      { id: "8-3", text: "<tr>" },
-      { id: "8-4", text: "<td>" }
+      { id: "8-1", text: "Float" },
+      { id: "8-2", text: "Flexbox" },
+      { id: "8-3", text: "Grid" },
+      { id: "8-4", text: "Inline-block" }
     ],
-    correctAnswer: "8-4"
+    correctAnswer: "8-3"
   },
   {
     id: 9,
-    text: "Which tag is used to define an image in HTML?",
+    text: "What is the default port for HTTP?",
     options: [
-      { id: "9-1", text: "<img>" },
-      { id: "9-2", text: "<src>" },
-      { id: "9-3", text: "<image>" },
-      { id: "9-4", text: "<pic>" }
+      { id: "9-1", text: "443" },
+      { id: "9-2", text: "80" },
+      { id: "9-3", text: "22" },
+      { id: "9-4", text: "8080" }
     ],
-    correctAnswer: "9-1"
+    correctAnswer: "9-2"
   },
   {
     id: 10,
-    text: "What is the purpose of the <head> tag in HTML?",
+    text: "What does API stand for?",
     options: [
-      { id: "10-1", text: "To display page header" },
-      { id: "10-2", text: "To link external files" },
-      { id: "10-3", text: "To contain metadata and links" },
-      { id: "10-4", text: "To show title text" }
+      { id: "10-1", text: "Application Programming Interface" },
+      { id: "10-2", text: "Applied Programming Interface" },
+      { id: "10-3", text: "Application Protocol Interface" },
+      { id: "10-4", text: "Advanced Programming Interface" }
     ],
-    correctAnswer: "10-3"
+    correctAnswer: "10-1"
   },
   {
     id: 11,
-    text: "What does CSS stand for?",
+    text: "Which symbol is used to select an ID in CSS?",
     options: [
-      { id: "11-1", text: "Creative Style Sheets" },
-      { id: "11-2", text: "Cascading Style Sheets" },
-      { id: "11-3", text: "Computer Style Sheets" },
-      { id: "11-4", text: "Colorful Style Sheets" }
+      { id: "11-1", text: "." },
+      { id: "11-2", text: "#" },
+      { id: "11-3", text: "@" },
+      { id: "11-4", text: "$" }
     ],
     correctAnswer: "11-2"
   },
   {
     id: 12,
-    text: "Which HTML tag is used to link an external CSS file?",
+    text: "Which tag is used to create a table row?",
     options: [
-      { id: "12-1", text: "<css>" },
-      { id: "12-2", text: "<link>" },
-      { id: "12-3", text: "<style>" },
-      { id: "12-4", text: "<script>" }
+      { id: "12-1", text: "table" },
+      { id: "12-2", text: "row" },
+      { id: "12-3", text: "td" },
+      { id: "12-4", text: "tr" }
     ],
-    correctAnswer: "12-2"
+    correctAnswer: "12-4"
   },
   {
     id: 13,
-    text: "How do you change the text color to red in CSS?",
+    text: "Which tag is used to define an image?",
     options: [
-      { id: "13-1", text: "color: red;" },
-      { id: "13-2", text: "font-color: red;" },
-      { id: "13-3", text: "text-color: red;" },
-      { id: "13-4", text: "color-text: red;" }
+      { id: "13-1", text: "src" },
+      { id: "13-2", text: "img" },
+      { id: "13-3", text: "picture" },
+      { id: "13-4", text: "image" }
     ],
-    correctAnswer: "13-1"
+    correctAnswer: "13-2"
   },
   {
     id: 14,
-    text: "Which CSS property controls the text size?",
+    text: "Which keyword is used to declare a variable in JavaScript?",
     options: [
-      { id: "14-1", text: "font-style" },
-      { id: "14-2", text: "text-size" },
-      { id: "14-3", text: "font-size" },
-      { id: "14-4", text: "size" }
+      { id: "14-1", text: "int" },
+      { id: "14-2", text: "string" },
+      { id: "14-3", text: "var" },
+      { id: "14-4", text: "declare" }
     ],
     correctAnswer: "14-3"
   },
   {
     id: 15,
-    text: "What is the correct CSS syntax to center text?",
+    text: "What is the correct HTML tag for inserting a line break?",
     options: [
-      { id: "15-1", text: "text-align: center;" },
-      { id: "15-2", text: "align-text: center;" },
-      { id: "15-3", text: "center: text;" },
-      { id: "15-4", text: "align: center;" }
+      { id: "15-1", text: "br" },
+      { id: "15-2", text: "lb" },
+      { id: "15-3", text: "break" },
+      { id: "15-4", text: "ln" }
     ],
     correctAnswer: "15-1"
   },
   {
     id: 16,
-    text: "How do you add a background color using CSS?",
+    text: "Which function is used to parse a string to an integer in JS?",
     options: [
-      { id: "16-1", text: "bg-color: blue;" },
-      { id: "16-2", text: "background: blue;" },
-      { id: "16-3", text: "color-background: blue;" },
-      { id: "16-4", text: "background-color: blue;" }
+      { id: "16-1", text: "parseInteger()" },
+      { id: "16-2", text: "parseInt()" },
+      { id: "16-3", text: "toInteger()" },
+      { id: "16-4", text: "int()" }
     ],
-    correctAnswer: "16-4"
+    correctAnswer: "16-2"
   },
   {
     id: 17,
-    text: "Which is the correct CSS syntax to make all <p> elements bold?",
+    text: "What is a SPA (Single Page Application)?",
     options: [
-      { id: "17-1", text: "p { font-weight: bold; }" },
-      { id: "17-2", text: "p { style: bold; }" },
-      { id: "17-3", text: "p { text:bold; }" },
-      { id: "17-4", text: "p = bold;" }
+      { id: "17-1", text: "A simple webpage" },
+      { id: "17-2", text: "A single HTML page that updates dynamically" },
+      { id: "17-3", text: "A website with tabs" },
+      { id: "17-4", text: "A static site" }
     ],
-    correctAnswer: "17-1"
+    correctAnswer: "17-2"
   },
   {
     id: 18,
-    text: "How do you select an element with the ID 'main'?",
+    text: "Which HTML attribute specifies inline styles?",
     options: [
-      { id: "18-1", text: ".main" },
-      { id: "18-2", text: "main" },
-      { id: "18-3", text: "#main" },
-      { id: "18-4", text: "$main" }
+      { id: "18-1", text: "font" },
+      { id: "18-2", text: "id" },
+      { id: "18-3", text: "style" },
+      { id: "18-4", text: "class" }
     ],
     correctAnswer: "18-3"
   },
   {
     id: 19,
-    text: "How do you select all elements with class 'menu'?",
+    text: "What is the purpose of the <form> tag in HTML?",
     options: [
-      { id: "19-1", text: "#menu" },
-      { id: "19-2", text: ".menu" },
-      { id: "19-3", text: "menu" },
-      { id: "19-4", text: "*menu" }
+      { id: "19-1", text: "Display data" },
+      { id: "19-2", text: "Create a table" },
+      { id: "19-3", text: "Make headings" },
+      { id: "19-4", text: "Collect user input" }
+    ],
+    correctAnswer: "19-4"
+  },
+  {
+    id: 20,
+    text: "Which method writes a message to the console in JavaScript?",
+    options: [
+      { id: "20-1", text: "console.log()" },
+      { id: "20-2", text: "log.console()" },
+      { id: "20-3", text: "print()" },
+      { id: "20-4", text: "output()" }
+    ],
+    correctAnswer: "20-1"
+  }
+],
+
+        exam:[
+  {
+    id: 1,
+    text: "Which HTTP status code means \"Not Found\"?",
+    options: [
+      { id: "1-1", text: "404" },
+      { id: "1-2", text: "200" },
+      { id: "1-3", text: "500" },
+      { id: "1-4", text: "301" }
+    ],
+    correctAnswer: "1-1"
+  },
+  {
+    id: 2,
+    text: "Which property is used to change text color in CSS?",
+    options: [
+      { id: "2-1", text: "color" },
+      { id: "2-2", text: "text-color" },
+      { id: "2-3", text: "font-color" },
+      { id: "2-4", text: "style" }
+    ],
+    correctAnswer: "2-1"
+  },
+  {
+    id: 3,
+    text: "What does JSON stand for?",
+    options: [
+      { id: "3-1", text: "JavaScript Object Notation" },
+      { id: "3-2", text: "Java Syntax Oriented Notation" },
+      { id: "3-3", text: "JavaScript Organized Notation" },
+      { id: "3-4", text: "Java Serialized Object Notation" }
+    ],
+    correctAnswer: "3-1"
+  },
+  {
+    id: 4,
+    text: "Which HTML tag creates a checkbox?",
+    options: [
+      { id: "4-1", text: "check" },
+      { id: "4-2", text: "box" },
+      { id: "4-3", text: "input type=\"checkbox\"" },
+      { id: "4-4", text: "checkbox" }
+    ],
+    correctAnswer: "4-3"
+  },
+  {
+    id: 5,
+    text: "Which operator checks strict equality in JavaScript?",
+    options: [
+      { id: "5-1", text: "==" },
+      { id: "5-2", text: "===" },
+      { id: "5-3", text: "=" },
+      { id: "5-4", text: "!=" }
+    ],
+    correctAnswer: "5-2"
+  },
+  {
+    id: 6,
+    text: "Which meta tag is used for responsive design?",
+    options: [
+      { id: "6-1", text: "meta name=\"responsive\"" },
+      { id: "6-2", text: "meta responsive=\"true\"" },
+      { id: "6-3", text: "meta viewport=\"yes\"" },
+      { id: "6-4", text: "meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"" }
+    ],
+    correctAnswer: "6-4"
+  },
+  {
+    id: 7,
+    text: "Which command installs a package globally using npm?",
+    options: [
+      { id: "7-1", text: "npm install --g" },
+      { id: "7-2", text: "npm -g install" },
+      { id: "7-3", text: "npm install global" },
+      { id: "7-4", text: "npm install -g" }
+    ],
+    correctAnswer: "7-4"
+  },
+  {
+    id: 8,
+    text: "What is the use of Git in web development?",
+    options: [
+      { id: "8-1", text: "Create databases" },
+      { id: "8-2", text: "Design websites" },
+      { id: "8-3", text: "Version control" },
+      { id: "8-4", text: "Make animations" }
+    ],
+    correctAnswer: "8-3"
+  },
+  {
+    id: 9,
+    text: "Which database is a NoSQL database?",
+    options: [
+      { id: "9-1", text: "MongoDB" },
+      { id: "9-2", text: "MySQL" },
+      { id: "9-3", text: "PostgreSQL" },
+      { id: "9-4", text: "Oracle" }
+    ],
+    correctAnswer: "9-1"
+  },
+  {
+    id: 10,
+    text: "Which HTML tag defines a drop-down list?",
+    options: [
+      { id: "10-1", text: "select" },
+      { id: "10-2", text: "input" },
+      { id: "10-3", text: "dropdown" },
+      { id: "10-4", text: "option" }
+    ],
+    correctAnswer: "10-1"
+  },
+  {
+    id: 11,
+    text: "What is the default position in CSS?",
+    options: [
+      { id: "11-1", text: "fixed" },
+      { id: "11-2", text: "static" },
+      { id: "11-3", text: "relative" },
+      { id: "11-4", text: "absolute" }
+    ],
+    correctAnswer: "11-2"
+  },
+  {
+    id: 12,
+    text: "Which tag creates the largest heading?",
+    options: [
+      { id: "12-1", text: "h1" },
+      { id: "12-2", text: "title" },
+      { id: "12-3", text: "heading" },
+      { id: "12-4", text: "h6" }
+    ],
+    correctAnswer: "12-1"
+  },
+  {
+    id: 13,
+    text: "Which language is used on the server-side in Node.js?",
+    options: [
+      { id: "13-1", text: "Python" },
+      { id: "13-2", text: "Java" },
+      { id: "13-3", text: "PHP" },
+      { id: "13-4", text: "JavaScript" }
+    ],
+    correctAnswer: "13-4"
+  },
+  {
+    id: 14,
+    text: "Which unit is relative to the font-size of the element?",
+    options: [
+      { id: "14-1", text: "rem" },
+      { id: "14-2", text: "%" },
+      { id: "14-3", text: "em" },
+      { id: "14-4", text: "px" }
+    ],
+    correctAnswer: "14-3"
+  },
+  {
+    id: 15,
+    text: "Which HTTP method is NOT valid?",
+    options: [
+      { id: "15-1", text: "GET" },
+      { id: "15-2", text: "POST" },
+      { id: "15-3", text: "SEND" },
+      { id: "15-4", text: "PUT" }
+    ],
+    correctAnswer: "15-3"
+  },
+  {
+    id: 16,
+    text: "Which command initializes a Git repository?",
+    options: [
+      { id: "16-1", text: "git start" },
+      { id: "16-2", text: "git create" },
+      { id: "16-3", text: "git init" },
+      { id: "16-4", text: "git begin" }
+    ],
+    correctAnswer: "16-3"
+  },
+  {
+    id: 17,
+    text: "What will null == undefined return in JavaScript?",
+    options: [
+      { id: "17-1", text: "true" },
+      { id: "17-2", text: "false" },
+      { id: "17-3", text: "NaN" },
+      { id: "17-4", text: "Error" }
+    ],
+    correctAnswer: "17-1"
+  },
+  {
+    id: 18,
+    text: "Which JavaScript method delays execution?",
+    options: [
+      { id: "18-1", text: "sleep()" },
+      { id: "18-2", text: "wait()" },
+      { id: "18-3", text: "setTimeout()" },
+      { id: "18-4", text: "delay()" }
+    ],
+    correctAnswer: "18-3"
+  },
+  {
+    id: 19,
+    text: "Which element is used to define a list item?",
+    options: [
+      { id: "19-1", text: "list" },
+      { id: "19-2", text: "li" },
+      { id: "19-3", text: "ol" },
+      { id: "19-4", text: "ul" }
     ],
     correctAnswer: "19-2"
   },
   {
     id: 20,
-    text: "Which property is used to change the font in CSS?",
+    text: "Which pseudo-class in CSS is used for mouse hover?",
     options: [
-      { id: "20-1", text: "text-font" },
-      { id: "20-2", text: "font-family" },
-      { id: "20-3", text: "font-style" },
-      { id: "20-4", text: "typeface" }
+      { id: "20-1", text: ".hover" },
+      { id: "20-2", text: "hover()" },
+      { id: "20-3", text: ":hover" },
+      { id: "20-4", text: "#hover" }
     ],
-    correctAnswer: "20-2"
+    correctAnswer: "20-3"
   },
   {
     id: 21,
-    text: "What is JavaScript used for?",
+    text: "How do you comment in JavaScript?",
     options: [
-      { id: "21-1", text: "Styling web pages" },
-      { id: "21-2", text: "Structuring web pages" },
-      { id: "21-3", text: "Adding interactivity" },
-      { id: "21-4", text: "Creating databases" }
+      { id: "21-1", text: "none" },
+      { id: "21-2", text: "comment" },
+      { id: "21-3", text: "// comment" },
+      { id: "21-4", text: "# comment" }
     ],
     correctAnswer: "21-3"
   },
   {
     id: 22,
-    text: "How do you write a comment in JavaScript?",
+    text: "Which version introduced HTML5?",
     options: [
-      { id: "22-1", text: "<!-- comment -->" },
-      { id: "22-2", text: "/* comment */" },
-      { id: "22-3", text: "// comment" },
-      { id: "22-4", text: "# comment" }
+      { id: "22-1", text: "2014" },
+      { id: "22-2", text: "2008" },
+      { id: "22-3", text: "2005" },
+      { id: "22-4", text: "2010" }
     ],
-    correctAnswer: "22-3"
+    correctAnswer: "22-1"
   },
   {
     id: 23,
-    text: "Which keyword declares a variable in JavaScript?",
+    text: "Which tool is used to manage Node.js dependencies?",
     options: [
-      { id: "23-1", text: "let" },
-      { id: "23-2", text: "var" },
-      { id: "23-3", text: "const" },
-      { id: "23-4", text: "All of the above" }
+      { id: "23-1", text: "pip" },
+      { id: "23-2", text: "composer" },
+      { id: "23-3", text: "git" },
+      { id: "23-4", text: "npm" }
     ],
     correctAnswer: "23-4"
   },
   {
     id: 24,
-    text: "How do you write \"Hello World\" in an alert box?",
+    text: "What does DOM stand for?",
     options: [
-      { id: "24-1", text: "alertBox(\"Hello World\");" },
-      { id: "24-2", text: "msg(\"Hello World\");" },
-      { id: "24-3", text: "alert(\"Hello World\");" },
-      { id: "24-4", text: "popup(\"Hello World\");" }
+      { id: "24-1", text: "Document Oriented Model" },
+      { id: "24-2", text: "Document Object Model" },
+      { id: "24-3", text: "Data Object Method" },
+      { id: "24-4", text: "Digital Order Model" }
     ],
-    correctAnswer: "24-3"
+    correctAnswer: "24-2"
   },
   {
     id: 25,
-    text: "What symbol is used for single-line comments in JavaScript?",
+    text: "How can you center an element using Flexbox?",
     options: [
-      { id: "25-1", text: "//" },
-      { id: "25-2", text: "<!--" },
-      { id: "25-3", text: "**" },
-      { id: "25-4", text: "\\\\" }
+      { id: "25-1", text: "align: center;" },
+      { id: "25-2", text: "justify-content: center;" },
+      { id: "25-3", text: "display: block;" },
+      { id: "25-4", text: "text-align: center;" }
     ],
-    correctAnswer: "25-1"
+    correctAnswer: "25-2"
   },
   {
     id: 26,
-    text: "Which operator is used to assign a value to a variable?",
+    text: "Which HTML tag is used to play a video?",
     options: [
-      { id: "26-1", text: "==" },
-      { id: "26-2", text: "=" },
-      { id: "26-3", text: "===" },
-      { id: "26-4", text: ":=" }
+      { id: "26-1", text: "video" },
+      { id: "26-2", text: "media" },
+      { id: "26-3", text: "movie" },
+      { id: "26-4", text: "play" }
     ],
-    correctAnswer: "26-2"
+    correctAnswer: "26-1"
   },
   {
     id: 27,
-    text: "How do you call a function in JavaScript named myFunc?",
+    text: "Which property in CSS controls text size?",
     options: [
-      { id: "27-1", text: "call myFunc();" },
-      { id: "27-2", text: "call function myFunc();" },
-      { id: "27-3", text: "myFunc();" },
-      { id: "27-4", text: "run myFunc();" }
+      { id: "27-1", text: "size" },
+      { id: "27-2", text: "font" },
+      { id: "27-3", text: "font-size" },
+      { id: "27-4", text: "text-size" }
     ],
     correctAnswer: "27-3"
   },
   {
     id: 28,
-    text: "Which built-in method returns the length of a string?",
+    text: "Which is NOT a semantic HTML5 tag?",
     options: [
-      { id: "28-1", text: "length()" },
-      { id: "28-2", text: "size()" },
-      { id: "28-3", text: "count()" },
-      { id: "28-4", text: "length" }
+      { id: "28-1", text: "header" },
+      { id: "28-2", text: "section" },
+      { id: "28-3", text: "article" },
+      { id: "28-4", text: "div" }
     ],
     correctAnswer: "28-4"
   },
   {
     id: 29,
-    text: "What is the result of typeof \"hello\"?",
+    text: "Which tag defines a list in HTML?",
     options: [
-      { id: "29-1", text: "string" },
-      { id: "29-2", text: "text" },
-      { id: "29-3", text: "word" },
-      { id: "29-4", text: "object" }
+      { id: "29-1", text: "ul" },
+      { id: "29-2", text: "dl" },
+      { id: "29-3", text: "list" },
+      { id: "29-4", text: "table" }
     ],
     correctAnswer: "29-1"
   },
   {
     id: 30,
-    text: "Which method is used to parse a string to integer in JavaScript?",
+    text: "Which function converts a JS object into a JSON string?",
     options: [
-      { id: "30-1", text: "Number()" },
-      { id: "30-2", text: "parseInt()" },
-      { id: "30-3", text: "parse()" },
-      { id: "30-4", text: "toInt()" }
+      { id: "30-1", text: "JSON.parse()" },
+      { id: "30-2", text: "JSON.stringify()" },
+      { id: "30-3", text: "JSON.convert()" },
+      { id: "30-4", text: "JSON.encode()" }
     ],
     correctAnswer: "30-2"
   },
   {
     id: 31,
-    text: "Which language is used to structure a web page?",
+    text: "What is the use of the [title] tag?",
     options: [
-      { id: "31-1", text: "HTML" },
-      { id: "31-2", text: "CSS" },
-      { id: "31-3", text: "JavaScript" },
-      { id: "31-4", text: "PHP" }
+      { id: "31-1", text: "Adds a caption" },
+      { id: "31-2", text: "Sets the title in the browser tab" },
+      { id: "31-3", text: "Adds a tooltip" },
+      { id: "31-4", text: "Sets the page heading" }
     ],
-    correctAnswer: "31-1"
+    correctAnswer: "31-2"
   },
   {
     id: 32,
-    text: "Which of the following is a frontend language?",
+    text: "Which of the following is a frontend framework?",
     options: [
-      { id: "32-1", text: "PHP" },
-      { id: "32-2", text: "Python" },
-      { id: "32-3", text: "JavaScript" },
+      { id: "32-1", text: "Django" },
+      { id: "32-2", text: "React" },
+      { id: "32-3", text: "Laravel" },
       { id: "32-4", text: "Node.js" }
     ],
-    correctAnswer: "32-3"
+    correctAnswer: "32-2"
   },
   {
     id: 33,
-    text: "Which of the following is used to host websites?",
+    text: "How do you make text bold in CSS?",
     options: [
-      { id: "33-1", text: "Visual Studio Code" },
-      { id: "33-2", text: "GitHub Pages" },
-      { id: "33-3", text: "Google Docs" },
-      { id: "33-4", text: "Canva" }
+      { id: "33-1", text: "font-style: bold;" },
+      { id: "33-2", text: "style: bold;" },
+      { id: "33-3", text: "font-weight: bold;" },
+      { id: "33-4", text: "text-style: bold;" }
     ],
-    correctAnswer: "33-2"
+    correctAnswer: "33-3"
   },
   {
     id: 34,
-    text: "Which protocol is used to transfer web pages?",
+    text: "Which command outputs the current status in Git?",
     options: [
-      { id: "34-1", text: "FTP" },
-      { id: "34-2", text: "SMTP" },
-      { id: "34-3", text: "HTTP" },
-      { id: "34-4", text: "SNMP" }
+      { id: "34-1", text: "git list" },
+      { id: "34-2", text: "git show" },
+      { id: "34-3", text: "git status" },
+      { id: "34-4", text: "git info" }
     ],
     correctAnswer: "34-3"
   },
   {
     id: 35,
-    text: "What is a responsive website?",
+    text: "Which tag is used to create headings in HTML?",
     options: [
-      { id: "35-1", text: "One that loads fast" },
-      { id: "35-2", text: "One that adjusts to screen size" },
-      { id: "35-3", text: "One that uses JavaScript" },
-      { id: "35-4", text: "One that is interactive" }
+      { id: "35-1", text: "head" },
+      { id: "35-2", text: "heading" },
+      { id: "35-3", text: "h1 to h6" },
+      { id: "35-4", text: "title" }
     ],
-    correctAnswer: "35-2"
+    correctAnswer: "35-3"
   },
   {
     id: 36,
-    text: "Which tool is used for version control in development?",
+    text: "Which tag is used for embedding external stylesheets?",
     options: [
-      { id: "36-1", text: "Figma" },
-      { id: "36-2", text: "Git" },
-      { id: "36-3", text: "Chrome" },
-      { id: "36-4", text: "VS Code" }
+      { id: "36-1", text: "css" },
+      { id: "36-2", text: "[link rel=\"stylesheet\"]" },
+      { id: "36-3", text: "style src" },
+      { id: "36-4", text: "stylesheet" }
     ],
     correctAnswer: "36-2"
   },
   {
     id: 37,
-    text: "What does URL stand for?",
+    text: "Which value of z-index will place an element on top?",
     options: [
-      { id: "37-1", text: "Universal Resource Locator" },
-      { id: "37-2", text: "Uniform Resource Locator" },
-      { id: "37-3", text: "Unified Reference Link" },
-      { id: "37-4", text: "Unique Routing Locator" }
+      { id: "37-1", text: "0" },
+      { id: "37-2", text: "auto" },
+      { id: "37-3", text: "-1" },
+      { id: "37-4", text: "A higher number" }
     ],
-    correctAnswer: "37-2"
+    correctAnswer: "37-4"
   },
   {
     id: 38,
-    text: "Which of these is a web browser?",
+    text: "Which operator is used for assignment in JavaScript?",
     options: [
-      { id: "38-1", text: "MySQL" },
-      { id: "38-2", text: "Node.js" },
-      { id: "38-3", text: "Chrome" },
-      { id: "38-4", text: "Linux" }
+      { id: "38-1", text: "==" },
+      { id: "38-2", text: ":=" },
+      { id: "38-3", text: "===" },
+      { id: "38-4", text: "=" }
     ],
-    correctAnswer: "38-3"
+    correctAnswer: "38-4"
   },
   {
     id: 39,
-    text: "What is the default port for HTTP?",
+    text: "Which file format is commonly used for stylesheets?",
     options: [
-      { id: "39-1", text: "22" },
-      { id: "39-2", text: "80" },
-      { id: "39-3", text: "443" },
-      { id: "39-4", text: "21" }
+      { id: "39-1", text: ".html" },
+      { id: "39-2", text: ".js" },
+      { id: "39-3", text: ".css" },
+      { id: "39-4", text: ".scss" }
     ],
-    correctAnswer: "39-2"
+    correctAnswer: "39-3"
   },
   {
     id: 40,
-    text: "Which one is a CSS framework?",
+    text: "What does CDN stand for?",
     options: [
-      { id: "40-1", text: "Laravel" },
-      { id: "40-2", text: "Flask" },
-      { id: "40-3", text: "Bootstrap" },
-      { id: "40-4", text: "Express" }
+      { id: "40-1", text: "Content Delivery Network" },
+      { id: "40-2", text: "Central Domain Network" },
+      { id: "40-3", text: "Computer Data Node" },
+      { id: "40-4", text: "Cached Data Network" }
     ],
-    correctAnswer: "40-3"
+    correctAnswer: "40-1"
   }
+  
 ]
       },
       data: {
@@ -3487,14 +3536,13 @@ let fullScreenEnabled = false;
       }
     };
 
-
 // Get domain display name
 function getDomainName(domain) {
   const domains = {
     web: "Web Development",
     data: "Data Science",
     marketing: "Digital Marketing",
-    ai: "AIML"
+    aiml: "AIML"
   };
   return domains[domain] || domain;
 }
@@ -3532,6 +3580,10 @@ async function loadStudent() {
       examCompleted = JSON.parse(localStorage.getItem(storagePrefix + 'examCompleted')) || false;
       assignmentScore = JSON.parse(localStorage.getItem(storagePrefix + 'assignmentScore')) || 0;
       examScore = JSON.parse(localStorage.getItem(storagePrefix + 'examScore')) || 0;
+      
+      // NEW: Load submission status
+      isAssignmentSubmitted = JSON.parse(localStorage.getItem(storagePrefix + 'assignmentSubmitted')) || false;
+      isExamSubmitted = JSON.parse(localStorage.getItem(storagePrefix + 'examSubmitted')) || false;
 
       // Hide loading and login
       document.getElementById("loadingScreen").classList.add("hidden");
@@ -3784,12 +3836,16 @@ function resetProgress() {
     examCompleted = false;
     assignmentScore = 0;
     examScore = 0;
+    isAssignmentSubmitted = false;
+    isExamSubmitted = false;
     
     localStorage.setItem(storagePrefix + 'completedVideos', JSON.stringify(completedVideos));
     localStorage.setItem(storagePrefix + 'assignmentCompleted', JSON.stringify(assignmentCompleted));
     localStorage.setItem(storagePrefix + 'examCompleted', JSON.stringify(examCompleted));
     localStorage.setItem(storagePrefix + 'assignmentScore', JSON.stringify(assignmentScore));
     localStorage.setItem(storagePrefix + 'examScore', JSON.stringify(examScore));
+    localStorage.setItem(storagePrefix + 'assignmentSubmitted', JSON.stringify(false));
+    localStorage.setItem(storagePrefix + 'examSubmitted', JSON.stringify(false));
     
     updateCompletedCount();
     updateProgress();
@@ -3973,6 +4029,12 @@ function confirmDomain() {
 
 // Assignment Functions
 function startAssignment() {
+  // NEW: Check if already submitted
+  if (isAssignmentSubmitted) {
+    alert("Assignment already submitted. Please contact the team if you need to retake.");
+    return;
+  }
+  
   if (completedVideos.length === videos.length) {
     showDomainModal("assignment");
   } else {
@@ -3991,12 +4053,29 @@ function startAssignmentWithDomain() {
   // Reset assignment state
   currentAssignmentQuestion = 0;
   assignmentAnswers = {};
+  
+  // NEW: Reset timer
+  assignmentTimeLeft = 30 * 60;
 }
 
 function closeAssignmentModal() {
-  document.getElementById("assignmentModal").classList.add("hidden");
-  stopAssignmentCamera();
-  exitFullScreen();
+  // NEW: Only allow closing if not in progress
+  if (document.getElementById("assignmentQuestions").classList.contains("hidden") || 
+      confirm("Are you sure you want to exit? This will submit your assignment automatically.")) {
+    document.getElementById("assignmentModal").classList.add("hidden");
+    stopAssignmentCamera();
+    exitFullScreen();
+    
+    // NEW: Clear timer if exists
+    if (assignmentTimer) {
+      clearInterval(assignmentTimer);
+      assignmentTimer = null;
+    }
+    
+    // NEW: Remove timer display
+    const timerDisplay = document.getElementById("timerDisplay");
+    if (timerDisplay) timerDisplay.remove();
+  }
 }
 
 async function verifyAssignmentCamera() {
@@ -4012,10 +4091,55 @@ async function verifyAssignmentCamera() {
     renderAssignmentQuestions();
     
     // Enable full screen
-    enableFullScreen();
+    enableFullScreen("assignment");
+    
+    // NEW: Start the timer
+    startAssignmentTimer();
+    
   } catch (err) {
     alert("Could not access camera. Please enable camera permissions to continue with the assignment.");
     console.error("Camera access error:", err);
+  }
+}
+
+// NEW: Assignment timer function
+function startAssignmentTimer() {
+  // Create timer display if it doesn't exist
+  if (!document.getElementById("timerDisplay")) {
+    const timerDisplay = document.createElement("div");
+    timerDisplay.id = "timerDisplay";
+    timerDisplay.className = "timer-display";
+    document.body.appendChild(timerDisplay);
+  }
+  
+  updateAssignmentTimerDisplay();
+  
+  assignmentTimer = setInterval(() => {
+    assignmentTimeLeft--;
+    updateAssignmentTimerDisplay();
+    
+    if (assignmentTimeLeft <= 0) {
+      clearInterval(assignmentTimer);
+      alert("Time's up! Your assignment is being submitted automatically.");
+      submitAssignment();
+    }
+  }, 1000);
+}
+
+// NEW: Update assignment timer display
+function updateAssignmentTimerDisplay() {
+  const timerDisplay = document.getElementById("timerDisplay");
+  if (timerDisplay) {
+    const minutes = Math.floor(assignmentTimeLeft / 60);
+    const seconds = assignmentTimeLeft % 60;
+    timerDisplay.textContent = `Assignment Time: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    
+    // Change color when time is running out
+    if (assignmentTimeLeft < 300) { // 5 minutes
+      timerDisplay.style.background = "#ef4444"; // red
+    } else if (assignmentTimeLeft < 600) { // 10 minutes
+      timerDisplay.style.background = "#f59e0b"; // orange
+    }
   }
 }
 
@@ -4029,6 +4153,12 @@ function stopAssignmentCamera() {
 function renderAssignmentQuestions() {
   const container = document.getElementById("assignmentQuestionContainer");
   container.innerHTML = "";
+  
+  // NEW: Add security warning
+  const warningBanner = document.createElement("div");
+  warningBanner.className = "warning-banner";
+  warningBanner.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> Do not exit full screen or navigate away. Your assessment will be submitted automatically.';
+  container.appendChild(warningBanner);
   
   document.getElementById("assignmentTotalQuestions").textContent = assignmentQuestions.length;
   document.getElementById("assignmentCurrentQuestion").textContent = currentAssignmentQuestion + 1;
@@ -4101,6 +4231,10 @@ function nextAssignmentQuestion() {
 }
 
 function submitAssignment() {
+  // NEW: Prevent multiple submissions
+  if (isAssignmentSubmitted) return;
+  isAssignmentSubmitted = true;
+  
   // Calculate score
   let correctAnswers = 0;
   
@@ -4119,6 +4253,7 @@ function submitAssignment() {
   // Save to localStorage with prefix
   localStorage.setItem(storagePrefix + 'assignmentCompleted', JSON.stringify(assignmentCompleted));
   localStorage.setItem(storagePrefix + 'assignmentScore', JSON.stringify(assignmentScore));
+  localStorage.setItem(storagePrefix + 'assignmentSubmitted', JSON.stringify(true));
   
   // Update progress and status
   updateProgress();
@@ -4129,6 +4264,16 @@ function submitAssignment() {
   document.getElementById("assignmentModal").classList.add("hidden");
   stopAssignmentCamera();
   exitFullScreen();
+  
+  // NEW: Clear timer
+  if (assignmentTimer) {
+    clearInterval(assignmentTimer);
+    assignmentTimer = null;
+  }
+  
+  // Remove timer display
+  const timerDisplay = document.getElementById("timerDisplay");
+  if (timerDisplay) timerDisplay.remove();
   
   // Close assignment details
   document.getElementById("assignmentDetails").classList.add("hidden");
@@ -4141,6 +4286,12 @@ function submitAssignment() {
 
 // Exam Functions
 function startExam() {
+  // NEW: Check if already submitted
+  if (isExamSubmitted) {
+    alert("Exam already submitted. Please contact the team if you need to retake.");
+    return;
+  }
+  
   if (completedVideos.length === videos.length && assignmentCompleted) {
     showDomainModal("exam");
   } else {
@@ -4159,17 +4310,34 @@ function startExamWithDomain() {
   // Reset exam state
   currentExamQuestion = 0;
   examAnswers = {};
+  
+  // NEW: Reset timer
+  examTimeLeft = 45 * 60;
 }
 
 function closeExamModal() {
-  document.getElementById("examModal").classList.add("hidden");
-  stopExamCamera();
-  exitFullScreen();
+  // NEW: Only allow closing if not in progress
+  if (document.getElementById("examQuestions").classList.contains("hidden") || 
+      confirm("Are you sure you want to exit? This will submit your exam automatically.")) {
+    document.getElementById("examModal").classList.add("hidden");
+    stopExamCamera();
+    exitFullScreen();
+    
+    // NEW: Clear timer if exists
+    if (examTimer) {
+      clearInterval(examTimer);
+      examTimer = null;
+    }
+    
+    // NEW: Remove timer display
+    const timerDisplay = document.getElementById("timerDisplay");
+    if (timerDisplay) timerDisplay.remove();
+  }
 }
 
 async function verifyExamCamera() {
   try {
-    examStream = await navigator.mediaDevices.getUserMedia({ video: true }); // FIXED: Changed from navig.mediaDevices to navigator.mediaDevices
+    examStream = await navigator.mediaDevices.getUserMedia({ video: true });
     document.getElementById("examCameraFeed").srcObject = examStream;
     document.getElementById("examCameraFeed").classList.remove("hidden");
     document.querySelector("#examCameraContainer .camera-placeholder").classList.add("hidden");
@@ -4180,10 +4348,55 @@ async function verifyExamCamera() {
     renderExamQuestions();
     
     // Enable full screen
-    enableFullScreen();
+    enableFullScreen("exam");
+    
+    // NEW: Start the timer
+    startExamTimer();
+    
   } catch (err) {
     alert("Could not access camera. Please enable camera permissions to continue with the exam.");
     console.error("Camera access error:", err);
+  }
+}
+
+// NEW: Exam timer function
+function startExamTimer() {
+  // Create timer display if it doesn't exist
+  if (!document.getElementById("timerDisplay")) {
+    const timerDisplay = document.createElement("div");
+    timerDisplay.id = "timerDisplay";
+    timerDisplay.className = "timer-display";
+    document.body.appendChild(timerDisplay);
+  }
+  
+  updateExamTimerDisplay();
+  
+  examTimer = setInterval(() => {
+    examTimeLeft--;
+    updateExamTimerDisplay();
+    
+    if (examTimeLeft <= 0) {
+      clearInterval(examTimer);
+      alert("Time's up! Your exam is being submitted automatically.");
+      submitExam();
+    }
+  }, 1000);
+}
+
+// NEW: Update exam timer display
+function updateExamTimerDisplay() {
+  const timerDisplay = document.getElementById("timerDisplay");
+  if (timerDisplay) {
+    const minutes = Math.floor(examTimeLeft / 60);
+    const seconds = examTimeLeft % 60;
+    timerDisplay.textContent = `Exam Time: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    
+    // Change color when time is running out
+    if (examTimeLeft < 300) { // 5 minutes
+      timerDisplay.style.background = "#ef4444"; // red
+    } else if (examTimeLeft < 600) { // 10 minutes
+      timerDisplay.style.background = "#f59e0b"; // orange
+    }
   }
 }
 
@@ -4197,6 +4410,12 @@ function stopExamCamera() {
 function renderExamQuestions() {
   const container = document.getElementById("examQuestionContainer");
   container.innerHTML = "";
+  
+  // NEW: Add security warning
+  const warningBanner = document.createElement("div");
+  warningBanner.className = "warning-banner";
+  warningBanner.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> Do not exit full screen or navigate away. Your assessment will be submitted automatically.';
+  container.appendChild(warningBanner);
   
   document.getElementById("examTotalQuestions").textContent = examQuestions.length;
   document.getElementById("examCurrentQuestion").textContent = currentExamQuestion + 1;
@@ -4269,6 +4488,10 @@ function nextExamQuestion() {
 }
 
 function submitExam() {
+  // NEW: Prevent multiple submissions
+  if (isExamSubmitted) return;
+  isExamSubmitted = true;
+  
   // Calculate score
   let correctAnswers = 0;
   
@@ -4287,6 +4510,7 @@ function submitExam() {
   // Save to localStorage with prefix
   localStorage.setItem(storagePrefix + 'examCompleted', JSON.stringify(examCompleted));
   localStorage.setItem(storagePrefix + 'examScore', JSON.stringify(examScore));
+  localStorage.setItem(storagePrefix + 'examSubmitted', JSON.stringify(true));
   
   // Update progress and status
   updateProgress();
@@ -4296,6 +4520,16 @@ function submitExam() {
   document.getElementById("examModal").classList.add("hidden");
   stopExamCamera();
   exitFullScreen();
+  
+  // NEW: Clear timer
+  if (examTimer) {
+    clearInterval(examTimer);
+    examTimer = null;
+  }
+  
+  // Remove timer display
+  const timerDisplay = document.getElementById("timerDisplay");
+  if (timerDisplay) timerDisplay.remove();
   
   // Close exam details
   document.getElementById("examDetails").classList.add("hidden");
@@ -4307,7 +4541,7 @@ function submitExam() {
 }
 
 // Full Screen Functions
-function enableFullScreen() {
+function enableFullScreen(assessmentType) {
   const elem = document.documentElement;
   
   if (elem.requestFullscreen) {
@@ -4319,11 +4553,18 @@ function enableFullScreen() {
   }
   
   fullScreenEnabled = true;
+  currentAssessmentType = assessmentType;
   
   // Add event listener for fullscreen change
   document.addEventListener('fullscreenchange', handleFullScreenChange);
   document.addEventListener('webkitfullscreenchange', handleFullScreenChange);
   document.addEventListener('msfullscreenchange', handleFullScreenChange);
+  
+  // NEW: Add event listener for visibility change
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  
+  // NEW: Add event listener for window blur (tab switching)
+  window.addEventListener('blur', handleWindowBlur);
 }
 
 function exitFullScreen() {
@@ -4336,26 +4577,90 @@ function exitFullScreen() {
   }
   
   fullScreenEnabled = false;
+  currentAssessmentType = null;
   
   // Remove event listeners
   document.removeEventListener('fullscreenchange', handleFullScreenChange);
   document.removeEventListener('webkitfullscreenchange', handleFullScreenChange);
   document.removeEventListener('msfullscreenchange', handleFullScreenChange);
+  document.removeEventListener('visibilitychange', handleVisibilityChange);
+  window.removeEventListener('blur', handleWindowBlur);
 }
 
 function handleFullScreenChange() {
   if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
     // User exited full screen mode
-    if (fullScreenEnabled) {
-      // Auto-submit if in exam or assignment
-      if (document.getElementById("assignmentQuestions").classList.contains("hidden") === false) {
-        submitAssignment();
-        alert("Assignment was submitted because you exited full screen mode.");
-      } else if (document.getElementById("examQuestions").classList.contains("hidden") === false) {
-        submitExam();
-        alert("Exam was submitted because you exited full screen mode.");
-      }
+    if (fullScreenEnabled && currentAssessmentType) {
+      // Show security alert
+      const alert = document.createElement("div");
+      alert.id = "securityAlert";
+      alert.className = "security-alert";
+      alert.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i> Full screen exited. Submitting assessment...';
+      document.body.appendChild(alert);
+      
+      // Auto-submit after short delay
+      setTimeout(() => {
+        if (currentAssessmentType === "assignment") {
+          submitAssignment();
+        } else if (currentAssessmentType === "exam") {
+          submitExam();
+        }
+        
+        // Remove alert
+        const alertElem = document.getElementById("securityAlert");
+        if (alertElem) alertElem.remove();
+      }, 2000);
     }
+  }
+}
+
+// NEW: Handle tab switching
+function handleVisibilityChange() {
+  if (document.hidden && fullScreenEnabled && currentAssessmentType) {
+    // Show security alert
+    const alert = document.createElement("div");
+    alert.id = "securityAlert";
+    alert.className = "security-alert";
+    alert.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i> Tab change detected. Submitting assessment...';
+    document.body.appendChild(alert);
+    
+    // Auto-submit after short delay
+    setTimeout(() => {
+      if (currentAssessmentType === "assignment") {
+        submitAssignment();
+      } else if (currentAssessmentType === "exam") {
+        submitExam();
+      }
+      
+      // Remove alert
+      const alertElem = document.getElementById("securityAlert");
+      if (alertElem) alertElem.remove();
+    }, 2000);
+  }
+}
+
+// NEW: Handle window blur (likely switching tabs or applications)
+function handleWindowBlur() {
+  if (fullScreenEnabled && currentAssessmentType) {
+    // Show security alert
+    const alert = document.createElement("div");
+    alert.id = "securityAlert";
+    alert.className = "security-alert";
+    alert.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i> Window focus lost. Submitting assessment...';
+    document.body.appendChild(alert);
+    
+    // Auto-submit after short delay
+    setTimeout(() => {
+      if (currentAssessmentType === "assignment") {
+        submitAssignment();
+      } else if (currentAssessmentType === "exam") {
+        submitExam();
+      }
+      
+      // Remove alert
+      const alertElem = document.getElementById("securityAlert");
+      if (alertElem) alertElem.remove();
+    }, 2000);
   }
 }
 
@@ -4382,7 +4687,6 @@ document.getElementById("emailInput").addEventListener("keypress", function(e) {
 
 // Initialize the page (no progress load here, it's done in loadStudent)
 updateScoreDisplays();
-  </script>
+</script>
 </body>
 </html>
-

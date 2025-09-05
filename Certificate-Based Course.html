@@ -100,16 +100,58 @@
       background: #f2f7ff;
       color: #333;
     }
- .btn-yellow {
-      display: inline-block;
-      background-color:  #43aa6a;
-      color: #ffffff;
-      padding: 12px 24px;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 6px;
-      margin-top: 30px;
-    }
+.btn-yellow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(90deg, #16a34a, #2563eb);
+  color: #fff;
+  text-decoration: none;
+
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  margin-top: 25px;
+
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease-in-out;
+}
+
+.btn-yellow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  transform: skewX(-25deg);
+  animation: shine 2.5s infinite;
+}
+
+@keyframes shine {
+  0% {
+    left: -75%;
+  }
+  100% {
+    left: 125%;
+  }
+}
+
+
+
+
     h1 {
       text-align: center;
       font-size: 2.5rem;

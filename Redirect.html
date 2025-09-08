@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internship Khazaana - Payment Success</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #f0f9ff, #cce5ff);
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 60px auto;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .banner {
+      background: linear-gradient(135deg, #0072ff, #00c6ff);
+      color: #fff;
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+    }
+    .banner h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+    .banner p {
+      font-size: 16px;
+      margin-top: 8px;
+    }
+    .download-btn {
+      display: inline-block;
+      background: #28a745;
+      color: #fff;
+      padding: 15px 35px;
+      font-size: 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+      transition: 0.3s;
+    }
+    .download-btn:hover {
+      background: #218838;
+      transform: scale(1.05);
+    }
+    .warning-box {
+      margin-top: 30px;
+      padding: 18px;
+      border: 2px solid #ff4d4d;
+      background: #fff5f5;
+      color: #b30000;
+      font-size: 15px;
+      border-radius: 12px;
+      text-align: left;
+    }
+    .warning-box h3 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #ff1a1a;
+    }
+    .warning-box p {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+    .warning-box b {
+      color: #d90000;
+    }
+    .timer {
+      margin-top: 25px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #0072ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="banner">
+      <h1>🎉 Internship Khazaana</h1>
+      <p>✅ Payment Successful – Welcome Onboard!</p>
+    </div>
+
+    <p style="font-size: 17px; margin-bottom: 20px;">
+      Your instant access is ready. Please download your resource below 👇
+    </p>
+
+    <a href="your-resource-link.zip" class="download-btn" download>📥 Download Resource</a>
+
+    <div class="warning-box">
+      <h3>⚠️ Important Note:</h3>
+      <p>👉 <b>Please download your resource immediately.</b></p>
+      <p>If you are unable to download, message us on 
+      <b>3Skill Official WhatsApp</b>, and we will provide it directly.</p>
+      <p>If you do not download now, you may need to request access later.</p>
+    </div>
+
+    <div class="timer">
+      ⏳ Redirecting to Home Page in <span id="countdown">300</span> seconds...
+    </div>
+  </div>
+
+  <script>
+   const homePage = "https://3skill.in/digital-products.html"; 
+  const ref = document.referrer;
+
+  // Right-click disable
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
+
+  // Keyboard shortcuts disable
+  document.addEventListener('keydown', function(e) {
+    // Disable F12
+    if(e.key === "F12") e.preventDefault();
+    // Disable Ctrl+Shift+I
+    if(e.ctrlKey && e.shiftKey && e.key === "I") e.preventDefault();
+    // Disable Ctrl+U
+    if(e.ctrlKey && e.key === "u") e.preventDefault();
+  });
+
+  if(ref.includes("https://smartpay.easebuzz.in/179742/3f39b3e2d3fc4bbaa833dba4a71e80c9")) {
+    // Payment gateway → 3 minute delay
+    setTimeout(function(){
+      window.location.href = homePage;
+    }, 180000); // 3 minutes
+  } else {
+    // Direct visit → instant redirect
+    window.location.href = homePage;
+  }
+  </script>
+</body>
+</html>

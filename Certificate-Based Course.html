@@ -19,17 +19,7 @@
 </head>
 <body>
   <script>
-    document.addEventListener("contextmenu", function(e) {
-      e.preventDefault();
-      return false;
-    });
-
-    // Also disable common right-click shortcuts
-    document.addEventListener("keydown", function(e) {
-      if (e.ctrlKey && (e.key === "u" || e.key === "U" || e.key === "s" || e.key === "S")) {
-        e.preventDefault();
-      }
-    });
+    
   </script>
 <!--   *** Website Container Starts ***   -->
 <div class="website-container">
@@ -43,7 +33,7 @@
 		</a>
 		<ul class="nav-list">
 			<li><a href="index.html">Home</a></li>
-			<li><a href="about.html" target="_blank">About</a></li>
+			<li><a href="profile.html" target="_blank">Login</a></li>
 			<li><a href="3Skill_Internship_Guarantee_Course_Details.pdf" target="_blank">Courses</a></li>
 			<li><a href="dashbord.html" target="_blank">dashboard</a></li>
 			<li><a href="Certificate-Based Course.html" target="_blank">Internship</a></li>
@@ -58,13 +48,93 @@
 	<div class="banner">
 		
 		<div class="banner-desc">
-			<h2>Free<span> Internship</span> with Certificate & Learn From Home with <span>IIT Mentorship</span></h2>
+			<h2>Internship<span> Just @₹99</span> with Certificate & Learn From Home with <span>IIT Mentorship</span></h2>
       <h5>Build Real-World Projects, and <span>Master In-Demand Tech Skills</span>. This Internship Offers You a Hands-On Learning Experience, Industry Exposure, and a <span>Recognized Certificate to Boost Your Career.</span></h5>
          <br>
          
-			<div style="background-color:#f5e9e8; padding:15px; border-left:5px solid #4caf50; border-radius:8px; font-size:1.1rem;">
-  ✅ <strong> Certificate Included:</strong> Registration Fee ₹399 is only for certificate & slot
+			<div class="offer-box">
+   <span class="offer-title">Exclusive Offer</span>  
+  <span class="original-price">₹399</span>  
+  <span class="discount-price">₹99 Only</span>  
+  <span class="badge">75% OFF</span>
 </div>
+
+<style>
+.offer-box {
+  background: linear-gradient(90deg,#d0f7d0,#ffffff,#d0f7d0);
+  border:2px solid #4caf50;
+  padding:10px 14px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:500;
+  color:#222;
+  margin-top:12px;
+  display:inline-flex;
+  align-items:center;
+  animation:shake 1s infinite, glow 1.5s infinite alternate;
+  white-space: nowrap; /* Prevent line breaks */
+}
+
+.offer-title { font-weight:700; color:#1b5e20; margin-left:4px; }
+
+.original-price { 
+  margin-left:6px; 
+  font-size:14px; 
+  font-weight:700; 
+  color:#d32f2f; 
+  position: relative;
+}
+
+/* Stylish strike-through */
+.original-price::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg,#d32f2f,#ff5252);
+  transform: rotate(-5deg);
+  border-radius:1px;
+  box-shadow:0 1px 2px rgba(0,0,0,0.2);
+}
+
+.discount-price { margin-left:6px; font-size:16px; font-weight:800; color:#2e7d32; }
+.badge { 
+  margin-left:8px; 
+  background:#2e7d32; 
+  color:#fff; 
+  padding:3px 6px; 
+  border-radius:5px; 
+  font-size:12px; 
+  font-weight:700;
+}
+
+/* Animations */
+@keyframes shake {
+  0%, 100% { transform: translate(0,0); }
+  25% { transform: translate(-2px,0) rotate(-0.5deg); }
+  50% { transform: translate(2px,0) rotate(0.5deg); }
+  75% { transform: translate(-2px,0) rotate(-0.5deg); }
+}
+
+@keyframes glow {
+  0% { box-shadow:0 0 8px rgba(46,125,50,0.5); }
+  50% { box-shadow:0 0 20px rgba(46,125,50,0.8); }
+  100% { box-shadow:0 0 12px rgba(46,125,50,0.6); }
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width:480px) {
+  .offer-box { padding:6px 10px; font-size:12px; }
+  .original-price { font-size:12px; margin-left:4px; }
+  .discount-price { font-size:14px; margin-left:4px; }
+  .badge { font-size:11px; padding:2px 5px; margin-left:6px; }
+  .original-price::after { height:1.5px; transform: rotate(-5deg); }
+}
+</style>
+
+
 
 <a href="https://smartpay.easebuzz.in/179742/81548564ffc746338b72af18fc1e3800" class="btn-yellow">Register Now</a>
 <br>
@@ -317,7 +387,7 @@
       <!-- Title and Price in Flex -->
       <div class="title-price">
         <h2 class="course-title">Data analys</h2>
-        <span class="course-price">₹399</span>
+        <span class="course-price">₹99</span>
       </div>
 
       <div class="details">⏱️ 1 months Internship</div>
@@ -338,7 +408,7 @@
          <div class="badge">Internship</div>
         <div class="title-price">
         <h2 class="course-title">Fullstack Development</h2>
-        <span class="course-price">₹399</span>
+        <span class="course-price">₹99</span>
       </div>
         <div class="details">⏱️ 1 months Internship</div>
         <div class="details">🧠 Learn HTML, CSS, JS, React & Node.js</div>
@@ -358,7 +428,7 @@
      <div class="badge">Internship</div>
     <div class="title-price">
       <h2 class="course-title">AI & Machine Learning</h2>
-      <span class="course-price">₹399</span>
+      <span class="course-price">₹99</span>
     </div>
     <div class="details">⏱️ 1 months Internship</div>
     <div class="details">🧠 Learn Python, ML Algorithms & AI Concepts</div>
@@ -378,7 +448,7 @@
      <div class="badge">Internship</div>
     <div class="title-price">
       <h2 class="course-title">E-Commerce Store Building</h2>
-      <span class="course-price">₹399</span>
+      <span class="course-price">₹99</span>
     </div>
     <div class="details">⏱️ 1 months Internship</div>
     <div class="details">🧠 Learn Shopify, Store Setup & Marketing</div>
@@ -398,7 +468,7 @@
      <div class="badge">Internship</div>
     <div class="title-price">
       <h2 class="course-title">Frontend Developer Mastery</h2>
-      <span class="course-price">₹399</span>
+      <span class="course-price">₹99</span>
     </div>
     <div class="details">⏱️ 1 month course</div>
     <div class="details">🧠 Learn HTML, CSS, JavaScript & React</div>
@@ -418,7 +488,7 @@
      <div class="badge">Internship</div>
     <div class="title-price">
       <h2 class="course-title">Digital Marketing</h2>
-      <span class="course-price">₹399</span>
+      <span class="course-price">₹99</span>
     </div>
     <div class="details">⏱️ 1 month Internship</div>
     <div class="details">🧠 Learn SEO, Ads, Content & Social Media</div>
@@ -612,7 +682,7 @@
 <div class="course-section">
   <div class="course-content">
     <h2>Join Our Free <span> Internship Program</span></h2>
-    <p>  Learn job-ready tech skills with expert mentorship, hands-on projects, and real-world experience — absolutely <strong>FREE</strong>. Pay only ₹399 for certificate and slot booking (optional).
+    <p>  Learn job-ready tech skills with expert mentorship, hands-on projects, and real-world experience — absolutely <strong>FREE</strong>. Pay only ₹99 for certificate and slot booking (optional).
 </p>
 
     <div class="course-features">
@@ -1394,7 +1464,7 @@ function togglePlay(videoId, btn) {
       <div class="faq-toggle">+</div>
     </div>
     <div class="faq-answer">
-      Yes! The internship itself is 100% free. A small ₹399 fee is only required for slot booking and to issue a certificate.
+      Yes! The internship itself is 100% free. A small ₹99 fee is only required for slot booking and to issue a certificate.
     </div>
   </div>
 

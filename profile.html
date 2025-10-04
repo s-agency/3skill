@@ -3,28 +3,655 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Profile - 3Skill</title>
-  <link rel="stylesheet" href="profile.css" />
-  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	 <link rel="icon" type="image/png" href="download.png">
+  <title>Student Profile | 3Skill</title>
+  <link rel="icon" type="image/png" href="download.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+      display: flex;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    /* ===== Left Section ===== */
+    .left-section {
+      background: linear-gradient(180deg, #2e7d32 0%, #3f8258 100%);
+      width: 40%;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .left-section::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 150px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .profile-pic-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-pic {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      transition: transform 0.4s ease;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.05);
+    }
+
+    .profile-pic-container::after {
+      content: '';
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      background-color: #4caf50;
+      border-radius: 50%;
+      border: 3px solid white;
+    }
+
+    .left-section h2 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .left-section h3 {
+      font-size: 1rem;
+      font-weight: 400;
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+    }
+
+    .info {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.2rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .info-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .info-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-size: 1rem;
+    }
+
+    .info-content {
+      flex: 1;
+    }
+
+    .info-content strong {
+      display: block;
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+
+    .info-content span {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    /* ===== Right Section ===== */
+    .right-section {
+      width: 60%;
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      background: #ffffff;
+      position: relative;
+    }
+
+    .right-section h1 {
+      font-size: 2rem;
+      color: #1a1a1a;
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .right-section h1 span {
+      color: #2e7d32;
+    }
+
+    .right-section p {
+      font-size: 1.05rem;
+      color: #555;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .dashboard-container {
+      width: 100%;
+      background: linear-gradient(135deg, #f8fdf9 0%, #f0f9f3 100%);
+      border-radius: 16px;
+      padding: 2.2rem;
+      margin-bottom: 2rem;
+      border: 1px solid #e8f5e9;
+      box-shadow: 0 8px 20px rgba(46, 125, 50, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dashboard-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 100%;
+      background: linear-gradient(180deg, #2e7d32, #4caf50);
+    }
+
+    .dashboard-container h2 {
+      font-size: 1.4rem;
+      color: #2e7d32;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dashboard-container h2 i {
+      font-size: 1.5rem;
+    }
+
+    .dashboard-container p {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-dashboard {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: linear-gradient(90deg, #2e7d32, #43a047);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      animation: pulse-glow 2s infinite;
+    }
+
+    @keyframes pulse-glow {
+      0% { box-shadow: 0 0 15px rgba(46, 125, 50, 0.5); }
+      50% { box-shadow: 0 0 20px rgba(46, 125, 50, 0.7); }
+      100% { box-shadow: 0 0 15px rgba(46, 125, 50, 0.5); }
+    }
+
+    .btn-dashboard::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn-dashboard:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(46, 125, 50, 0.4);
+      animation: none;
+    }
+
+    .btn-dashboard:hover::before {
+      left: 100%;
+    }
+
+    .btn-dashboard i {
+      font-size: 1.2rem;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(4px); }
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .btn-home, .btn-logout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #f5f5f5;
+      color: #444;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-home:hover {
+      background: #e8f5e9;
+      color: #2e7d32;
+      transform: translateY(-2px);
+    }
+
+    .btn-logout:hover {
+      background: #ffebee;
+      color: #d32f2f;
+      transform: translateY(-2px);
+    }
+
+    /* ===== Perfect Mobile Design ===== */
+    @media (max-width: 768px) {
+      body {
+        background: #ffffff;
+        padding: 0;
+        min-height: 100vh;
+        display: block;
+      }
+
+      .container {
+        flex-direction: column;
+        border-radius: 0;
+        box-shadow: none;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      /* Top Profile Section - Mobile */
+      .left-section {
+        width: 100%;
+        background: linear-gradient(180deg, #2e7d32 0%, #3f8258 100%);
+        color: #fff;
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+        border: none;
+        border-radius: 0 0 30px 30px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .left-section::before {
+        top: -30px;
+        right: -30px;
+        width: 120px;
+        height: 120px;
+      }
+
+      .profile-pic {
+        width: 120px;
+        height: 120px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .left-section h2 {
+        font-size: 1.5rem;
+        color: #fff;
+      }
+
+      .left-section h3 {
+        color: #e3ffe7;
+        font-weight: 400;
+        font-size: 0.95rem;
+      }
+
+      .info {
+        margin-top: 1.5rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .info-item {
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      .info-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 0.95rem;
+        margin-right: 12px;
+      }
+
+      .info-content strong {
+        color: #e3ffe7;
+        font-size: 0.8rem;
+      }
+
+      .info-content span {
+        font-size: 0.95rem;
+      }
+
+      /* Bottom Content Section - Mobile */
+      .right-section {
+        width: 100%;
+        padding: 2.5rem 1.5rem;
+        background: #fff;
+        text-align: center;
+        align-items: center;
+      }
+
+      .right-section h1 {
+        font-size: 1.7rem;
+        color: #2e7d32;
+        text-align: center;
+      }
+
+      .right-section p {
+        font-size: 1rem;
+        color: #444;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .dashboard-container {
+        width: 100%;
+        padding: 2rem 1.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .dashboard-container h2 {
+        font-size: 1.3rem;
+        justify-content: center;
+      }
+
+      .dashboard-container p {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .btn-dashboard {
+        width: 100%;
+        border-radius: 12px;
+        padding: 16px 24px;
+        font-size: 1.1rem;
+      }
+
+      .buttons {
+        width: 100%;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .btn-home, .btn-logout {
+        width: 100%;
+        border-radius: 10px;
+        padding: 14px 20px;
+        font-size: 1rem;
+      }
+    }
+
+    /* Small Mobile Optimization */
+    @media (max-width: 480px) {
+      .left-section {
+        padding: 2rem 1rem;
+        border-radius: 0 0 25px 25px;
+      }
+
+      .profile-pic {
+        width: 110px;
+        height: 110px;
+      }
+
+      .left-section h2 {
+        font-size: 1.4rem;
+      }
+
+      .left-section h3 {
+        font-size: 0.9rem;
+      }
+
+      .info {
+        padding: 1.2rem;
+      }
+
+      .info-item {
+        margin-bottom: 0.8rem;
+        padding-bottom: 0.8rem;
+      }
+
+      .info-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+        margin-right: 10px;
+      }
+
+      .info-content strong {
+        font-size: 0.75rem;
+      }
+
+      .info-content span {
+        font-size: 0.9rem;
+      }
+
+      .right-section {
+        padding: 2rem 1rem;
+      }
+
+      .right-section h1 {
+        font-size: 1.5rem;
+      }
+
+      .right-section p {
+        font-size: 0.95rem;
+      }
+
+      .dashboard-container {
+        padding: 1.5rem 1.2rem;
+      }
+
+      .dashboard-container h2 {
+        font-size: 1.2rem;
+      }
+
+      .dashboard-container p {
+        font-size: 0.9rem;
+      }
+
+      .btn-dashboard {
+        padding: 14px 20px;
+        font-size: 1rem;
+      }
+
+      .buttons {
+        gap: 0.8rem;
+      }
+
+      .btn-home, .btn-logout {
+        padding: 12px 18px;
+        font-size: 0.95rem;
+      }
+    }
+
+    /* Extra Small Mobile Optimization */
+    @media (max-width: 360px) {
+      .left-section {
+        padding: 1.5rem 1rem;
+      }
+
+      .profile-pic {
+        width: 100px;
+        height: 100px;
+      }
+
+      .left-section h2 {
+        font-size: 1.3rem;
+      }
+
+      .info {
+        padding: 1rem;
+      }
+
+      .right-section {
+        padding: 1.5rem 1rem;
+      }
+
+      .right-section h1 {
+        font-size: 1.3rem;
+      }
+
+      .dashboard-container {
+        padding: 1.2rem 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="container profile-box">
-    <div class="profile-card">
-      <img id="profile-photo" class="profile-pic" src="" alt="Profile Picture" />
-      <h2>👤 Student Profile</h2>
-      <div class="info">
-        <p><strong>Name:</strong> <span id="profile-name"></span></p>
-        <p><strong>College:</strong> <span id="profile-college"></span></p>
-        <p><strong>Email:</strong> <span id="profile-email"></span></p>
-        <p><strong>Student ID:</strong> <span id="profile-id"></span></p>
+  <div class="container">
+    <!-- ===== Left Side ===== -->
+    <div class="left-section">
+      <div class="profile-pic-container">
+        <img id="profile-photo" class="profile-pic" src="https://via.placeholder.com/140?text=Profile" alt="Profile" />
       </div>
-      <a href="dashbord.html" class="btn-yellow">Students dashboard</a>
+      <h2 id="profile-name">Student Name</h2>
+      <h3>3Skill Internship Program</h3>
+      
+      <div class="info">
+        <div class="info-item">
+          <div class="info-icon">
+            <i class="fas fa-university"></i>
+          </div>
+          <div class="info-content">
+            <strong>College</strong>
+            <span id="profile-college"></span>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="info-content">
+            <strong>Email</strong>
+            <span id="profile-email"></span>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-icon">
+            <i class="fas fa-id-card"></i>
+          </div>
+          <div class="info-content">
+            <strong>Student ID</strong>
+            <span id="profile-id"></span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <div class="buttons-row">
-  <button class="btn-home" onclick="goHome()">← Back to Home</button>
-  <button class="btn-logout" onclick="logout()">Logout</button>
-</div>
+    <!-- ===== Right Side ===== -->
+    <div class="right-section">
+      <h1>Welcome to <span>3Skill</span> Internship Portal</h1>
+     
+
+      <div class="dashboard-container">
+        <h2><i class="fas fa-tachometer-alt"></i> Student Dashboard</h2>
+        <p>
+          Your central hub for all internship activities. Access learning materials, 
+          submit assignments, track your progress, and connect with mentors.
+        </p>
+        <a href="dashbord.html" class="btn-dashboard">
+          Go to Dashboard <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="buttons">
+        <button class="btn-home" onclick="goHome()">
+          <i class="fas fa-home"></i> Back to Home
+        </button>
+        <button class="btn-logout" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
     </div>
   </div>
 
@@ -42,287 +669,17 @@
       document.getElementById("profile-college").innerText = college || "N/A";
       document.getElementById("profile-email").innerText = email;
       document.getElementById("profile-id").innerText = id;
-      if (photo) {
-        document.getElementById("profile-photo").src = photo;
-      } else {
-        document.getElementById("profile-photo").src = "https://via.placeholder.com/120?text=No+Image";
-      }
+      document.getElementById("profile-photo").src = photo || "https://via.placeholder.com/140?text=No+Image";
     }
 
     function logout() {
       localStorage.clear();
       window.location.href = "login.html";
     }
+
     function goHome() {
-  window.location.href = 'index.html'; // or your home page url
-}
+      window.location.href = "index.html";
+    }
   </script>
 </body>
 </html>
-<style>
-  /* ===== Global styles ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-  background-color: #ecf9f0;
-  color: #222;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-}
- .btn-yellow {
-      display: inline-block;
-      background-color:  #3f8258;
-      color: #ffffff;
-      padding: 12px 24px;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 6px;
-      margin-top: 30px;
-    }
-/* ===== Container ===== */
-.container {
-  max-width: 600px;
-  width: 100%;
-  background: white;
-  padding: 2.5rem 3rem;
-  border-radius: 20px;
-  box-shadow: 0 10px 35px rgba(0,0,0,0.12);
-  animation: fadeIn 1s ease-in-out;
-  text-align: center;
-}
-
-/* ===== Animation ===== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ===== Form Inputs and Buttons ===== */
-label {
-  display: block;
-  margin-top: 1.2rem;
-  font-weight: 600;
-  color: #257537;
-  text-align: left;
-}
-
-input[type=email],
-input[type=password],
-input[type=text],
-input[type=file],
-button {
-  width: 100%;
-  padding: 0.9rem 1.2rem;
-  margin-top: 0.3rem;
-  border-radius: 12px;
-  border: 1.5px solid #ccc;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  font-weight: 500;
-}
-
-input:focus {
-  outline: none;
-  border-color: #257537;
-  box-shadow: 0 0 8px rgba(37, 117, 55, 0.5);
-}
-
-button {
-  background-color: #257537;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 2rem;
-  border: none;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(37,117,55,0.4);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-  background-color: #145422;
-  transform: scale(1.05);
-}
-
-/* ===== Profile Page ===== */
-.profile-box h2 {
-  margin-bottom: 1.5rem;
-  color: #257537;
-  font-weight: 700;
-  font-size: 2rem;
-  letter-spacing: 1.1px;
-}
-
-.profile-pic {
-  display: block;
-  margin: 0 auto 1.8rem auto;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #257537;
-  box-shadow: 0 6px 15px rgba(37, 117, 55, 0.3);
-  transition: transform 0.3s ease;
-}
-
-.profile-pic:hover {
-  transform: scale(1.07);
-}
-
-/* Profile info container - card style */
-.profile-info {
-  background: #f5fcf7;
-  border-radius: 15px;
-  padding: 2rem 2.5rem;
-  box-shadow: 0 8px 25px rgba(37,117,55,0.12);
-  margin-bottom: 2rem;
-  text-align: left;
-  max-width: 420px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.profile-info p {
-  font-size: 1.15rem;
-  margin: 1rem 0;
-  color: #3a3a3a;
-}
-
-.profile-info p strong {
-  color: #257537;
-  display: inline-block;
-  width: 120px;
-}
-
-/* Buttons container for side by side buttons */
-.buttons-row {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-}
-
-/* Back to Home & Logout buttons */
-.btn-home, .btn-logout {
-  flex: 1 1 120px;
-  padding: 0.6rem 1.2rem;
-  font-weight: 700;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 6px 10px rgba(0,0,0,0.12);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.btn-home {
-  background-color: #257537;
-  color: white;
-}
-
-.btn-home:hover {
-  background-color: #145422;
-  transform: scale(1.05);
-}
-
-.btn-logout {
-  background-color: crimson;
-  color: white;
-}
-
-.btn-logout:hover {
-  background-color: #a80000;
-  transform: scale(1.05);
-}
-
-/* Responsive adjustments */
-@media (max-width: 480px) {
-  
-  .desktop-profile {
-    display: none;
-  }
-}
-@media (max-width: 480px) {
-  .desktop-text {
-    display: none;
-  }
-.desktop-profile {
-    display: none;
-  }
- 
-}
-</style>
-<script>
-  // ======== script.js ========
-function login() {
-  const name = document.getElementById("name").value.trim();
-  const college = document.getElementById("college").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const photoInput = document.getElementById("photo");
-  const photoFile = photoInput.files[0];
-
-  if (!name || !college || !email || !password) {
-    alert("Please fill all fields");
-    return;
-  }
-
-  // Basic email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    alert("Please enter a valid email address");
-    return;
-  }
-
-  if (!photoFile) {
-    alert("Please upload a profile photo");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const photoData = e.target.result;
-    const studentId = "3SKILL-" + Math.floor(1000 + Math.random() * 9000);
-
-    localStorage.setItem("studentName", name);
-    localStorage.setItem("studentCollege", college);
-    localStorage.setItem("studentEmail", email);
-    localStorage.setItem("studentId", studentId);
-    localStorage.setItem("studentPhoto", photoData);
-
-    window.location.href = "profile.html";
-  };
-
-  reader.readAsDataURL(photoFile);
-}
-function goHome() {
-  window.location.href = 'index.html'; // or your home page url
-}
-
-function logout() {
-  localStorage.clear();
-  window.location.href = 'login.html';
-}
- document.addEventListener("DOMContentLoaded", function () {
-    const menuBtn = document.querySelector(".menu-btn");
-    const navList = document.querySelector(".nav-list");
-
-    menuBtn.addEventListener("click", function () {
-      navList.classList.toggle("active");
-    });
-  });
-</script>

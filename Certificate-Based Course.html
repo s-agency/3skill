@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1170166754982118');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1170166754982118&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3Skill Internship 2.0 — 1 Month Training + 1 Month Project | ₹499</title>
@@ -630,7 +647,7 @@
         /* Testimonials */
         .testimonial-section {
             padding: 40px 20px;
-            background: #edfaf1;
+            background: white;
             text-align: center;
         }
 
@@ -638,6 +655,7 @@
             display: flex;
             overflow-x: auto;
             gap: 20px;
+            background-color: white;
             scroll-behavior: smooth;
             padding-bottom: 10px;
             max-width: 1200px;
@@ -847,6 +865,159 @@
     </style>
 </head>
 <body class="antialiased text-gray-800 bg-white overflow-x-hidden">
+   <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #f8fafc;
+    }
+
+    .promo-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      z-index: 10000;
+    }
+
+    .promo-banner.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .banner-content {
+      position: relative;
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+      animation: scaleUp 0.5s ease;
+    }
+
+    @keyframes scaleUp {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .banner-content img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .banner-info {
+      padding: 20px;
+      text-align: left;
+      position: relative;
+    }
+
+    .banner-info h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      color: #111827;
+    }
+
+    .banner-info p {
+      margin: 0;
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    .countdown {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 14px;
+      color: #6b7280; /* grey */
+      font-weight: bold;
+      background: rgba(255,255,255,0.8);
+      padding: 4px 8px;
+      border-radius: 8px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: white; /* green background */
+      color: black;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .close-btn:hover {
+      background: white;
+    }
+  </style>
+
+  <!-- Banner Popup -->
+  <div class="promo-banner" id="promoBanner">
+    <div class="banner-content">
+      <span class="countdown" id="countdownText">Closing in 6s...</span>
+      <button class="close-btn" id="closeBanner">×</button>
+      <img src="10 DAYS LEFT.png" alt="3Skill Internship Offer">
+      <div class="banner-info">
+        <h2>🔥 2-Month Internship + FREE vacation trip</h2>
+        <p>1 Month Training + 1 Month Project Work.<br>Top performers get a <b>FREE vacation trip</b> — travel and stay fully covered!</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const promoBanner = document.getElementById('promoBanner');
+    const closeBanner = document.getElementById('closeBanner');
+    const countdownText = document.getElementById('countdownText');
+
+    let countdown = 6; // 6 seconds
+
+    function updateCountdown() {
+      countdownText.textContent = `Closing in ${countdown}s...`;
+    }
+
+    // Show banner after 6 seconds
+    setTimeout(() => {
+      promoBanner.classList.add('show');
+      updateCountdown();
+
+      const countdownInterval = setInterval(() => {
+        countdown--;
+        if(countdown <= 0){
+          clearInterval(countdownInterval);
+          promoBanner.classList.remove('show');
+        } else {
+          updateCountdown();
+        }
+      }, 1000);
+
+    }, 6000);
+
+    // Close banner manually
+    closeBanner.addEventListener('click', () => {
+      promoBanner.classList.remove('show');
+    });
+  </script>
+
+
+
 
     <!-- NAV -->
     <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
@@ -908,8 +1079,8 @@
                 </div>
                 
                 <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
-                    Travel for Free Your Tech
-                    <span class="text-gradient">Internship Awaits!</span>
+                    2 Months Internship 
+                    <span class="text-gradient"> With FREE TRIPS !</span>
                 </h1>
                 
                 <p class="mt-4 text-gray-600">1 Month of Intensive Skill Training + 1 Month of Real Projects. Earn a Certificate, Get Mentorship, Top-Performer Rewards — and Enjoy Free Vacation Trips to Goa, Manali, or Darjeeling!</p>
@@ -920,8 +1091,8 @@
                             <i class="fas fa-rupee-sign"></i>
                         </div>
                         <div>
-                            <div class="font-semibold">Just ₹499</div>
-                            <div class="text-gray-500 text-xs">One-time fee</div>
+                            <div class="font-semibold">1000+ Interview</div>
+                            <div class="text-gray-500 text-xs">question</div>
                         </div>
                     </div>
                     
@@ -1551,6 +1722,295 @@
                 </div>
             </div>
         </section>
+      
+
+
+       <style>
+  body {
+    background: #f3faff;
+  }
+
+  /* ===== Section ===== */
+  .review-section-new {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    background: white;
+  }
+
+  .review-card-new {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    max-width: 1330px;
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+
+  /* ===== Left Side (Image Block) ===== */
+  .review-left-new {
+    flex: 0 0 50%;
+    background-color: #f4f2ff;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .review-left-new img {
+    width: 700px;
+    height: 350px;
+    object-fit: cover;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    display: block;
+  }
+
+  .review-play-btn-new {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75px;
+    height: 75px;
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 36px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 5;
+  }
+
+  .review-play-btn-new:hover {
+    background: rgba(0, 0, 0, 0.6);
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  /* ===== Right Side (Text) ===== */
+  .review-right-new {
+    flex: 1;
+    padding: 60px 60px;
+    display: flex;
+    height: 350px;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .review-right-new h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.4;
+    margin-bottom: 18px;
+  }
+
+  .review-right-new p {
+    font-size: 17px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+
+  .review-name-new {
+    margin-top: 10px;
+    font-weight: 600;
+    color: #000;
+  }
+
+  /* ===== Video Popup ===== */
+  .review-popup-overlay-new {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 999;
+  }
+
+  .review-popup-overlay-new.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .review-popup-video-new {
+    position: relative;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    width: 320px;
+    height: 570px;
+    animation: zoomIn 0.3s ease;
+  }
+
+  .review-popup-video-new video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .review-popup-close-new {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    color: white;
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.2s ease;
+  }
+
+  .review-popup-close-new:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    transform: scale(1.1);
+  }
+
+  @keyframes zoomIn {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* ===== Mobile Fix Only ===== */
+  @media (max-width: 768px) {
+    .review-card-new {
+      flex-direction: column;
+      border-radius: 25px;
+      margin: 0 10px;
+      overflow: hidden;
+    }
+
+    .review-left-new {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 25px 25px 0 0;
+      background: #f4f2ff;
+    }
+
+    .review-left-new img {
+      width: 100%;
+      height: auto;
+      border-radius: 25px 25px 0 0;
+      object-fit: cover;
+    }
+
+    .review-right-new {
+      padding: 25px 22px;
+      text-align: left;
+      height: auto;
+    }
+
+    .review-right-new h2 {
+      font-size: 20px;
+    }
+
+    .review-right-new p {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .review-play-btn-new {
+      width: 58px;
+      height: 58px;
+      font-size: 28px;
+    }
+
+    .review-popup-video-new {
+      width: 250px;
+      height: 440px;
+    }
+  }
+</style>
+
+<section class="review-section-new">
+  <div class="review-card-new">
+    
+    <!-- Left -->
+    <div class="review-left-new">
+      <img src="review.in.png" alt="Testimonial" />
+      <div class="review-play-btn-new" id="reviewPlayNew">&#9658;</div>
+    </div>
+
+    <!-- Right -->
+    <div class="review-right-new">
+      <h2>“Start as a free intern, grow your skills, and step into a paid internship”</h2>
+      <p>
+        I started as a free intern and ended up getting a paid internship!
+3Skill guided me step-by-step into Data Science and helped me land real projects.
+      </p>
+      <p class="review-name-new">– <strong>Tarun Kumar</strong>, Data Analyst</p>
+    </div>
+  </div>
+</section>
+
+<!-- Video Popup -->
+<div class="review-popup-overlay-new" id="reviewPopupNew">
+  <div class="review-popup-video-new">
+    <button class="review-popup-close-new" id="reviewCloseNew">&times;</button>
+    <video src="tarun.mp4" autoplay muted loop controls></video>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const playBtn = document.getElementById("reviewPlayNew");
+    const popup = document.getElementById("reviewPopupNew");
+    const closeBtn = document.getElementById("reviewCloseNew");
+    const video = popup.querySelector("video");
+
+    playBtn.addEventListener("click", () => {
+      popup.classList.add("active");
+      video.currentTime = 0;
+      video.play();
+    });
+
+    closeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      popup.classList.remove("active");
+      video.pause();
+    });
+
+    popup.addEventListener("click", (e) => {
+      if (e.target === popup) {
+        popup.classList.remove("active");
+        video.pause();
+      }
+    });
+  });
+</script>
+
 
         <!-- COMMUNITY SECTION -->
         <section class="partner-section">
@@ -1994,7 +2454,7 @@
 	<header class="section-header">
 		
 		<div class="text-center max-w-3xl mx-auto mb-12">
-                    <h2 class="text-2xl md:text-3xl font-bold">Hear What Our <span class="text-gradient">Interns Have to Say :</span></h2>
+                    <h2 class="text-2xl md:text-3xl font-bold">What Our <span class="text-gradient">Interns Have to Say :</span></h2>
                     <p class="mt-3 text-gray-600">Hear directly from our students about their learning experiences and achievements.</p>
                 </div>
 		
@@ -2184,116 +2644,11 @@
    <br>
    <br>
 
-   <div class="text-center max-w-3xl mx-auto mb-12">
-                <h2 class="text-2xl md:text-3xl font-bold">What Our <span class="text-gradient">Students Say</span></h2>
-                <p class="mt-3 text-gray-600">Real feedback and experiences from students who completed our courses and internships.</p>
-            </div>
-  <div class="reels-wrapper">
-    <div class="reel-card">
-      <video id="video1" src="ommprakash.mp4" class="reel-video"></video>
-      <div class="play-btn" onclick="togglePlay('video1', this)"></div>
-    </div>
+ 
+ 
 
-    <div class="reel-card">
-      <video id="video2" src="tarun.mp4" class="reel-video"></video>
-      <div class="play-btn" onclick="togglePlay('video2', this)"></div>
-    </div>
 
-    <div class="reel-card">
-      <video id="video3" src="pradeep.mp4" class="reel-video"></video>
-      <div class="play-btn" onclick="togglePlay('video3', this)"></div>
-    </div>
-     <div class="reel-card">
-      <video id="video4" src="abhayiitp.mp4" class="reel-video"></video>
-      <div class="play-btn" onclick="togglePlay('video4', this)"></div>
-    </div>
-     <div class="reel-card">
-      <video id="video5" src="prabinkumar.mp4" class="reel-video"></video>
-      <div class="play-btn" onclick="togglePlay('video5', this)"></div>
-    </div>
-     <div class="reel-card">
-      <video id="video6" src="komal.mp4" class="reel-video"></video>
-      <div class="play-btn" onclick="togglePlay('video6', this)"></div>
-    </div>
-     <div class="reel-card">
-      <video id="video7" src="ravikant.mp4" class="reel-video"></video>
-      <div class="play-btn" onclick="togglePlay('video7', this)"></div>
-    </div>
-  </div>
 
- <script>
-function togglePlay(videoId, btn) {
-  const video = document.getElementById(videoId);
-  const parent = btn.parentElement;
-
-  if (video.paused) {
-    // Play the video
-    video.play();
-    parent.classList.add("playing");
-  } else {
-    // Pause the video
-    video.pause();
-    parent.classList.remove("playing");
-  }
-
-  // Show play button again when video ends
-  video.onended = () => {
-    parent.classList.remove("playing");
-  };
-
-  // Pause when clicking directly on the video too
-  video.onclick = () => {
-    if (!video.paused) {
-      video.pause();
-      parent.classList.remove("playing");
-    }
-  };
-}
- </script>
- <style>
-    .reels-wrapper {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding: 10px;
-  scroll-snap-type: x mandatory;
-}
-
-.reel-card {
-  position: relative;
-  width: 300px;           /* Typical phone width */
-  height: 400px;          /* 16:9 portrait ratio */
-  background: black;
-  border-radius: 20px;
-  overflow: hidden;
-  flex-shrink: 0;
-  scroll-snap-align: start;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-}
-
-.reel-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.play-btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 60px;
-  height: 60px;
-  transform: translate(-50%, -50%);
-  background: url('https://img.icons8.com/ios-filled/100/fa314a/play--v1.png') no-repeat center center;
-  background-size: 60px;
-  cursor: pointer;
-  z-index: 2;
-}
-.reel-video {
-  cursor: pointer;
-}
- </style>
   
 
  <section style="background-color: #f9fcff; padding: 60px 20px; display: flex; flex-direction: column; align-items: center; font-family: 'Inter', sans-serif;">
@@ -2920,7 +3275,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <a href="Certificate-Based Course.html" target="_blank">Free Internship</a>
                     <a href="profile.html">Login</a>
                     <a href="about.html">About</a>
-                    <a href="3Skill_Legal_Policies_June_2025.pdf">Terms & Conditions</a>
+                    <a href="3Skill_Terms_and_Conditions.pdf">Terms & Conditions</a>
                 </div>
             </div>
 

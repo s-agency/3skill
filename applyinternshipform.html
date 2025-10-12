@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3Skill Internship Application</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --white: #ffffff;
+            --light: #f8f9fa;
+            --gray-light: #e9ecef;
+            --gray: #adb5bd;
+            --dark: #212529;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 520px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--success));
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .form-header i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .form-header h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .form-header p {
+            color: var(--gray);
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            outline: none;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--light);
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--primary);
+            background-color: var(--white);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        input:focus + i {
+            color: var(--primary);
+        }
+
+        .file-input-container {
+            position: relative;
+            margin-top: 5px;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            background-color: var(--light);
+            border: 2px dashed var(--gray-light);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .file-input-label:hover {
+            border-color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .file-input-label i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        input[type="file"] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-name {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: var(--gray);
+            text-align: center;
+        }
+
+        .submit-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: auto;
+            min-width: 220px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Overlay Loader */
+        #overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #overlay-text {
+            font-size: 1.2rem;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .success-message {
+            background-color: rgba(76, 201, 240, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            color: var(--success);
+            display: none;
+        }
+
+        .error-message {
+            background-color: rgba(255, 107, 107, 0.1);
+            border: 1px solid #ff6b6b;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            color: #ff6b6b;
+            display: none;
+        }
+
+        @media (max-width: 576px) {
+            .form-container {
+                padding: 30px 20px;
+            }
+            
+            .form-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .submit-btn {
+                width: 100%;
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <div class="form-header">
+        <i class="fas fa-briefcase"></i>
+        <h2>Apply for Internship</h2>
+        <p>Fill in your details to secure your 2-month internship</p>
+    </div>
+    
+    <form id="internship-form">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <div class="input-container">
+                <i class="fas fa-user"></i>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-container">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="whatsapp">WhatsApp Number</label>
+            <div class="input-container">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="whatsapp" name="whatsapp" placeholder="Enter your WhatsApp number" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="domain">Choose Your Domain</label>
+            <div class="input-container">
+                <i class="fas fa-laptop-code"></i>
+                <select id="domain" name="domain" required>
+                    <option value="">-- Select Domain --</option>
+                    <option value="AI/ML">AI/ML</option>
+                    <option value="Data Analytics">Data Analytics</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Frontend Development">Frontend Development</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="cv">Upload CV (PDF Only)</label>
+            <div class="file-input-container">
+                <label for="cv" class="file-input-label">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>Choose PDF File</span>
+                </label>
+                <input type="file" id="cv" name="cv" accept=".pdf" required>
+                <div class="file-name" id="file-name">No file chosen</div>
+            </div>
+        </div>
+
+        <div class="submit-btn-container">
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-paper-plane"></i>
+                Submit Application
+            </button>
+        </div>
+        
+        <div class="success-message" id="success-message">
+            <i class="fas fa-check-circle"></i> Application submitted successfully!
+        </div>
+        
+        <div class="error-message" id="error-message">
+            <i class="fas fa-exclamation-circle"></i> <span id="error-text">Submission failed. Please try again.</span>
+        </div>
+    </form>
+</div>
+
+<!-- Overlay Loader -->
+<div id="overlay">
+    <div class="loader"></div>
+    <div id="overlay-text">Uploading your CV...</div>
+</div>
+
+<script>
+    const form = document.getElementById("internship-form");
+    const overlay = document.getElementById("overlay");
+    const overlayText = document.getElementById("overlay-text");
+    const successMessage = document.getElementById("success-message");
+    const errorMessage = document.getElementById("error-message");
+    const errorText = document.getElementById("error-text");
+    const fileInput = document.getElementById("cv");
+    const fileName = document.getElementById("file-name");
+
+    // Update file name display
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            fileName.textContent = this.files[0].name;
+        } else {
+            fileName.textContent = 'No file chosen';
+        }
+    });
+
+    form.addEventListener("submit", async function(e) {
+        e.preventDefault();
+        
+        // Validate file type
+        const cvFile = form.cv.files[0];
+        if (!cvFile || cvFile.type !== "application/pdf") {
+            errorText.textContent = "Please upload a valid PDF file.";
+            errorMessage.style.display = "block";
+            successMessage.style.display = "none";
+            return;
+        }
+        
+        // Show loading overlay
+        overlay.style.display = "flex";
+        overlayText.innerText = "Uploading your CV...";
+        
+        // Hide previous messages
+        successMessage.style.display = "none";
+        errorMessage.style.display = "none";
+        
+        // Process form submission
+        const reader = new FileReader();
+        reader.onloadend = async function() {
+            const base64CV = reader.result.split(",")[1];
+            const payload = new URLSearchParams();
+            payload.append("name", form.name.value);
+            payload.append("email", form.email.value);
+            payload.append("whatsapp", form.whatsapp.value);
+            payload.append("domain", form.domain.value);
+            payload.append("cv", base64CV);
+            
+            try {
+                const response = await fetch("https://script.google.com/macros/s/AKfycbxrOOEgNj6JpKC3Vohoy4uXuj3_Bwa8VFZHdz4AIjV5J0A98xExS_non6-dpVQd682NSQ/exec", {
+                    method: "POST",
+                    body: payload
+                });
+                
+                const result = await response.json();
+                if (result.result === "success") {
+                    overlayText.innerText = "Application submitted successfully!";
+                    setTimeout(() => {
+                        overlay.style.display = "none";
+                        successMessage.style.display = "block";
+                        form.reset();
+                        fileName.textContent = 'No file chosen';
+                    }, 1000);
+                } else {
+                    overlay.style.display = "none";
+                    errorText.textContent = "Submission failed: " + result.message;
+                    errorMessage.style.display = "block";
+                }
+            } catch (error) {
+                overlay.style.display = "none";
+                errorText.textContent = "Error submitting form. Please check your connection and try again.";
+                errorMessage.style.display = "block";
+                console.error(error);
+            }
+        };
+        reader.readAsDataURL(cvFile);
+    });
+</script>
+
+</body>
+</html>

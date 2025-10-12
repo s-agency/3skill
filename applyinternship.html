@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1170166754982118');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1170166754982118&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3Skill Data Science Placement Course</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="download.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    /* Internshala-like gradient */
+    .intern-bg {
+      background: linear-gradient(135deg, #0d2b57 0%, #1976d2 100%);
+    }
+    
+    /* Testimonial slider */
+    .testimonial-slider {
+      position: relative;
+      overflow: hidden;
+      height: 300px;
+    }
+    
+    .testimonial-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .testimonial-slide.active {
+      opacity: 1;
+    }
+    
+    /* Company logos grid */
+    .company-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    
+    @media (max-width: 768px) {
+      .company-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    /* Price strikethrough */
+    .strike-through {
+      position: relative;
+    }
+    
+    .strike-through:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -5%;
+      width: 110%;
+      height: 2px;
+      background: white;
+      transform: rotate(-15deg);
+    }
+    
+    /* Floating Apply Button */
+    .floating-apply-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .floating-apply-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    }
+    
+    @media (max-width: 768px) {
+      .floating-apply-btn {
+        bottom: 9px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+      }
+    }
+
+    /* Mobile Apply Button in Content */
+    .mobile-apply-btn {
+      display: none;
+    }
+    
+    @media (max-width: 768px) {
+      .mobile-apply-btn {
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
+
+    /* FAQ Animation */
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+    }
+    
+    .rotate-180 {
+      transform: rotate(180deg);
+    }
+
+    /* Form Styles - FIXED */
+    :root {
+      --primary: #4361ee;
+      --primary-light: #4895ef;
+      --secondary: #3f37c9;
+      --success: #4cc9f0;
+      --white: #ffffff;
+      --light: #f8f9fa;
+      --gray-light: #e9ecef;
+      --gray: #6c757d;
+      --dark: #212529;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    .form-container {
+      background: var(--white);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 100%;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .form-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--primary), var(--success));
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-header i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .form-header h2 {
+      color: var(--primary);
+      margin-bottom: 8px;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .form-header p {
+      color: var(--gray);
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: var(--dark);
+      font-size: 0.85rem;
+    }
+
+    .input-container {
+      position: relative;
+    }
+
+    .input-container i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      transition: var(--transition);
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      padding: 12px 12px 12px 40px;
+      border: 2px solid var(--gray-light);
+      border-radius: 10px;
+      outline: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      background-color: var(--light);
+      color: var(--dark); /* Added for text visibility */
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--primary);
+      background-color: var(--white);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
+
+    .form-input:focus + i {
+      color: var(--primary);
+    }
+
+    .file-input-container {
+      position: relative;
+      margin-top: 5px;
+    }
+
+    .file-input-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      background-color: var(--light);
+      border: 2px dashed var(--gray-light);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      color: var(--gray); /* Added for text visibility */
+    }
+
+    .file-input-label:hover {
+      border-color: var(--primary);
+      background-color: rgba(67, 97, 238, 0.05);
+    }
+
+    .file-input-label i {
+      margin-right: 8px;
+      color: var(--primary);
+    }
+
+    .form-file {
+      position: absolute;
+      left: -9999px;
+    }
+
+    .file-name {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: var(--gray);
+      text-align: center;
+    }
+
+    .submit-btn-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .submit-btn {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: var(--white);
+      padding: 12px 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: auto;
+      min-width: 200px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Overlay Loader */
+    #overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 1000;
+    }
+
+    .loader {
+      width: 60px;
+      height: 60px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--white);
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #overlay-text {
+      font-size: 1.2rem;
+      color: var(--white);
+      text-align: center;
+    }
+
+    .success-message {
+      background-color: rgba(76, 201, 240, 0.1);
+      border: 1px solid var(--success);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 15px;
+      text-align: center;
+      color: var(--success);
+      display: none;
+    }
+
+    .error-message {
+      background-color: rgba(255, 107, 107, 0.1);
+      border: 1px solid #ff6b6b;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 15px;
+      text-align: center;
+      color: #ff6b6b;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .form-container {
+        padding: 20px 15px;
+        margin-top: 0;
+      }
+      
+      .form-header h2 {
+        font-size: 1.3rem;
+      }
+      
+      .submit-btn {
+        width: 100%;
+        min-width: auto;
+      }
+    }
+
+    /* Skills section styles */
+    .skills-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      justify-items: center;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .skill-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px 20px;
+      text-align: left;
+      width: 100%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+      transition: transform 0.3s;
+    }
+
+    .skill-box:hover {
+      transform: translateY(-5px);
+    }
+
+    .skill-box img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .skill-title {
+      margin-top: 10px;
+      font-weight: 600;
+      text-align: left;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .apply-btn {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 12px 28px;
+      background: linear-gradient(90deg, #1b5e20, #43a047);
+      color: #fff;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 12px rgba(27, 94, 32, 0.3);
+    }
+
+    .apply-btn:hover {
+      opacity: 0.85;
+      transform: scale(1.05);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .section-heading {
+        font-size: 22px !important;
+        line-height: 30px;
+      }
+      .skills-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+      }
+      .skill-box {
+        padding: 16px !important;
+      }
+      .skill-box img {
+        width: 40px !important;
+        height: 40px !important;
+      }
+      .skill-title {
+        font-size: 13px !important;
+      }
+
+      .review-card-new {
+        flex-direction: column;
+        border-radius: 25px;
+        margin: 0 10px;
+        overflow: hidden;
+      }
+
+      .review-left-new {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 25px 25px 0 0;
+        background: #f4f2ff;
+      }
+
+      .review-left-new img {
+        width: 100%;
+        height: auto;
+        border-radius: 25px 25px 0 0;
+        object-fit: cover;
+      }
+
+      .review-right-new {
+        padding: 25px 22px;
+        text-align: left;
+        height: auto;
+      }
+
+      .review-right-new h2 {
+        font-size: 20px;
+      }
+
+      .review-right-new p {
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .review-play-btn-new {
+        width: 58px;
+        height: 58px;
+        font-size: 28px;
+      }
+
+      .review-popup-video-new {
+        width: 250px;
+        height: 440px;
+      }
+    }
+  </style>
+</head>
+
+<body class="intern-bg text-white min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center px-6 md:px-16 py-4 bg-[#0d2b57]/80 sticky top-0 z-50">
+    <div class="flex items-center space-x-3">
+      <!-- 3Skill Logo -->
+      <div class="h-8 w-8 bg-white rounded-md flex items-center justify-center">
+        <span class="text-[#0d2b57] font-bold text-sm">3S</span>
+      </div>
+      <span class="text-xl font-semibold tracking-wide">3Skill Trainings</span>
+    </div>
+    <button onclick="window.location.href='login.html';"  class="text-white border border-white px-5 py-1.5 rounded-md hover:bg-white hover:text-[#0d2b57] transition">
+      Login
+    </button>
+  </header>
+
+  <!-- Main Section -->
+  <section class="flex flex-col lg:flex-row justify-between items-start px-6 md:px-16 py-12 space-y-10 lg:space-y-0">
+
+    <!-- Left Content -->
+    <div class="max-w-xl">
+      <div class="flex items-center space-x-3 mb-3">
+        <span class="bg-[#133a6f] px-3 py-1 rounded-md text-sm">IIT - MENTORSHIP</span>
+        <span class="bg-[#133a6f] px-3 py-1 rounded-md text-sm flex items-center gap-1">
+          <i class="fas fa-star text-yellow-400"></i> 4.5
+        </span>
+      </div>
+
+      <h1 class="text-4xl font-bold leading-tight mb-2">
+        FREE INTERNSHIP <span class="text-yellow-400">WITH FREE TRIP!</span> 
+      </h1>
+      <span class="text-sm bg-[#1b4a83] px-3 py-1 rounded-full">MSME-certified</span>
+
+      <ul class="mt-6 space-y-3">
+        <li class="flex items-center space-x-3">
+          <span class="text-green-400 text-xl">✓</span>
+          <p>Top students win a <span class="font-semibold">free vacation trip</span> (Goa, Manali, Darjeeling)<span class="text-blue-300 underline"><a href="3Skill_Internship_Program.pdf">(Know more)</a></span></p>
+        </li>
+         <li class="flex items-center space-x-3">
+          <span class="text-green-400 text-xl">✔</span>
+          <p>2 months online internship with LIVE sessions</p>
+        </li>
+        <li class="flex items-center space-x-3">
+          <span class="text-green-400 text-xl">✓</span>
+          <p>1 month training + 1 month project internship</p>
+        </li>
+        <li class="flex items-center space-x-3">
+          <span class="text-green-400 text-xl">✔</span>
+          <p>1000+ placement-ready questions absolutely free.</p>
+        </li>
+        <li class="flex items-center space-x-3">
+          <span class="text-green-400 text-xl">✔</span>
+          <p>Get a certificate of completion to boost your career profile.</p>
+        </li>
+         <li class="flex items-center space-x-3">
+          <span class="text-green-400 text-xl">✔</span>
+          <p>Work on live projects to build a strong portfolio for employers.</p>
+        </li>
+      </ul>
+
+     
+        
+      <!-- Desktop Apply Button -->
+      <button onclick="window.location.href='applyinternshipform.html';"  class="mt-8 bg-yellow-400 text-black font-semibold px-8 py-3 rounded-md hover:bg-yellow-300 transition w-full md:w-auto hidden md:block">
+        Apply Now
+      </button>
+
+      <!-- Mobile Apply Button in Content -->
+      <button onclick="window.location.href='applyinternshipform.html';" 
+        class="mobile-apply-btn bg-yellow-400 text-black font-semibold px-8 py-4 rounded-md hover:bg-yellow-300 transition text-lg">
+   Apply Now 
+</button>
+    </div>
+
+    <!-- Right Side - Form -->
+    <div class="w-full lg:w-1/3 lg:pl-10">
+      <div class="form-container">
+        <div class="form-header">
+          <i class="fas fa-briefcase"></i>
+          <h2>Apply for Internship</h2>
+          <p>Fill in your details to secure your 2-month internship</p>
+        </div>
+        
+        <form id="internship-form">
+          <div class="form-group">
+            <label for="name" class="form-label">Full Name</label>
+            <div class="input-container">
+              <i class="fas fa-user"></i>
+              <input type="text" id="name" name="name" class="form-input" placeholder="Enter your full name" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <div class="input-container">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email address" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="whatsapp" class="form-label">WhatsApp Number</label>
+            <div class="input-container">
+              <i class="fas fa-phone"></i>
+              <input type="tel" id="whatsapp" name="whatsapp" class="form-input" placeholder="Enter your WhatsApp number" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="domain" class="form-label">Choose Your Domain</label>
+            <div class="input-container">
+              <i class="fas fa-laptop-code"></i>
+              <select id="domain" name="domain" class="form-select" required>
+                <option value="">-- Select Domain --</option>
+                <option value="AI/ML">AI/ML</option>
+                <option value="Data Analytics">Data Analytics</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Frontend Development">Frontend Development</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cv" class="form-label">Upload CV (PDF Only)</label>
+            <div class="file-input-container">
+              <label for="cv" class="file-input-label">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Choose PDF File</span>
+              </label>
+              <input type="file" id="cv" name="cv" class="form-file" accept=".pdf" required>
+              <div class="file-name" id="file-name">No file chosen</div>
+            </div>
+          </div>
+
+          <div class="submit-btn-container">
+            <button type="submit" class="submit-btn">
+              <i class="fas fa-paper-plane"></i>
+              Submit Application
+            </button>
+          </div>
+          
+          <div class="success-message" id="success-message">
+            <i class="fas fa-check-circle"></i> Application submitted successfully!
+          </div>
+          
+          <div class="error-message" id="error-message">
+            <i class="fas fa-exclamation-circle"></i> <span id="error-text">Submission failed. Please try again.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+ <button onclick="window.location.href='applyinternshipform.html';" class="floating-apply-btn bg-yellow-400 text-black font-semibold px-6 py-3 rounded-md hover:bg-yellow-300 transition shadow-lg md:px-8">
+    <span class="hidden md:inline">Tap For Apply Now</span>
+    <span class="md:hidden">Apply Now</span>
+  </button>
+  </section>
+
+  <!-- Floating Apply Button -->
+   <!-- CERTIFICATE SECTION -->
+        <section style="padding: 60px 20px; background: linear-gradient(180deg, #f7fff7, #ffffff);">
+           <h1 style="font-size: 30px; font-weight: 700; color: #212121; margin-bottom: 40px; text-align: center;">
+    Professional Certificates
+  </h1>
+
+            <div style="
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                gap: 40px;
+                flex-wrap: wrap;
+                max-width: 1100px;
+                margin: auto;
+                background: #ffffff;
+                border-radius: 18px;
+                box-shadow: 0 8px 24px rgba(0, 80, 0, 0.08);
+                padding: 25px 30px;
+                border: 1px solid #c8e6c9;
+                transition: all 0.4s ease;
+            "
+            onmouseover="this.style.transform='scale(1.02)';" 
+            onmouseout="this.style.transform='scale(1)';">
+
+                <!-- Certificate Image -->
+                <div style="flex: 1 1 300px; text-align: center;">
+                    <img src="www.3skill.in (1).png" alt="Certificate" style="
+                        width: 100%;
+                        max-width: 340px;
+                        border-radius: 14px;
+                        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+                        border: 2px solid #d4edda;
+                        transition: all 0.4s ease;
+                    " 
+                    onmouseover="this.style.transform='scale(1.03)';" 
+                    onmouseout="this.style.transform='scale(1)';">
+                </div>
+
+                <!-- Certificate Description -->
+                <div style="flex: 1 1 400px;">
+                    <h3 style="font-size: 24px; color: #124d28; font-weight: 600; margin-bottom: 12px;">
+                        Internship Completion Certificate
+                    </h3>
+                    <p style="font-size: 16px; color: #444; line-height: 1.6; margin-bottom: 15px;">
+                        Successfully completed an internship program under <strong>3Skill</strong>, gaining hands-on experience 
+                        in real-world projects and professional development training.
+                    </p>
+                    <p style="font-size: 15px; color: #666;">
+                        <strong>Certificate ID:</strong> 3SK-INT-2025-XXX
+                    </p>
+                    <a href="www.3skill.in (1).png" style="
+                        display: inline-block;
+                        margin-top: 18px;
+                        padding: 10px 22px;
+                        background: linear-gradient(90deg, #1b5e20, #43a047);
+                        color: #fff;
+                        border-radius: 30px;
+                        text-decoration: none;
+                        font-weight: 600;
+                        transition: 0.3s ease;
+                    " 
+                    onmouseover="this.style.opacity='0.85';" 
+                    onmouseout="this.style.opacity='1';">
+                        View Certificate
+                    </a>
+                </div>
+            </div>
+        </section>
+         <style>
+  body {
+    background: #f3faff;
+  }
+
+  /* ===== Section ===== */
+  .review-section-new {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    background: white;
+  }
+
+  .review-card-new {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    max-width: 1330px;
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+
+  /* ===== Left Side (Image Block) ===== */
+  .review-left-new {
+    flex: 0 0 50%;
+    background-color: #f4f2ff;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .review-left-new img {
+    width: 700px;
+    height: 350px;
+    object-fit: cover;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    display: block;
+  }
+
+  .review-play-btn-new {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75px;
+    height: 75px;
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 36px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 5;
+  }
+
+  .review-play-btn-new:hover {
+    background: rgba(0, 0, 0, 0.6);
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  /* ===== Right Side (Text) ===== */
+  .review-right-new {
+    flex: 1;
+    padding: 60px 60px;
+    display: flex;
+    height: 350px;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .review-right-new h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.4;
+    margin-bottom: 18px;
+  }
+
+  .review-right-new p {
+    font-size: 17px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+
+  .review-name-new {
+    margin-top: 10px;
+    font-weight: 600;
+    color: #000;
+  }
+
+  /* ===== Video Popup ===== */
+  .review-popup-overlay-new {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 999;
+  }
+
+  .review-popup-overlay-new.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .review-popup-video-new {
+    position: relative;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    width: 320px;
+    height: 570px;
+    animation: zoomIn 0.3s ease;
+  }
+
+  .review-popup-video-new video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .review-popup-close-new {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    color: white;
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.2s ease;
+  }
+
+  .review-popup-close-new:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    transform: scale(1.1);
+  }
+
+  @keyframes zoomIn {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* ===== Mobile Fix Only ===== */
+  @media (max-width: 768px) {
+    .review-card-new {
+      flex-direction: column;
+      border-radius: 25px;
+      margin: 0 10px;
+      overflow: hidden;
+    }
+
+    .review-left-new {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 25px 25px 0 0;
+      background: #f4f2ff;
+    }
+
+    .review-left-new img {
+      width: 100%;
+      height: auto;
+      border-radius: 25px 25px 0 0;
+      object-fit: cover;
+    }
+
+    .review-right-new {
+      padding: 25px 22px;
+      text-align: left;
+      height: auto;
+    }
+
+    .review-right-new h2 {
+      font-size: 20px;
+    }
+
+    .review-right-new p {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .review-play-btn-new {
+      width: 58px;
+      height: 58px;
+      font-size: 28px;
+    }
+
+    .review-popup-video-new {
+      width: 250px;
+      height: 440px;
+    }
+  }
+</style>
+
+<section class="review-section-new">
+  <div class="review-card-new">
+    
+    <!-- Left -->
+    <div class="review-left-new">
+      <img src="review.in.png" alt="Testimonial" />
+      <div class="review-play-btn-new" id="reviewPlayNew">&#9658;</div>
+    </div>
+
+    <!-- Right -->
+    <div class="review-right-new">
+      <h2>“Start as a free intern, grow your skills, and step into a paid internship”</h2>
+      <p>
+        I started as a free intern and ended up getting a paid internship!
+3Skill guided me step-by-step into Data Science and helped me land real projects.
+      </p>
+      <p class="review-name-new">– <strong>Tarun Kumar</strong>, Data Analyst</p>
+    </div>
+  </div>
+  
+</section>
+ 
+<!-- Video Popup -->
+<div class="review-popup-overlay-new" id="reviewPopupNew">
+  <div class="review-popup-video-new">
+    <button class="review-popup-close-new" id="reviewCloseNew">&times;</button>
+    <video src="tarun.mp4" autoplay muted loop controls></video>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const playBtn = document.getElementById("reviewPlayNew");
+    const popup = document.getElementById("reviewPopupNew");
+    const closeBtn = document.getElementById("reviewCloseNew");
+    const video = popup.querySelector("video");
+
+    playBtn.addEventListener("click", () => {
+      popup.classList.add("active");
+      video.currentTime = 0;
+      video.play();
+    });
+
+    closeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      popup.classList.remove("active");
+      video.pause();
+    });
+
+    popup.addEventListener("click", (e) => {
+      if (e.target === popup) {
+        popup.classList.remove("active");
+        video.pause();
+      }
+    });
+  });
+</script>
+
+
+
+
+<!-- Mobile Apply Button in Content -->
+   
+
+<br>
+<br>
+
+  <!-- Footer -->
+  <footer class="bg-[#0d2b57] text-white py-10 px-6 md:px-16">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+      
+      <!-- About / Brand -->
+      <div>
+        <div class="flex items-center space-x-3 mb-3">
+          <div class="h-10 w-10 bg-white rounded-md flex items-center justify-center">
+            <span class="text-[#0d2b57] font-bold text-sm">3S</span>
+          </div>
+          <span class="text-xl font-semibold tracking-wide">3Skill Trainings</span>
+        </div>
+        <p class="text-gray-300 mt-2">Building careers through skill development. Join our AI/ML, Web Development, Frontend, and Data Analytics programs today!</p>
+        <div class="flex space-x-4 mt-4">
+          <a href="https://instagram.com/3skillofficial" target="_blank" class="hover:text-gray-100"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/6372105534" target="_blank" class="hover:text-gray-100"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://www.linkedin.com/company/3-skill/" target="_blank" class="hover:text-gray-100"><i class="fab fa-linkedin"></i></a>
+          <a href="https://twitter.com/3skillindia" target="_blank" class="hover:text-gray-100"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      
+      <!-- Contact Details -->
+      <div>
+        <h3 class="text-lg font-semibold mb-3">Contact Us</h3>
+        <div class="text-gray-300 space-y-2">
+          <div><strong>Address:</strong> Bbsr, Odisha</div>
+          <div><strong>Phone:</strong> +91 6372105534</div>
+          <div><strong>Website:</strong> <a href="https://3skill.in" class="hover:text-white">3skill.in</a></div>
+          <div>
+            <strong>Email:</strong> <br>
+            <a href="mailto:3skill.contact@gmail.com" class="hover:text-white">3skill.contact@gmail.com</a><br>
+            <a href="mailto:3skill.course@gmail.com" class="hover:text-white">3skill.course@gmail.com</a><br>
+            <a href="mailto:3skill.payment@gmail.com" class="hover:text-white">3skill.payment@gmail.com</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-lg font-semibold mb-3">Quick Links</h3>
+        <div class="flex flex-col space-y-2 text-gray-300">
+         
+          <a href="applyinternship.html" target="_blank" class="hover:text-white">Apply freeinternship</a>
+          <a href="profile.html" class="hover:text-white">Login</a>
+          <a href="about.html" class="hover:text-white">About</a>
+          
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="border-t border-gray-600 mt-10 pt-6 text-center text-gray-300">
+      <p>© 2025 3Skill Trainings. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Overlay Loader -->
+  <div id="overlay">
+    <div class="loader"></div>
+    <div id="overlay-text">Uploading your CV...</div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+   const form = document.getElementById("internship-form");
+    const overlay = document.getElementById("overlay");
+    const overlayText = document.getElementById("overlay-text");
+    const successMessage = document.getElementById("success-message");
+    const errorMessage = document.getElementById("error-message");
+    const errorText = document.getElementById("error-text");
+    const fileInput = document.getElementById("cv");
+    const fileName = document.getElementById("file-name");
+
+    // Update file name display
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            fileName.textContent = this.files[0].name;
+        } else {
+            fileName.textContent = 'No file chosen';
+        }
+    });
+
+    form.addEventListener("submit", async function(e) {
+        e.preventDefault();
+        
+        // Validate file type
+        const cvFile = form.cv.files[0];
+        if (!cvFile || cvFile.type !== "application/pdf") {
+            errorText.textContent = "Please upload a valid PDF file.";
+            errorMessage.style.display = "block";
+            successMessage.style.display = "none";
+            return;
+        }
+        
+        // Show loading overlay
+        overlay.style.display = "flex";
+        overlayText.innerText = "Uploading your CV...";
+        
+        // Hide previous messages
+        successMessage.style.display = "none";
+        errorMessage.style.display = "none";
+        
+        // Process form submission
+        const reader = new FileReader();
+        reader.onloadend = async function() {
+            const base64CV = reader.result.split(",")[1];
+            const payload = new URLSearchParams();
+            payload.append("name", form.name.value);
+            payload.append("email", form.email.value);
+            payload.append("whatsapp", form.whatsapp.value);
+            payload.append("domain", form.domain.value);
+            payload.append("cv", base64CV);
+            
+            try {
+                const response = await fetch("https://script.google.com/macros/s/AKfycbxrOOEgNj6JpKC3Vohoy4uXuj3_Bwa8VFZHdz4AIjV5J0A98xExS_non6-dpVQd682NSQ/exec", {
+                    method: "POST",
+                    body: payload
+                });
+                
+                const result = await response.json();
+                if (result.result === "success") {
+                    overlayText.innerText = "Application submitted successfully!";
+                    setTimeout(() => {
+                        overlay.style.display = "none";
+                        successMessage.style.display = "block";
+                        form.reset();
+                        fileName.textContent = 'No file chosen';
+                    }, 1000);
+                } else {
+                    overlay.style.display = "none";
+                    errorText.textContent = "Submission failed: " + result.message;
+                    errorMessage.style.display = "block";
+                }
+            } catch (error) {
+                overlay.style.display = "none";
+                errorText.textContent = "Error submitting form. Please check your connection and try again.";
+                errorMessage.style.display = "block";
+                console.error(error);
+            }
+        };
+        reader.readAsDataURL(cvFile);
+    });
+  </script>
+</body>
+</html>

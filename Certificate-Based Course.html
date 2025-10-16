@@ -970,52 +970,8 @@ src="https://www.facebook.com/tr?id=1170166754982118&ev=PageView&noscript=1"
   </style>
 
   <!-- Banner Popup -->
-  <div class="promo-banner" id="promoBanner">
-    <div class="banner-content">
-      <span class="countdown" id="countdownText">Closing in 6s...</span>
-      <button class="close-btn" id="closeBanner">×</button>
-      <img src="10 DAYS LEFT.png" alt="3Skill Internship Offer">
-      <div class="banner-info">
-        <h2>🔥 2-Month Internship + FREE vacation trip</h2>
-        <p>1 Month Training + 1 Month Project Work.<br>Top performers get a <b>FREE vacation trip</b> — travel and stay fully covered!</p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const promoBanner = document.getElementById('promoBanner');
-    const closeBanner = document.getElementById('closeBanner');
-    const countdownText = document.getElementById('countdownText');
-
-    let countdown = 6; // 6 seconds
-
-    function updateCountdown() {
-      countdownText.textContent = `Closing in ${countdown}s...`;
-    }
-
-    // Show banner after 6 seconds
-    setTimeout(() => {
-      promoBanner.classList.add('show');
-      updateCountdown();
-
-      const countdownInterval = setInterval(() => {
-        countdown--;
-        if(countdown <= 0){
-          clearInterval(countdownInterval);
-          promoBanner.classList.remove('show');
-        } else {
-          updateCountdown();
-        }
-      }, 1000);
-
-    }, 6000);
-
-    // Close banner manually
-    closeBanner.addEventListener('click', () => {
-      promoBanner.classList.remove('show');
-    });
-  </script>
-
+  
+  
 
 
 
@@ -2414,7 +2370,7 @@ src="https://www.facebook.com/tr?id=1170166754982118&ev=PageView&noscript=1"
                                 <p class="text-green-600 text-sm">Get premium features at 1/8th the cost</p>
                             </div>
                         </div>
-                        <a href="https://smartpay.easebuzz.in/179742/81548564ffc746338b72af18fc1e3800" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-green-500 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">
+                        <a href="#internship" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-green-500 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">
                             <span>Choose 3Skill</span>
                             <i class="fas fa-arrow-right"></i>
                         </a>
@@ -3211,7 +3167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <!-- MOBILE BOTTOM BUTTON -->
     <div class="mobile-bottom-button">
-        <a href="https://smartpay.easebuzz.in/179742/81548564ffc746338b72af18fc1e3800" class="btn112">Direct Apply For Internship</a>
+        <a href="#internship" class="btn112">Direct Apply For Internship</a>
     </div>
 
     <!-- FOOTER -->

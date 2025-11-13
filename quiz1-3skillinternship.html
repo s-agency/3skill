@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Online Exam Portal</title>
+    <link rel="stylesheet" href="style.css">
+     <link rel="icon" type="image/png" href="download.png">
+</head>
+<body>
+    <div class="warning-indicator" id="warningIndicator">
+        Warning: Suspicious Activity Detected <span class="warning-count" id="warningCount">1</span>
+    </div>
+
+    <div class="container">
+        <!-- Registration Screen -->
+        <div class="registration-screen active">
+            <div class="card">
+                <h1>📝 Secure Online Exam Portal</h1>
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="fullName" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" id="email" required placeholder="Enter your email">
+                    </div>
+                    <button type="submit" class="btn">Start Exam 🚀</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Exam Screen -->
+        <div class="exam-screen">
+            <div class="exam-header">
+                <div class="camera-indicator">
+                    <div class="camera-dot"></div>
+                    <span>Camera Active</span>
+                </div>
+                <div class="timer" id="timer">60:00</div>
+                <div style="width: 100%;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressBar"></div>
+                    </div>
+                    <div style="text-align: center; margin-top: 5px; font-size: 14px;">
+                        Question <span id="currentQ">1</span> of <span id="totalQ">50</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text" id="questionText"></div>
+                <div id="optionsContainer"></div>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="success-screen">
+            <div class="card" style="text-align: center;">
+                <div class="success-icon">✅</div>
+                <h1>Exam Submitted Successfully!</h1>
+                <p style="font-size: 18px; margin-top: 20px; opacity: 0.8;">
+                    Your answers have been recorded. You will receive your results via email.
+                </p>
+                <p style="margin-top: 30px; font-size: 16px;">
+                    Thank you for participating!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">⚠️ Important Instructions</h2>
+            <p style="line-height: 1.8; opacity: 0.9;">
+                • Exam duration: 20 minutes<br>
+                • 10 multiple choice questions<br>
+                • Camera will be monitored<br>
+                • Do NOT switch tabs or minimize<br>
+                • Exam will auto-submit if you do<br>
+                • Copying text is prohibited<br>
+                • Face must remain visible to camera<br>
+                • AI proctoring will monitor for suspicious activity<br>
+                • 3 warnings will result in auto-submission
+            </p>
+            <div class="modal-buttons">
+                <button class="modal-btn btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="modal-btn btn-confirm" onclick="startExam()">I Understand, Start</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="modal" id="loadingModal">
+        <div class="modal-content">
+            <div class="loader"></div>
+            <p style="margin-top: 20px;" id="loadingMessage">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Already Submitted Modal -->
+    <div class="modal" id="alreadySubmittedModal">
+        <div class="modal-content">
+            <div class="success-icon">⚠️</div>
+            <h2>Exam Already Submitted</h2>
+            <p style="line-height: 1.8; margin-top: 20px; opacity: 0.9;">
+                You have already submitted your exam. You cannot attempt again.
+            </p>
+            <div class="modal-buttons">
+                <button class="modal-btn btn-confirm" onclick="closeAlreadySubmittedModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Camera Box -->
+    <div class="camera-container" style="display: none;">
+        <div class="camera-label">AI Proctoring Active</div>
+        <video id="cameraBox" autoplay muted></video>
+        <div class="face-overlay" id="faceOverlay"></div>
+        <div class="detection-status" id="detectionStatus">Face Detected</div>
+    </div>
+
+    <video id="camera" autoplay muted></video>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #000000;
+    min-height: 100vh;
+    color: #ffffff;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.registration-screen, .exam-screen, .success-screen {
+    display: none;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.registration-screen.active, .exam-screen.active, .success-screen.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    background: #111111;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 8px 32px rgba(0, 255, 0, 0.1);
+    border: 1px solid #333333;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    color: #00ff00;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+input, select {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #333333;
+    border-radius: 10px;
+    background: #000000;
+    color: #ffffff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+select option {
+    background: #000000;
+    color: #ffffff;
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #00ff00;
+    color: #000000;
+    box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 255, 0, 0.5);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.exam-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #111111;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+    border: 1px solid #333333;
+    position: relative;
+}
+
+.timer {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00ff00;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #333333;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #00ff00;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.question-card {
+    background: #111111;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #333333;
+}
+
+.question-text {
+    font-size: 20px;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.option {
+    background: #000000;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #333333;
+}
+
+.option:hover {
+    background: #111111;
+    border-color: #00ff00;
+}
+
+.option.selected {
+    background: #111111;
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #111111;
+    padding: 40px;
+    border-radius: 15px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid #333333;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.modal-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-confirm {
+    background: #00ff00;
+    color: #000000;
+}
+
+.btn-cancel {
+    background: #333333;
+    color: #ffffff;
+}
+
+.loader {
+    border: 4px solid #333333;
+    border-top: 4px solid #00ff00;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.camera-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #00ff00;
+}
+
+.camera-dot {
+    width: 12px;
+    height: 12px;
+    background: #00ff00;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.success-icon {
+    font-size: 80px;
+    color: #00ff00;
+    margin-bottom: 20px;
+}
+
+/* Camera box styling - Top Right */
+.camera-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 180px;
+    height: 120px;
+    background: #000000;
+    border: 2px solid #00ff00;
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 100;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+.camera-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.camera-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: #00ff00;
+    padding: 5px;
+    text-align: center;
+    font-size: 12px;
+}
+
+/* Warning indicator */
+.warning-indicator {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #ff0000;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.warning-count {
+    background: white;
+    color: black;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+}
+
+/* Face detection overlay */
+.face-overlay {
+    position: absolute;
+    border: 2px solid #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .question-text {
+        font-size: 18px;
+    }
+
+    .exam-header {
+        font-size: 14px;
+    }
+
+    .timer {
+        font-size: 20px;
+    }
+
+    .camera-container {
+        width: 150px;
+        height: 100px;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+/* Hide the original video element */
+#camera {
+    display: none;
+}
+
+.detection-status {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    font-size: 10px;
+    color: #00ff00;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+</style>
+<script>
+    // ========== CONFIGURATION ==========
+const EXAM_DURATION = 20 * 60; // 20 minutes in seconds
+// ⚠️ REPLACE THIS WITH YOUR ACTUAL WEB APP URL
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1ViHt59uBZDFkzl-A0borTRoTRgLeKy99WWMBaA4uRXvz-YOmb3toQS87bBaiPF0mgA/exec';
+
+// ========== MOBILE DETECTION ==========
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+}
+
+function checkDeviceCompatibility() {
+    if (isMobileDevice()) {
+        document.body.innerHTML = `
+            <div class="container">
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 80px; color: #ff4444; margin-bottom: 20px;">📱❌</div>
+                    <h1>Mobile Device Not Supported</h1>
+                    <p style="font-size: 18px; margin-top: 20px; opacity: 0.8;">
+                        This exam can only be taken on a desktop or laptop computer.
+                    </p>
+                    <p style="margin-top: 15px; font-size: 16px; opacity: 0.7;">
+                        Please use a computer with a keyboard, mouse, and webcam to continue.
+                    </p>
+                    <div style="margin-top: 30px; padding: 20px; background: #1a1a1a; border-radius: 10px;">
+                        <h3>📋 System Requirements:</h3>
+                        <ul style="text-align: left; margin-top: 15px; line-height: 1.8;">
+                            <li>💻 Desktop or Laptop Computer</li>
+                            <li>🖥️ Minimum Screen Size: 1024x768 pixels</li>
+                            <li>📷 Webcam for proctoring</li>
+                            <li>⌨️ Keyboard and Mouse</li>
+                            <li>🌐 Stable Internet Connection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        `;
+        return false;
+    }
+    return true;
+}
+
+// ========== QUESTION BANK ==========
+   const questionBank = {
+            "Fullstack Development":[
+    {q: "What does HTML stand for?", options: ["Hyper Trainer Marking Language", "Hyper Text Markup Language", "Hyper Text Marketing Language", "Hyper Transfer Markup Language"], correct: 1},
+    {q: "Which tag is used to link external CSS?", options: ["<css>", "<style>", "<link>", "<script>"], correct: 2},
+    {q: "Which JavaScript keyword declares a variable?", options: ["var", "let", "const", "All of the above"], correct: 3},
+    {q: "Which of the following is a backend language?", options: ["HTML", "Python", "CSS", "JSON"], correct: 1},
+    {q: "What command initializes a new Node.js project?", options: ["npm run", "npm init", "node start", "npm install"], correct: 1},
+    {q: "Which HTTP method is used to retrieve data?", options: ["GET", "POST", "PUT", "DELETE"], correct: 0},
+    {q: "Which database uses SQL?", options: ["MongoDB", "Firebase", "MySQL", "Neo4j"], correct: 2},
+    {q: "What does API stand for?", options: ["Application Programming Interface", "Applied Program Internet", "Applied Programming Input", "None"], correct: 0},
+    {q: "Which framework is used for Node.js?", options: ["Flask", "Django", "Express.js", "Laravel"], correct: 2},
+    {q: "What port does Node.js typically use?", options: ["3000", "80", "5000", "21"], correct: 0}
+],
+
+            "AIML": [
+    {q: "Who is known as the father of Artificial Intelligence?", options: ["Alan Turing", "John McCarthy", "Geoffrey Hinton", "Andrew Ng"], correct: 1},
+    {q: "Which of the following is a supervised learning algorithm?", options: ["K-Means", "Logistic Regression", "Apriori", "PCA"], correct: 1},
+    {q: "What is the primary goal of AI?", options: ["To replace humans", "To create intelligent machines that mimic human behavior", "To automate repetitive tasks only", "To design robots"], correct: 1},
+    {q: "What does ML stand for?", options: ["Machine Logic", "Machine Learning", "Meta Learning", "Manual Learning"], correct: 1},
+    {q: "Which of these is an example of unsupervised learning?", options: ["Regression", "Classification", "Clustering", "Reinforcement"], correct: 2},
+    {q: "What does a neural network consist of?", options: ["Layers of interconnected nodes", "Single layer of neurons", "Only inputs", "None"], correct: 0},
+    {q: "What is a dataset?", options: ["Random data", "A structured collection of data", "Only test data", "A model’s output"], correct: 1},
+    {q: "Which library is used for ML in Python?", options: ["NumPy", "Scikit-learn", "OpenCV", "Flask"], correct: 1},
+    {q: "Which of these evaluates model accuracy?", options: ["Loss function", "Accuracy score", "Mean", "Variance"], correct: 1},
+    {q: "What does AI stand for?", options: ["Automated Input", "Artificial Intelligence", "Analytical Integration", "Advanced Information"], correct: 1}
+],
+            "Data Analytics": [
+    {q: "What does 'data analytics' primarily involve?", options: ["Collecting, cleaning, and interpreting data", "Storing only data", "Creating apps", "Web designing"], correct: 0},
+    {q: "Which of these is a spreadsheet software used in data analysis?", options: ["Word", "Excel", "PowerPoint", "Chrome"], correct: 1},
+    {q: "What does CSV stand for?", options: ["Common Source Value", "Comma-Separated Values", "Central Storage Variable", "Computed Standard Values"], correct: 1},
+    {q: "Which function is used in Excel to find the average of numbers?", options: ["SUM()", "COUNT()", "AVERAGE()", "MEAN()"], correct: 2},
+    {q: "What does KPI stand for?", options: ["Key Performance Indicator", "Known Process Integration", "Key Product Insight", "Known Parameter Index"], correct: 0},
+    {q: "Which of the following is a type of data?", options: ["Structured", "Unstructured", "Semi-structured", "All of the above"], correct: 3},
+    {q: "What is a dashboard in data analytics?", options: ["A visual representation of key metrics", "A login page", "A programming environment", "A chart type"], correct: 0},
+    {q: "Which chart best represents proportions?", options: ["Line Chart", "Bar Chart", "Pie Chart", "Scatter Plot"], correct: 2},
+    {q: "In SQL, which keyword retrieves data from a table?", options: ["GET", "SELECT", "TAKE", "FETCH"], correct: 1},
+    {q: "Which of these is NOT a data analytics tool?", options: ["Tableau", "Power BI", "Photoshop", "Excel"], correct: 2}
+],
+            "Frontend Development": [
+    {q: "Which HTML tag is used to define the largest heading?", options: ["<heading>", "<h6>", "<h1>", "<head>"], correct: 2},
+    {q: "What does CSS stand for?", options: ["Computer Style Sheets", "Cascading Style Sheets", "Creative Style System", "Colorful Style Sheets"], correct: 1},
+    {q: "Which HTML attribute is used to define inline styles?", options: ["font", "class", "style", "styles"], correct: 2},
+    {q: "In HTML, which tag is used to create a hyperlink?", options: ["<link>", "<a>", "<href>", "<hyper>"], correct: 1},
+    {q: "What is the correct CSS syntax to change the background color of an element?", options: ["background-color: red;", "bg-color = red;", "color-background: red;", "background:color:red;"], correct: 0},
+    {q: "How can you include an external CSS file in HTML?", options: ["<style src=\"style.css\">", "<stylesheet>style.css</stylesheet>", "<link rel=\"stylesheet\" href=\"style.css\">", "<css src=\"style.css\">"], correct: 2},
+    {q: "Which HTML element is used to display an image?", options: ["<picture>", "<img>", "<src>", "<image>"], correct: 1},
+    {q: "Which CSS property controls text size?", options: ["font-size", "text-style", "font-weight", "size"], correct: 0},
+    {q: "What is the correct HTML for adding a background color?", options: ["<body bg=\"yellow\">", "<background>yellow</background>", "<body style=\"background-color:yellow;\">", "<body color=\"yellow\">"], correct: 2},
+    {q: "What does HTML stand for?", options: ["Hyper Type Multi Language", "Hyper Text Markup Language", "Hyper Tool Multi Language", "Hyperlinks and Text Markup Language"], correct: 1}
+]
+        };
+
+
+// ========== STATE ==========
+let userData = {};
+let currentQuestions = [];
+let currentQuestionIndex = 0;
+let answers = [];
+let timeRemaining = EXAM_DURATION;
+let timerInterval;
+let cameraStream;
+let warningCount = 0;
+let isSubmitting = false;
+
+// Face detection simulation
+let faceDetectionInterval;
+let facePosition = { x: 60, y: 40, width: 60, height: 70 };
+let faceDirection = { x: 1, y: 1 };
+let examStartTime;
+let fakeDetectionScheduled = false;
+
+// ========== SECURITY ==========
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+        (e.ctrlKey && e.key === 'u') || (e.ctrlKey && e.key === 'c')) {
+        e.preventDefault();
+        triggerWarning("Developer tools or copy attempt detected");
+    }
+});
+document.addEventListener('copy', e => {
+    e.preventDefault();
+    triggerWarning("Copy attempt detected");
+});
+document.addEventListener('cut', e => {
+    e.preventDefault();
+    triggerWarning("Cut attempt detected");
+});
+
+// ========== REGISTRATION ==========
+document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Double-check device compatibility
+    if (isMobileDevice()) {
+        alert('This exam is not supported on mobile devices. Please use a desktop or laptop computer.');
+        return;
+    }
+    
+    const name = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    
+    if (!name || !email) {
+        alert('Please fill all fields');
+        return;
+    }
+
+    console.log('🟡 Starting email verification...');
+    console.log('Name:', name);
+    console.log('Email:', email);
+
+    // Show loading modal
+    document.getElementById('loadingModal').classList.add('active');
+    document.getElementById('loadingMessage').textContent = 'Verifying your email...';
+    
+    try {
+        // Use GET request to avoid CORS issues
+        const url = `${GOOGLE_SCRIPT_URL}?action=checkEmail&email=${encodeURIComponent(email)}`;
+        console.log('🟡 Sending GET request to:', url);
+        
+        const response = await fetch(url);
+        console.log('🟢 Response status:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log('🟢 Server response:', result);
+        
+        document.getElementById('loadingModal').classList.remove('active');
+        
+        if (result.success) {
+            if (result.alreadySubmitted) {
+                console.log('🔴 Exam already submitted - blocking attempt');
+                document.getElementById('alreadySubmittedModal').classList.add('active');
+            } else {
+                console.log('🟢 Email verified. Domain:', result.domain);
+                userData = {
+                    name: name,
+                    email: email,
+                    domain: result.domain
+                };
+                document.getElementById('confirmModal').classList.add('active');
+            }
+        } else {
+            console.log('🔴 Server returned error:', result.message);
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        console.error('🔴 Network Error:', error);
+        document.getElementById('loadingModal').classList.remove('active');
+        alert('Network error: ' + error.message);
+    }
+});
+
+function closeModal() {
+    document.getElementById('confirmModal').classList.remove('active');
+}
+
+function closeAlreadySubmittedModal() {
+    document.getElementById('alreadySubmittedModal').classList.remove('active');
+}
+
+async function startExam() {
+    closeModal();
+
+    // Final device check before starting exam
+    if (isMobileDevice()) {
+        alert('Cannot start exam on mobile device. Please use a desktop computer.');
+        return;
+    }
+
+    // Request camera permission
+    try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        document.getElementById('camera').srcObject = cameraStream;
+        document.getElementById('cameraBox').srcObject = cameraStream;
+    } catch (err) {
+        alert('Camera permission is required to start the exam!');
+        return;
+    }
+
+    // Enter fullscreen
+    try {
+        await document.documentElement.requestFullscreen();
+    } catch (err) {
+        alert('Please allow fullscreen mode to start the exam');
+        return;
+    }
+
+    // Setup questions based on domain
+    currentQuestions = questionBank[userData.domain].slice();
+    shuffleArray(currentQuestions);
+    currentQuestions = currentQuestions.slice(0, 50);
+    answers = new Array(50).fill(null);
+
+    // Switch to exam screen
+    document.querySelector('.registration-screen').classList.remove('active');
+    document.querySelector('.exam-screen').classList.add('active');
+
+    // Show camera box
+    document.querySelector('.camera-container').style.display = 'block';
+
+    // Start timer
+    startTimer();
+    displayQuestion();
+
+    // Start face detection simulation
+    startFaceDetectionSimulation();
+
+    // Monitor tab visibility
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    
+    // Prevent page reload/close
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    
+    // Record exam start time
+    examStartTime = Date.now();
+    
+    // Schedule fake detections
+    scheduleFakeDetections();
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+// ========== EXAM LOGIC ==========
+function displayQuestion() {
+    const q = currentQuestions[currentQuestionIndex];
+    document.getElementById('questionText').textContent = `${currentQuestionIndex + 1}. ${q.q}`;
+    document.getElementById('currentQ').textContent = currentQuestionIndex + 1;
+    document.getElementById('totalQ').textContent = currentQuestions.length;
+
+    const optionsContainer = document.getElementById('optionsContainer');
+    optionsContainer.innerHTML = '';
+
+    q.options.forEach((option, index) => {
+        const div = document.createElement('div');
+        div.className = 'option';
+        if (answers[currentQuestionIndex] === index) {
+            div.classList.add('selected');
+        }
+        div.textContent = option;
+        div.onclick = () => selectOption(index);
+        optionsContainer.appendChild(div);
+    });
+
+    updateProgress();
+}
+
+function selectOption(index) {
+    answers[currentQuestionIndex] = index;
+    
+    // Update selected option
+    const options = document.querySelectorAll('.option');
+    options.forEach(option => option.classList.remove('selected'));
+    options[index].classList.add('selected');
+    
+    // Auto move to next question after 0.5s
+    setTimeout(() => {
+        if (currentQuestionIndex < currentQuestions.length - 1) {
+            currentQuestionIndex++;
+            displayQuestion();
+        } else {
+            submitExam();
+        }
+    }, 500);
+}
+
+function updateProgress() {
+    const progress = ((currentQuestionIndex + 1) / currentQuestions.length) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+}
+
+// ========== TIMER ==========
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        document.getElementById('timer').textContent = 
+            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        if (timeRemaining <= 0) {
+            submitExam();
+        }
+    }, 1000);
+}
+
+// ========== FACE DETECTION SIMULATION ==========
+function startFaceDetectionSimulation() {
+    // Start face detection animation
+    faceDetectionInterval = setInterval(() => {
+        simulateFaceMovement();
+    }, 100);
+}
+
+function simulateFaceMovement() {
+    const faceOverlay = document.getElementById('faceOverlay');
+    
+    // Move face position slightly for realistic movement
+    facePosition.x += faceDirection.x * (Math.random() * 2 - 1);
+    facePosition.y += faceDirection.y * (Math.random() * 2 - 1);
+    
+    // Keep face within camera bounds
+    if (facePosition.x < 20) {
+        facePosition.x = 20;
+        faceDirection.x = 1;
+    } else if (facePosition.x > 100) {
+        facePosition.x = 100;
+        faceDirection.x = -1;
+    }
+    
+    if (facePosition.y < 20) {
+        facePosition.y = 20;
+        faceDirection.y = 1;
+    } else if (facePosition.y > 80) {
+        facePosition.y = 80;
+        faceDirection.y = -1;
+    }
+    
+    // Update face overlay position
+    faceOverlay.style.display = 'block';
+    faceOverlay.style.left = `${facePosition.x}px`;
+    faceOverlay.style.top = `${facePosition.y}px`;
+    faceOverlay.style.width = `${facePosition.width}px`;
+    faceOverlay.style.height = `${facePosition.height}px`;
+}
+
+function scheduleFakeDetections() {
+    // Schedule first fake detection after 6 seconds
+    setTimeout(() => {
+        if (!isSubmitting) {
+            triggerWarning("AI Detection: Minor face movement detected");
+        }
+    }, 6000);
+    
+    // Schedule second fake detection after 10 minutes (600 seconds)
+    setTimeout(() => {
+        if (!isSubmitting) {
+            triggerWarning("AI Detection: Eye movement pattern detected");
+        }
+    }, 600000);
+    
+    // Schedule third fake detection near the end (last 5 minutes)
+    setTimeout(() => {
+        if (!isSubmitting) {
+            triggerWarning("AI Detection: Maintaining proper posture");
+        }
+    }, (EXAM_DURATION - 300) * 1000);
+}
+
+function triggerWarning(reason) {
+    warningCount++;
+    document.getElementById('warningCount').textContent = warningCount;
+    document.getElementById('warningIndicator').style.display = 'block';
+    
+    // Show warning for 5 seconds
+    setTimeout(() => {
+        document.getElementById('warningIndicator').style.display = 'none';
+    }, 5000);
+    
+    console.log(`Warning ${warningCount}: ${reason}`);
+}
+
+// ========== PROCTORING ==========
+function handleVisibilityChange() {
+    if (document.hidden) {
+        console.log("Tab switch detected. Auto-submitting exam...");
+        submitExam();
+    }
+}
+
+function handleFullscreenChange() {
+    if (!document.fullscreenElement) {
+        console.log("Fullscreen exited. Auto-submitting exam...");
+        submitExam();
+    }
+}
+
+function handleBeforeUnload(e) {
+    if (document.querySelector('.exam-screen').classList.contains('active') && !isSubmitting) {
+        // Submit exam immediately before page unloads
+        console.log("Page unload detected. Auto-submitting exam...");
+        submitExamSync();
+        
+        // Show a message to user
+        e.preventDefault();
+        e.returnValue = 'Your exam is being submitted. Please wait...';
+        return 'Your exam is being submitted. Please wait...';
+    }
+}
+
+// ========== SUBMISSION ==========
+function submitExamSync() {
+    // This function submits the exam synchronously without waiting for promises
+    isSubmitting = true;
+    
+    // Calculate score
+    let score = 0;
+    currentQuestions.forEach((q, i) => {
+        if (answers[i] === q.correct) score++;
+    });
+
+    console.log('📊 Sync Calculated score:', score);
+
+    // Stop camera and hide camera box
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+    }
+    
+    // Use sendBeacon for reliable submission even during page unload
+    const submissionData = {
+        action: 'submitExam',
+        name: userData.name,
+        email: userData.email,
+        domain: userData.domain,
+        score: score,
+        timestamp: new Date().toLocaleString(),
+        warnings: warningCount
+    };
+    
+    const blob = new Blob([JSON.stringify(submissionData)], {type: 'application/json'});
+    navigator.sendBeacon(GOOGLE_SCRIPT_URL, blob);
+    
+    // Also try GET as backup (non-blocking)
+    const getUrl = `${GOOGLE_SCRIPT_URL}?action=submitExam&email=${encodeURIComponent(userData.email)}&score=${score}&domain=${encodeURIComponent(userData.domain)}`;
+    fetch(getUrl).catch(e => console.log('GET backup failed:', e));
+    
+    // Show success screen immediately (NO SCORE DISPLAYED)
+    document.querySelector('.exam-screen').classList.remove('active');
+    document.querySelector('.success-screen').classList.add('active');
+    
+    console.log("Exam submitted synchronously");
+}
+
+async function submitExam() {
+    if (isSubmitting) return;
+    
+    isSubmitting = true;
+    console.log("Starting exam submission...");
+    
+    // Calculate score FIRST (before any delays)
+    let score = 0;
+    currentQuestions.forEach((q, i) => {
+        if (answers[i] === q.correct) score++;
+    });
+
+    console.log('📊 Calculated score:', score, 'out of', currentQuestions.length);
+
+    // IMMEDIATELY show success screen (no loading delay)
+    document.querySelector('.exam-screen').classList.remove('active');
+    document.querySelector('.success-screen').classList.add('active');
+
+    // Then clean up resources (non-blocking)
+    cleanupExamResources();
+
+    // Submit score in background (non-blocking)
+    submitScoreInBackground(score);
+}
+
+function cleanupExamResources() {
+    // Clear all intervals
+    clearInterval(timerInterval);
+    if (faceDetectionInterval) clearInterval(faceDetectionInterval);
+    
+    // Remove event listeners
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+
+    // Stop camera
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+    }
+    document.querySelector('.camera-container').style.display = 'none';
+
+    // Exit fullscreen
+    if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+    }
+}
+
+function submitScoreInBackground(score) {
+    // Submit using sendBeacon (fastest method - doesn't wait for response)
+    const submissionData = {
+        action: 'submitExam',
+        name: userData.name,
+        email: userData.email,
+        domain: userData.domain,
+        score: score,
+        timestamp: new Date().toLocaleString(),
+        warnings: warningCount
+    };
+    
+    const blob = new Blob([JSON.stringify(submissionData)], {type: 'application/json'});
+    const beaconSent = navigator.sendBeacon(GOOGLE_SCRIPT_URL, blob);
+    console.log('📤 Beacon submission:', beaconSent ? '✅ Success' : '❌ Failed');
+
+    // Also try GET as backup (non-blocking)
+    setTimeout(() => {
+        const getUrl = `${GOOGLE_SCRIPT_URL}?action=submitExam&email=${encodeURIComponent(userData.email)}&score=${score}&domain=${encodeURIComponent(userData.domain)}&name=${encodeURIComponent(userData.name)}`;
+        fetch(getUrl)
+            .then(response => response.json())
+            .then(result => console.log('✅ GET backup submission:', result.success))
+            .catch(error => console.log('❌ GET backup failed:', error));
+    }, 100);
+    
+    console.log("🎯 Exam completed instantly - score submitted in background");
+}
+
+// ========== INITIALIZATION ==========
+console.log("🎯 Online Exam System Loaded");
+console.log("🌐 Backend URL:", GOOGLE_SCRIPT_URL);
+
+// Check device compatibility on page load
+window.addEventListener('load', function() {
+    console.log("🔧 Checking device compatibility...");
+    
+    if (!checkDeviceCompatibility()) {
+        console.log("❌ Mobile device detected - access blocked");
+        return;
+    }
+    
+    console.log("✅ Desktop device detected - access granted");
+    
+    // Test backend connection
+    fetch(GOOGLE_SCRIPT_URL)
+        .then(response => response.json())
+        .then(data => {
+            console.log("✅ Backend connection successful:", data);
+        })
+        .catch(error => {
+            console.error("❌ Backend connection failed:", error);
+        });
+});
+
+// Also check on window resize
+window.addEventListener('resize', function() {
+    if (isMobileDevice() && document.querySelector('.registration-screen.active')) {
+        alert('Please use a desktop computer to take this exam. Mobile devices are not supported.');
+    }
+});
+</script>

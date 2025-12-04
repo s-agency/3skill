@@ -357,7 +357,8 @@
         return;
       }
 
-      const url = "https://script.google.com/macros/s/AKfycbxMvZW0OSeaC-f7LuRPg75a75FfHcwaKM4FS19AMYewmkCc4VCFQmnJ9j9hFWqkG61Q/exec?certID=" + encodeURIComponent(certID);
+const url = "https://script.google.com/macros/s/AKfycbwgYcUtD3FJLoFBng8tCFUYC_EJcnM8xzq0Dvg9DI7PRprMmLX7YL0y_D4CJGayBJwlRw/exec?certID=" 
+            + encodeURIComponent(certID);
 
       try {
         const response = await fetch(url);
